@@ -1,8 +1,8 @@
 import { app } from './src/express.js'
-import databaseService from './src/service/DatabaseService.js'
+// import databaseService from './src/service/DatabaseService.js'
 
 // Connect to the database
-await databaseService.connect()
+// await databaseService.connect()
 
 // Start the express server
 const port = process.env.PORT || 3000
@@ -16,7 +16,7 @@ const server = app.listen(port, () => {
  */
 async function shutdown () {
   server.close()
-  await databaseService.closeConnection()
+  // await databaseService.closeConnection()
 }
 
 process.on('SIGINT', shutdown)
