@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LXLP - Plan</title>
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .container {
+    display: grid;
+    grid-template-areas: 
+    "sidebar header header"
+    "sidebar main extra"
+    "sidebar footer footer";
+  }
+
+  header{
+    grid-area: header;
+    justify-content: center;
+    text-align: center;
+  }
+
+  h2{
+    text-align: center;
+  }
+
+
+  #top{
+    margin-right: 60px;
+  }
+
+  #sidebar {
+    grid-area: sidebar;
+    text-align: center;
+  }
+
+  #sidebar nav{
+    height: 98%;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+
+
+  #sidebar ul {
+    position: sticky;
+    top: 60px;
+    list-style-type: none;
+    padding: 0;
+    white-space: nowrap;
+  }
+
+  #sidebar li{
+    margin: 10px 0;
+    margin-bottom: 125px;
+  }
+
+  #sidebar a {
+    padding: 5px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+  }
+
+  #sidebar a:hover{
+    background-color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    transition: background-color 0.5s ease, padding 0.5s ease;
+  }
+
+  main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  #project-example {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #to-top{
+    display: none;
+  }
+
+  #to-top:hover{
+    background-color: grey;
+    padding: 20px;
+    transition: background-color 0.5s ease, padding 0.5s ease;
+  }
+
+  @media (max-width:1024px) {
+    .container {
+      grid-template-areas: 
+      "header"
+      "sidebar"
+      "main"
+      "footer";
+    }
+
+    #top{
+      margin-right: 0px;
+    }
+
+
+    #sidebar {
+      display: flex;
+      justify-content: center;
+    }
+
+    #sidebar nav {
+      padding: 0;
+    }
+
+    #sidebar ul{
+      position: static;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    #sidebar a {
+      padding: 10px;
+    }
+
+    #sidebar li{
+      margin-bottom: 20px;
+    }
+
+    #sidebar nav{
+      width: 100%;
+    }
+
+    #project-example img{
+      width: 350px;
+    }
+
+    #to-top {
+      display: block;
+      bottom: 10px;
+      right: 20px;
+      position: fixed;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      background: black;
+      border-radius: 20%;
+    }
+
+    #sidebar a:hover {
+      background-color: white;
+      padding: 20px;
+      transition: background-color 0.5s ease, padding 0.5s ease;
+    }
+}
+</style>
+<body>
+  <div class="container">
+
+    <header id="top">
+      <h1>Linux Learning Platform - Plan</h1>
+    </header>
+
+    <aside id="sidebar">
+      <nav>
+        <ul>
+          <li><a href="#to-do-list">To Do List</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#technologies">Technologies</a></li>
+          <li><a href="#database-contents">Database Contents</a></li>
+          <li><a href="#project-structure">Project Structure</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main>
+      <section id="to-do-list">
+        <h2>To Do List</h2>
+        <h3>Daniel</h3>
+        <ul>
+          <li>[ ] Design the website's layout (UI/React).</li>
+          <li>[ ] Create a project plan.</li>
+          <li>[ ] Set up and manage the GitHub repository.</li>
+          <li>[ ] Test the website's functionality.</li>
+        </ul>
+        
+        <h3>Patrick</h3>
+        <ul>
+          <li>[ ] Set up the MongoDB database.</li>
+          <li>[ ] Build the Node.js/Express backend.</li>
+          <li>[ ] Create CRUD operations for the database.</li>
+        </ul>
+        
+        <h3>Tony</h3>
+        <ul>
+          <li>[ ] Implement user login and signup functionality.</li>
+          <li>[ ] Integrate JWT for authentication.</li>
+        </ul>
+        
+        <h3>Sergej</h3>
+        <ul>
+          <li>[ ] Develop a terminal emulator for the website.</li>
+          <li>[ ] Set up Docker for containerization.</li>
+          <li>[ ] Configure NGINX for web server.</li>
+        </ul>
+        
+        <h3>Mustafa</h3>
+        <ul>
+          <li>[ ] Assist with frontend development (React).</li>
+          <li>[ ] Set up the server provider for hosting.</li>
+        </ul>
+        
+        <h3>Ryad</h3>
+        <ul>
+          <li>[ ] Manage API endpoints.</li>
+          <li>[ ] Implement security measures (HTTPS/TLS/Helmet).</li>
+          <li>[ ] Test API and security features.</li>
+        </ul>
+      </section>
+
+      <section id="features">
+        <h2>Features</h2>
+        <ul>
+          <li><strong>Interactive Terminal Emulation:</strong> In-browser terminal emulator for hands-on practice.
+            <ul>
+              <li>Real-time command execution and feedback.</li>
+              <li>Guided exercises with step-by-step instructions.</li>
+              <li>Sandboxed environment to prevent system damage.</li>
+            </ul>
+          </li>
+          <li><strong>Personalized Learning Paths:</strong> Adaptive learning paths based on user skill level and goals.
+            <ul>
+              <li>Skill assessments to determine starting point.</li>
+              <li>Recommended lessons and exercises based on progress.</li>
+              <li>Customizable learning plans for specific Linux topics.</li>
+            </ul>
+          </li>
+          <li><strong>Gamified Learning Challenges:</strong> Gamification elements to make learning fun and engaging.
+            <ul>
+              <li>Challenges for mastering Linux commands and concepts.</li>
+              <li>Badges and points for achievements.</li>
+              <li>Leaderboards and community rankings.</li>
+            </ul>
+          </li>
+          <li><strong>Comprehensive Documentation and Resources:</strong> Curated library of Linux documentation and tutorials.
+            <ul>
+              <li>Searchable database of Linux commands and concepts.</li>
+              <li>Video tutorials and screencasts.</li>
+            </ul>
+          </li>
+          <li><strong>Collaborative Learning Community:</strong> Forum and chat for connecting with other Linux learners.
+            <ul>
+              <li>Forum for asking questions and sharing tips.</li>
+              <li>Project showcases and code reviews.</li>
+            </ul>
+          </li>
+          <li><strong>Virtual Labs and Projects:</strong> Virtual environments for practicing real-world Linux scenarios.
+            <ul>
+              <li>Simulated server environments for practicing system administration tasks.</li>
+              <li>Guided projects for building Linux-based applications.</li>
+              <li>Customizable virtual labs for advanced learning.</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+      
+      <section id="technologies">
+        <h2>Technologies</h2>
+        <ul>
+          <li><strong>Frontend:</strong> React</li>
+          <li><strong>Backend:</strong> Node.js (Express)</li>
+          <li><strong>Database:</strong> Mariadb or MongoDB</li>
+          <li><strong>Authentication:</strong> JWT</li>
+          <li><strong>Terminal Emulation:</strong> xterm.js</li>
+          <li><strong>Virtualization:</strong> Docker for virtual labs</li>
+        </ul>
+      </section>
+
+      <section id="database-contents">
+        <h2>Database Contents</h2>
+        <ul>
+          <li><strong>Users</strong>
+            <ul>
+              <li><strong>Columns:</strong> id, name, email, password, image</li>
+            </ul>
+          </li>
+          <li><strong>Posts</strong>
+            <ul>
+              <li><strong>Columns:</strong> postId, userId, content, status, likes, dislikes</li>
+            </ul>
+          </li>
+          <li><strong>Comments</strong>
+            <ul>
+              <li><strong>Columns:</strong> commentId, postId, userId, content, likes</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <section id="project-structure">
+        <h2>Project Structure</h2>
+        <h3 style="text-align: center;">Inspired by Mikael's Project Structure</h3>
+        <a id="project-example" href="https://gitlab.com/mikael-roos/node/-/raw/main/src/express5/login/.img/dependencies.png" target="_blank">
+          <img src="https://gitlab.com/mikael-roos/node/-/raw/main/src/express5/login/.img/dependencies.png" alt="Mikael Gitlab UML Project Structure">
+        </a>
+
+        <ul>
+          <li><strong>Model:</strong> Defines the data structure and interacts with the database.</li>
+          <li><strong>View:</strong> Manages the user interface and presentation logic.</li>
+          <li><strong>Controller:</strong> Handles user input and updates models and views accordingly.</li>
+          <li><strong>Service:</strong>Encapsulates database connections</li>
+          <li><strong>Middleware:</strong> Handles request and response processing. Error handling such as 404, 500</li>
+          <li><strong>Route:</strong> Defines the endpoints for handling HTTP requests and mapping them to appropriate controllers.</li>
+          <li><strong>Config:</strong> Centralized configuration for environment variables and application settings.</li>
+          <li><strong>Session Options:</strong> Manages session settings for user authentication and state management.</li>
+        </ul>
+      </section>
+      
+
+    </main>
+    <a id="to-top" href="#top">To Top</a>
+  </div>
+</body>
+</html>
