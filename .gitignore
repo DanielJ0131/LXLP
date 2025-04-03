@@ -401,3 +401,23 @@ FodyWeavers.xsd
 
 # Webstorm
 /.idea
+
+node_modules/
+.env
+
+# Coverage
+.nyc_output/
+coverage/
+
+# Mac-specific files
+.DS_Store
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*~
+
+# Temporary files
+tmp/
+temp/
