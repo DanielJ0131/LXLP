@@ -1,0 +1,9 @@
+#docker ignore node modules
+node_modules
+
+
+# Docker ignore .env files (we dont want leacking private info)
+.env
+
+
+

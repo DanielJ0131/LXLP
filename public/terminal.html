@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="node_modules/@xterm/xterm/css/xterm.css" />
+    <meta charset="UTF-8">
+    <title>Terminal</title>
+    <script src="node_modules/@xterm/xterm/lib/xterm.js"></script>
+</head>
+<body>
+<div id="terminal"></div>
+<script>
+    import {Terminal} from "@xterm/xterm";
+
+    let help = [
+        'whois',
+        'video',
+        'projects',
+        'socials',
+        'secret',
+    ]
+
+    function command(cmd){
+        switch(cmd.toLowerCase()){
+            case 'help':
+                help
+                break
+            case 'whois':
+                whois
+                break
+            case 'video':
+                video
+                break
+            case 'projects':
+                projects
+                break
+            case 'socials':
+                socials
+                break
+            case 'secret':
+                secret
+                break
+        }
+    }
+    let term = new Terminal();
+    term.open(document.getElementById('terminal'));
+    term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+
+
+</script>
+</body>
+</html>
