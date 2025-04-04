@@ -1,11 +1,6 @@
 /**
- * Configuration file for database connection.
+ * Configuration file for MongoDB connection.
  */
 export const config = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_SCHEMA
-  }
-  
-  
+  url: process.env.CONNECTION_URL
+}

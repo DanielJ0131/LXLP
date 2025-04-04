@@ -1,4 +1,4 @@
-import mysql from 'mysql2/promise'
+import { MongoClient } from 'mongodb'
 import { config } from '../config/database.js'
 
 /**
@@ -7,62 +7,51 @@ import { config } from '../config/database.js'
  * @class
  */
 class DatabaseService {
-  #connection = null
+  #client = null
+  #db = null
 
   /**
-   * Connect to the database using the configuration provided.
+   * Connect to the MongoDB database using the configuration provided.
    *
    * @async
    * @returns {Promise<void>}
    */
   async connect () {
     try {
-      this.#connection = await mysql.createConnection(config)
+      this.#client = new MongoClient(config.url)
+      await this.#client.connect()
+      this.#db = this.#client.db() // Use the default database from the connection string
     } catch (error) {
-      console.error(error)
+      console.error('Error connecting to MongoDB:', error.message)
+      throw error
     }
   }
 
   /**
-   * Format a sql query.
+   * Get a reference to a collection.
    *
-   * @param {string} sql - The SQL to be formatted.
-   * @param {Array} [params=[]] - The parameters for the query.
-   * @param param
-   * @returns {string} as SQL query.
+   * @param {string} collectionName - The name of the collection.
+   * @returns {object} The MongoDB collection.
    */
-  format (sql, param) {
-    return mysql.format(sql, param)
-  }
-
-  /**
-   * Execute a database query.
-   *
-   * @async
-   * @param {string} queryString - The SQL query string.
-   * @param {Array} [params=[]] - The parameters for the query.
-   * @returns {Promise<object>} The result of the query.
-   * @throws {Error} If the query execution fails.
-   */
-  async query (queryString, params = []) {
-    try {
-      const [rows] = await this.#connection.execute(queryString, params)
-      return rows
-    } catch (error) {
-      throw new Error(`Database error: ${error.message}`)
+  getCollection (collectionName) {
+    if (!this.#db) {
+      throw new Error('Database connection is not established.')
     }
+    return this.#db.collection(collectionName)
   }
 
   /**
-   * Close the database connection pool.
+   * Close the MongoDB connection.
    *
    * @async
    */
   async closeConnection () {
     try {
-      await this.#connection.end()
+      if (this.#client) {
+        await this.#client.close()
+      }
     } catch (err) {
-      console.error('Error closing the database connection:', err.message)
+      console.error('Error closing the MongoDB connection:', err.message)
       throw err
     }
   }
