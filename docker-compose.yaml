@@ -1,0 +1,28 @@
+volumes:
+    mariadb_data: {}
+
+services:
+
+  server:
+    build:
+      context: .docker/server
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules/
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    ports:
+      - "3308:3306"
+    environment:
+        MARIADB_ROOT_PASSWORD: pass
+    volumes:
+        - mariadb_data:/var/lib/mysql
+        - .docker/mariadb/sql.d:/docker-entrypoint-initdb.d
+        - .docker/mariadb/my.cnf:/root/.my.cnf
