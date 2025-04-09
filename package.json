@@ -24,7 +24,8 @@
         "helmet": "^8.0.0",
         "jsonwebtoken": "^9.0.2",
         "mongodb": "^6.15.0",
-        "morgan": "^1.10.0"
+        "morgan": "^1.10.0",
+        "openssl": "^2.0.0"
     },
     "devDependencies": {
         "eslint-plugin-jsdoc": "^50.6.3",

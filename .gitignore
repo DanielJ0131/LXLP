@@ -423,3 +423,7 @@ tmp/
 temp/
 
 package-lock.json
+
+.key
+
+.csr
