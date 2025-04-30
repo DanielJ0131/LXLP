@@ -1,5 +1,6 @@
 import mongoose, {Schema} from 'mongoose'
 import { config } from '../config/database.js'
+import UserSchema from '../schemas/userSchema.js'
 
 /**
  * Service (singleton) to manage database operations.
@@ -9,7 +10,7 @@ import { config } from '../config/database.js'
 class DatabaseService {
   #db = null
   userSchema = null
-  postScema = null
+  postSchema = null
   commentSchema = null
   users = null
   posts = null
@@ -19,16 +20,10 @@ class DatabaseService {
     console.log('Trying to Connect to Database...');
     try {
       this.#db = await mongoose.connect(config.url);
-      console.log('Connection Successful!');
+      console.log('MongoDB Connection Successful!');
 
-      // Fill the user schema
-      this.userSchema = new Schema({
-        name: String,
-        email: String,
-        password: String,
-        Image: String,
-        role: String,
-      });
+      
+      
       // Fill the post schema
       this.postScema = new Schema({
         userId:{$olid: String},
@@ -47,8 +42,8 @@ class DatabaseService {
       });
 
       // Use the collection with created schemas
-      this.users = mongoose.model('users', this.userSchema);
-      this.posts = mongoose.model('posts', this.postScema);
+      this.users = UserSchema
+      this.posts = mongoose.model('posts', this.postSchema);
       this.comments = mongoose.model('comments', this.commentSchema);
     } catch (error) {
       console.log('Error with connection: ' + error);
