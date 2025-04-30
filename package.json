@@ -1,0 +1,30 @@
+{
+  "name": "lxlp",
+  "version": "1.0.0",
+  "description": "A start for the fullstack project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon --env-file=server/.env server/index.js",
+    "client": "cd client && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielJ0131/LXLP.git"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/DanielJ0131/LXLP/issues"
+  },
+  "homepage": "https://github.com/DanielJ0131/LXLP#readme"
+}
