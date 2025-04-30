@@ -1,4 +1,4 @@
-import UserModel from "../model//UserModel.js";
+import UserModel from "../model/UsersModel.js";
 
 /**
  * Controller to perform CRUD for the users collection.

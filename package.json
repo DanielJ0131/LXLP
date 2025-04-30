@@ -1,34 +1,32 @@
 {
-    "name": "lxlp",
-    "version": "1.0.0",
-    "description": "Fullstack Project - LXLP",
-    "main": "app.js",
-    "type": "module",
-    "scripts": {
-        "start": "node --env-file=.env app",
-        "dev": "npx nodemon --env-file=.env app",
-        "test": "NODE_ENV=test mocha test/**/*.test.js",
-        "clean": "rm -rf node_modules/ package-lock.json",
-        "eslint": "npx eslint .",
-        "eslint:fix": "npx eslint . --fix",
-        "jsdoc": "npx jsdoc -c jsdoc.config.json",
-        "coverage": "npx nyc npm test",
-        "prod": "node --env-file=.env app.js"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@xterm/xterm": "^5.5.0",
-        "bcrypt": "^5.1.1",
-        "express": "^5.0.1",
-        "helmet": "^8.0.0",
-        "jsonwebtoken": "^9.0.2",
-        "mongodb": "^6.15.0",
-        "morgan": "^1.10.0",
-        "openssl": "^2.0.0"
-    },
-    "devDependencies": {
-        "eslint-plugin-jsdoc": "^50.6.3",
-        "nodemon": "^3.1.9"
-    }
+  "name": "lxlp",
+  "version": "1.0.0",
+  "description": "A start for the fullstack project",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx nodemon --env-file=.env app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielJ0131/LXLP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanielJ0131/LXLP/issues"
+  },
+  "homepage": "https://github.com/DanielJ0131/LXLP#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
