@@ -1,0 +1,144 @@
+import DatabaseService from '../service/DatabaseService.js';
+
+
+/**
+ * The UsersModel class provides methods to interact with the users data in the database.
+ */
+class UsersModel{
+    /**
+     * Retrieves a single user from the database by its ID.
+     * 
+     * @param {string} searchId - The ID of the user to retrieve.
+     * @returns {Promise<Object|null>} A promise that resolves to the user object if found, or null if not found.
+     */
+    async getUserById(userId) {
+        try {
+            const user = await DatabaseService.users.findById(userId);
+            return user;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    /**
+     * Retrieves a single user from the database by its name.
+     * 
+     * @param {string} name - The name of the user to retrieve.
+     * @returns {Promise<Object|null>} A promise that resolves to the user object if found, or null if not found.
+     */
+    async getUserByName(name) {
+        try{
+            const user = DatabaseService.users.findOne({"name": name});
+            return user;
+          }
+          catch (error) {
+            console.log(error);
+            throw error; 
+          }
+
+    }
+
+    /**
+     * Retrieves all users from the database.
+     * 
+     * @returns {Promise<Array<Object>>} A promise that resolves to an array of user objects.
+     */
+    async getAllUsers() {
+        try {
+            const users = await DatabaseService.users.find();
+            return users
+        } catch (error) {
+            console.log(error)
+            
+        }
+    }
+
+    /**
+     * Retrieves a single user from the database by its name.
+     * 
+     * @param {string} name - The name of the user to retrieve.
+     * @returns {Promise<Object|null>} A promise that resolves to the user object if found, or null if not found.
+     */
+    async getUserByName(searchName) {
+        try {
+            const user = await DatabaseService.users.findOne({ name : searchName });
+            return user;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    /**
+     * Adds a new user to the database.
+     * 
+     * @param {Object} userData - The data of the user to add.
+     * @returns {Promise<Object>} A promise that resolves to the newly created user object.
+     */
+    async addUser(userData) {
+        try {
+            const existingUser = await DatabaseService.users.findOne({ name: userData.name });
+            if (existingUser) {
+                throw new Error('User already exists');
+            }
+            const newUser = new DatabaseService.users(userData);
+            await newUser.save();
+            return newUser;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    /**
+     * Updates an existing user in the database by its ID.
+     * 
+     * @param {string} id - The ID of the user to update.
+     * @param {Object} updateData - The data to update the user with.
+     * @returns {Promise<Object|null>} A promise that resolves to the updated user object if successful, or null if not found.
+     */
+    async updateUser(id, updateData) {
+        try {
+            const updatedUser = await DatabaseService.users.findByIdAndUpdate(
+              id,  
+              { 
+                $set: {
+                    name: updateData.name,
+                    email: updateData.email,
+                    password: updateData.password,
+                    role: updateData.role
+                }
+              },
+              { 
+                new: true,         // Return the updated document
+                runValidators: true // Run schema validators
+              }
+            );
+            return updatedUser;
+          } catch(error) {
+            console.log(error);
+            throw error; 
+          }
+    }
+
+    /**
+     * Deletes a user from the database by its ID.
+     * 
+     * @param {string} id - The ID of the user to delete.
+     * @returns {Promise<Object|null>} A promise that resolves to the deleted user object if successful, or null if not found.
+     */
+    async deleteUser(id) {
+        try{
+            const deletedUser = await DatabaseService.users.findByIdAndDelete(id);
+            return deletedUser;
+            
+          }catch (error) {
+            error.message = 'Error deleting user';
+            error.status = 400;
+            console.log(error);
+            throw error; 
+          }
+    }
+}
+
+export default new UsersModel();
