@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
+import { FaEye, FaEyeSlash } from "react-icons/fa"
 import './Login.css'
 
 
@@ -8,6 +9,7 @@ export default function Login(){
     const [formData, setFormData] = useState({ username: '', password: '' })
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate();
 
     const forwardToRegister = () =>{
@@ -61,13 +63,20 @@ export default function Login(){
                 <div className='login-input'>
                     <label htmlFor='password'>Password</label>
                     <input
-                        type="password"
+                        type={showPassword ? "text":"password"}
                         id="password"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
                         required
                     />
+                    <button
+                    type="button"
+                    className="toggle-password"
+                    onClick={() => setShowPassword(prev => !prev)}
+                    >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
                 </div>
 
                 <button type="submit">Log in</button>

@@ -13,22 +13,35 @@
     padding: 0 0.5rem;
   }
 
-.login-input{ 
+.login-input {
+    font-size: 20px;
     display: flex;
-    justify-content: center;
-    margin-bottom: 7px;
-}
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: flex-start;
+  }
 
 .login-input input{
     border-radius: 6px;
     padding: 5px;
-    border: 1px solid #ccc
+    border: 1px solid #ccc;
 }
 
 .login-input label{
     margin-right: 10px;
-    width: 100px;
+    width: 150px;
 }
 
-
+.toggle-password {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #555;
+  }
   
+  .toggle-password:hover {
+    color: #000;
