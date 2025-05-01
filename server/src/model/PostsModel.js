@@ -83,6 +83,26 @@ class PostsModel{
                 throw error; 
               }
         }
+
+
+            /**
+             * Deletes a post from the database by its ID.
+             * 
+             * @param {string} id - The ID of the post to delete.
+             * @returns {Promise<Object|null>} A promise that resolves to the deleted post object if successful, or null if not found.
+             */
+            async deletePost(id) {
+                try{
+                    const deletedPost = await DatabaseService.posts.findByIdAndDelete(id);
+                    return deletedPost;
+                    
+                  }catch (error) {
+                    error.message = 'Error deleting post';
+                    error.status = 400;
+                    console.log(error);
+                    throw error; 
+                  }
+            }
 }
 
 

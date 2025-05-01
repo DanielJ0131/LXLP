@@ -83,6 +83,30 @@ class PostsController {
         }
     }
 
+
+        /**
+         * Delete a post.
+         *
+         * @param {Request} req - The request object.
+         * @param {Response} res - The response object.
+         */
+        async deletePost(req, res, next) {
+            const id = req.params.id;
+            try {
+              const result = await PostsModel.getPostById(id);
+              if (!result) {
+                return res.status(404).json({ message: "Post not found" });
+              }
+              PostsModel.deletePost(id);
+              res.status(200).json({ 
+                message: "Post deleted successfully",
+                deletedPost: result
+              });
+            } catch (error) {
+                next(error);
+            }
+        }
+
 }
 
 
