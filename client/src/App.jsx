@@ -1,16 +1,20 @@
-import { useState } from 'react'
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
 import Login from './components/login'
+import Register from './components/register'
+import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div>
       <header>
         <h1>Linux Learning Platform</h1>
-        <Login/>
       </header>
+
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+
       <footer>
         <p>© LXLP. All Rights Reserved</p>
         <a href="mailto:linuxlearningplatform@gmail.com">linuxlearningplatform@gmail.com</a>

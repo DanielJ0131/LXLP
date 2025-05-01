@@ -1,0 +1,44 @@
+.register-fieldset {
+    border: 2px solid #ccc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 2rem auto;
+    background-color: #f9f9f9;
+  }
+  
+  .register-fieldset legend {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0 0.5rem;
+  }
+  
+  .create-acc-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: flex-start;
+  }
+  
+  .create-acc-input input {
+    border-radius: 6px;
+    padding: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .create-acc-input label {
+    margin-right: 10px;
+    width: 100px;
+  }
+  
+  .toggle-password {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
