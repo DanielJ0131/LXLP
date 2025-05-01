@@ -89,6 +89,26 @@ class CommentsModel{
     }
 
 
+    /**
+     * Deletes a comment from the database by its ID.
+     * 
+     * @param {string} id - The ID of the comment to delete.
+     * @returns {Promise<Object|null>} A promise that resolves to the deleted comment object if successful, or null if not found.
+     */
+    async deleteComment(id) {
+        try{
+            const deletedComment = await DatabaseService.comments.findByIdAndDelete(id);
+            return deletedComment;
+            
+          }catch (error) {
+            error.message = 'Error deleting comment';
+            error.status = 400;
+            console.log(error);
+            throw error; 
+          }
+    }
+
+
 }
 
 

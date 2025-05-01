@@ -72,26 +72,51 @@ class CommentsController {
     }
 
 
-        /**
-         * Update an existing comment.
-         *
-         * @param {Request} req - The request object.
-         * @param {Response} res - The response object.
-         */
-        async updateComment(req, res, next) {
-            const id = req.params.id;
-            const commetBody = req.body;
-            try{
-              const currentComment = await CommentsModel.getCommentById(id);
-              if (!currentComment) {
-                return res.status(404).json({ message: "Comment not found" });
-              }
-              const updatedComment = await CommentsModel.updateComment(id, commetBody);
-              res.json(updatedComment);
-            } catch (error) {
-              next(error);
-            }
+    /**
+     * Update an existing comment.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async updateComment(req, res, next) {
+        const id = req.params.id;
+        const commetBody = req.body;
+        try{
+          const currentComment = await CommentsModel.getCommentById(id);
+          if (!currentComment) {
+            return res.status(404).json({ message: "Comment not found" });
+          }
+          const updatedComment = await CommentsModel.updateComment(id, commetBody);
+          res.json(updatedComment);
+        } catch (error) {
+          next(error);
         }
+    }
+
+
+
+    /**
+     * Delete a comment.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async deleteComment(req, res, next) {
+        const id = req.params.id;
+        try {
+          const result = await CommentsModel.getCommentById(id);
+          if (!result) {
+            return res.status(404).json({ message: "Comment not found" });
+          }
+          CommentsModel.deleteComment(id);
+          res.status(200).json({ 
+            message: "Comment deleted successfully",
+            deletedComment: result
+          });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 

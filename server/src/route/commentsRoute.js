@@ -9,3 +9,4 @@ router.get('/', (req, res, next) => CommentsController.getAllComments(req, res, 
 router.get('/:id', (req, res, next) => CommentsController.getCommentById(req, res, next))
 router.get('/by-post-id/:postId', CommentsController.getCommentsByPostId);
 router.put('/:id', (req, res, next) => CommentsController.updateComment(req, res, next))
+router.delete('/:id', (req, res, next) => CommentsController.deleteComment(req, res, next))
