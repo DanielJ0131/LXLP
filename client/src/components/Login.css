@@ -43,5 +43,16 @@
     color: #555;
   }
   
-  .toggle-password:hover {
+.toggle-password:hover {
     color: #000;
+}
+
+.register-link{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prompt{
+    margin-right: 5px;
+}

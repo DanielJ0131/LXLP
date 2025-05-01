@@ -11,7 +11,6 @@ function App() {
         <h1>Linux Learning Platform</h1>
         <Login/>
       </header>
-      <main>MAIN MAIN</main>
       <footer>
         <p>© LXLP. All Rights Reserved</p>
         <a href="mailto:linuxlearningplatform@gmail.com">linuxlearningplatform@gmail.com</a>

@@ -85,8 +85,12 @@ export default function Login(){
                 {success && <p style={{ color: 'green' }}>{success}</p>}
             </fieldset>
         </form>
-        <p>Not a user?<button onClick = {forwardToRegister} >Create an account!</button></p>
-
+        <p className ="register-link">
+            <span className="prompt">Not a user?</span>
+            <button onClick ={forwardToRegister}>Create an account!</button>
+        </p>
+        
+        
         </>
         
     )
