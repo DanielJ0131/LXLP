@@ -58,6 +58,36 @@ class CommentsModel{
         }
     }
 
+    /**
+     * Updates an existing comment in the database by its ID.
+     * 
+     * @param {string} id - The ID of the comment to update.
+     * @param {Object} updateData - The data to update the comment with.
+     * @returns {Promise<Object|null>} A promise that resolves to the updated comment object if successful, or null if not found.
+     */
+    async updateComment(id, updateData) {
+        try {
+            const updatedComment = await DatabaseService.comments.findByIdAndUpdate(
+              id,  
+              { 
+                $set: {
+                    content: updateData.content,
+                    likes: updateData.likes,
+                    dislikes: updateData.dislikes
+                }
+              },
+              { 
+                new: true,         // Return the updated document
+                runValidators: true // Run schema validators
+              }
+            );
+            return updatedComment;
+          } catch(error) {
+            console.log(error);
+            throw error; 
+          }
+    }
+
 
 }
 

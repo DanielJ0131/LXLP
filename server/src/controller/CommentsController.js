@@ -52,27 +52,46 @@ class CommentsController {
 
 
 
+    /**
+     * Get comments by post ID.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async getCommentsByPostId(req, res, next) {
+        try {
+            const postId = req.params.postId;
+            const comments = await CommentsModel.getCommentsByPostId(postId);
+            if (!comments || comments.length === 0) {
+                return res.status(404).json({ message: 'No comments found for this post' });
+            }
+            res.status(200).json(comments);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
         /**
-         * Get comments by post ID.
+         * Update an existing comment.
          *
          * @param {Request} req - The request object.
          * @param {Response} res - The response object.
          */
-        async getCommentsByPostId(req, res, next) {
-            try {
-                const postId = req.params.postId;
-                const comments = await CommentsModel.getCommentsByPostId(postId);
-                if (!comments || comments.length === 0) {
-                    return res.status(404).json({ message: 'No comments found for this post' });
-                }
-                res.status(200).json(comments);
+        async updateComment(req, res, next) {
+            const id = req.params.id;
+            const commetBody = req.body;
+            try{
+              const currentComment = await CommentsModel.getCommentById(id);
+              if (!currentComment) {
+                return res.status(404).json({ message: "Comment not found" });
+              }
+              const updatedComment = await CommentsModel.updateComment(id, commetBody);
+              res.json(updatedComment);
             } catch (error) {
-                next(error);
+              next(error);
             }
         }
-
-
-
 }
 
 
