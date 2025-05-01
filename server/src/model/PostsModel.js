@@ -42,7 +42,7 @@ class PostsModel{
     }
 
     /**
-     * Retrieves posts by post ID.
+     * Retrieves posts by user ID.
      * 
      * @param {string} userId - The ID of the user whose posts to retrieve.
      * @returns {Promise<Array<Object>>} A promise that resolves to an array of post objects.

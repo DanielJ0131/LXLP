@@ -52,6 +52,27 @@ class CommentsController {
 
 
 
+        /**
+         * Get comments by post ID.
+         *
+         * @param {Request} req - The request object.
+         * @param {Response} res - The response object.
+         */
+        async getCommentsByPostId(req, res, next) {
+            try {
+                const postId = req.params.postId;
+                const comments = await CommentsModel.getCommentsByPostId(postId);
+                if (!comments || comments.length === 0) {
+                    return res.status(404).json({ message: 'No comments found for this post' });
+                }
+                res.status(200).json(comments);
+            } catch (error) {
+                next(error);
+            }
+        }
+
+
+
 }
 
 

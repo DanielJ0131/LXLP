@@ -42,6 +42,23 @@ class CommentsModel{
     }
 
 
+    /**
+     * Retrieves comments by post ID.
+     * 
+     * @param {string} postId - The ID of the post whose contain the comments to retrieve.
+     * @returns {Promise<Array<Object>>} A promise that resolves to an array of comment objects.
+     */
+    async getCommentsByPostId(postId) {
+        try {
+            const comments = await DatabaseService.comments.find({ "postId.$oid": postId });
+            return comments;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+
 }
 
 
