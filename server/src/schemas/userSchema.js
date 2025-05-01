@@ -1,11 +1,28 @@
 import mongoose, {Schema} from 'mongoose'
 
 const userSchema = new Schema({
-        name: String,
-        email: String,
-        password: String,
-        Image: String,
-        role: String,
+        name: {
+            required: true,
+            type: String,
+        },
+        email: {
+            required: true,
+            type: String,
+            unique: true,
+        },
+        password: {
+            required: true,
+            type: String,
+        },
+        Image: {
+            type: String,
+            default: 'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
+        },
+        role: {
+            type: String,
+            enum: ['admin', 'user'],
+            default: 'user',
+        },
       });
 
 export default mongoose.model('users', userSchema)

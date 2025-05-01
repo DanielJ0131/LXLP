@@ -6,7 +6,21 @@ import DatabaseService from '../service/DatabaseService.js';
 class CommentsModel{
 
 
-
+    /**
+     * Retrieves a single comment from the database by its ID.
+     * 
+     * @param {string} searchId - The ID of the comment to retrieve.
+     * @returns {Promise<Object|null>} A promise that resolves to the comment object if found, or null if not found.
+     */
+    async getCommentById(commentId) {
+        try {
+            const comment = await DatabaseService.comments.findById(commentId);
+            return comment;
+        } catch (error) {
+            console.log(error);
+            }
+        
+        }
     
 
 

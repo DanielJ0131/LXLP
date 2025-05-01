@@ -11,9 +11,27 @@ class CommentsController {
 
 
 
-    // !!!TODO add a method to add a post to the database!!!!
 
 
+    /**
+     * Get a comment by ID.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async getCommentById(req, res, next) {
+        try {
+            const commentId = req.params.id;
+            const comment = await CommentsModel.getCommentById(commentId);
+            if (!comment) {
+                return res.status(404).json({ message: 'Comment not found' });
+            }
+
+            res.status(200).json(comment);
+        } catch (error) {
+            next(error);
+        }
+    }
 
 
 

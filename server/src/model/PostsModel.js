@@ -1,7 +1,7 @@
 import DatabaseService from '../service/DatabaseService.js';
 
 /**
- * The UsersModel class provides methods to interact with the users data in the database.
+ * The PostsModel class provides methods to interact with the post data in the database.
  */
 class PostsModel{
 
@@ -11,10 +11,10 @@ class PostsModel{
 
 
     /**
-     * Retrieves a single user from the database by its ID.
+     * Retrieves a single comment from the database by its ID.
      * 
-     * @param {string} searchId - The ID of the user to retrieve.
-     * @returns {Promise<Object|null>} A promise that resolves to the user object if found, or null if not found.
+     * @param {string} searchId - The ID of the post to retrieve.
+     * @returns {Promise<Object|null>} A promise that resolves to the post object if found, or null if not found.
      */
     async getPostById(postId) {
         try {
@@ -42,7 +42,7 @@ class PostsModel{
     }
 
     /**
-     * Retrieves posts by user ID.
+     * Retrieves posts by post ID.
      * 
      * @param {string} userId - The ID of the user whose posts to retrieve.
      * @returns {Promise<Array<Object>>} A promise that resolves to an array of post objects.
@@ -62,7 +62,7 @@ class PostsModel{
          * 
          * @param {string} id - The ID of the post to update.
          * @param {Object} updateData - The data to update the post with.
-         * @returns {Promise<Object|null>} A promise that resolves to the updated user object if successful, or null if not found.
+         * @returns {Promise<Object|null>} A promise that resolves to the updated post object if successful, or null if not found.
          */
         async updatePost(id, updateData) {
             try {
