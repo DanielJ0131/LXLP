@@ -5,7 +5,7 @@ export const router = express.Router()
 
 
 
-
+// !!!!TODO add a new route to add a post to the database!!!!
 
 
 router.get('/', (req, res, next) => PostsController.getAllPosts(req, res, next))

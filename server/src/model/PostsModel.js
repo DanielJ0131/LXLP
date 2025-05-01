@@ -6,6 +6,10 @@ import DatabaseService from '../service/DatabaseService.js';
 class PostsModel{
 
 
+    // !!!!TODO add a method to add a new post to the database!!!!
+    
+
+
     /**
      * Retrieves a single user from the database by its ID.
      * 

@@ -7,6 +7,17 @@ import PostsModel from "../model/PostsModel.js";
  * @class
  */
 class PostsController {
+
+
+
+
+    // !!!TODO add a method to add a post to the database!!!!
+
+
+
+
+
+
     /**
      * Get a post by ID.
      *
