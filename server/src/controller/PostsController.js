@@ -62,7 +62,26 @@ class PostsController {
     }
 
 
-
+    /**
+     * Update an existing post.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async updatePost(req, res, next) {
+        const id = req.params.id;
+        const postBody = req.body;
+        try{
+          const currentPost = await PostsModel.getPostById(id);
+          if (!currentPost) {
+            return res.status(404).json({ message: "Post not found" });
+          }
+          const updatedPost = await PostsModel.updatePost(id, postBody);
+          res.json(updatedPost);
+        } catch (error) {
+          next(error);
+        }
+    }
 
 }
 

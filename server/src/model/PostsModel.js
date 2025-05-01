@@ -52,6 +52,37 @@ class PostsModel{
             throw error;
         }
     }
+
+        /**
+         * Updates an existing post in the database by its ID.
+         * 
+         * @param {string} id - The ID of the post to update.
+         * @param {Object} updateData - The data to update the post with.
+         * @returns {Promise<Object|null>} A promise that resolves to the updated user object if successful, or null if not found.
+         */
+        async updatePost(id, updateData) {
+            try {
+                const updatedPost = await DatabaseService.posts.findByIdAndUpdate(
+                  id,  
+                  { 
+                    $set: {
+                        content: updateData.content,
+                        status: updateData.status,
+                        likes: updateData.likes,
+                        dislikes: updateData.dislikes
+                    }
+                  },
+                  { 
+                    new: true,         // Return the updated document
+                    runValidators: true // Run schema validators
+                  }
+                );
+                return updatedPost;
+              } catch(error) {
+                console.log(error);
+                throw error; 
+              }
+        }
 }
 
 
