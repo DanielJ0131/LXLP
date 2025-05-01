@@ -56,3 +56,11 @@
 .prompt{
     margin-right: 5px;
 }
+
+.button-wrp{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-left: 28px;
+  margin-top: 15px;
+}

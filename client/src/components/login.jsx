@@ -79,7 +79,10 @@ export default function Login(){
                     </button>
                 </div>
 
-                <button type="submit">Log in</button>
+                <div className ="button-wrp">
+                    <button type="submit">Log in</button>
+                    <button type ="submit">Forgot password?</button>
+                </div>
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 {success && <p style={{ color: 'green' }}>{success}</p>}

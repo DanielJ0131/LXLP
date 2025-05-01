@@ -14,6 +14,7 @@
   }
   
   .create-acc-input {
+    font-size: 20px;
     display: flex;
     align-items: center;
     margin-bottom: 10px;
