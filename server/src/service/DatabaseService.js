@@ -1,5 +1,8 @@
 import mongoose, {Schema} from 'mongoose'
 import { config } from '../config/database.js'
+import UserSchema from '../schemas/userSchema.js'
+import PostSchema from '../schemas/postSchema.js'
+import CommentSchema from '../schemas/commentSchema.js'
 
 /**
  * Service (singleton) to manage database operations.
@@ -8,9 +11,6 @@ import { config } from '../config/database.js'
  */
 class DatabaseService {
   #db = null
-  userSchema = null
-  postScema = null
-  commentSchema = null
   users = null
   posts = null
   comments = null
@@ -19,37 +19,14 @@ class DatabaseService {
     console.log('Trying to Connect to Database...');
     try {
       this.#db = await mongoose.connect(config.url);
-      console.log('Connection Successful!');
+      console.log('MongoDB Connection Successful!');
 
-      // Fill the user schema
-      this.userSchema = new Schema({
-        name: String,
-        email: String,
-        password: String,
-        Image: String,
-        role: String,
-      });
-      // Fill the post schema
-      this.postScema = new Schema({
-        userId:{$olid: String},
-        content: String,
-        status: String,
-        likes: Number,
-        dislikes: Number
-      });
-      // Fill the comment schema
-      this.commentSchema = new Schema({
-        postId: {$olid: String},
-        userId: {$olid: String},
-        content: String,
-        likes: Number,
-        dislikes: Number
-      });
+      
 
       // Use the collection with created schemas
-      this.users = mongoose.model('users', this.userSchema);
-      this.posts = mongoose.model('posts', this.postScema);
-      this.comments = mongoose.model('comments', this.commentSchema);
+      this.users = UserSchema
+      this.posts = PostSchema;
+      this.comments = CommentSchema;
     } catch (error) {
       console.log('Error with connection: ' + error);
     }
