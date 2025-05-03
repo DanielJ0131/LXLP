@@ -1,45 +1,38 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-import Home from './components/home.jsx'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Courses from './components/Courses.jsx';
+import Home from './components/Home.jsx';
+
+import './App.css';
 
 function App() {
-  const [currentUrl, setCurrentUrl] = useState(window.location.href);
-
-  useEffect(() => {
-    const handleUrlChange = () => {
-      setCurrentUrl(window.location.href);
-    };
-
-    window.addEventListener('popstate', handleUrlChange);
-    window.addEventListener('pushstate', handleUrlChange); // For custom navigation events if needed
-
-    return () => {
-      window.removeEventListener('popstate', handleUrlChange);
-      window.removeEventListener('pushstate', handleUrlChange);
-    };
-  }, []);
-
   return (
-    <div>
-      <header>
-        <h1>Linux Learning Platform</h1>
-      </header>
-      <main>
-        <nav>
-          <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
-        </nav>
-        {currentUrl.includes('home') && <Home />}
-      </main>
-      <footer>
-        <p>© LXLP. All Rights Reserved</p>
-        <a href="mailto:linuxlearningplatform@gmail.com">linuxlearningplatform@gmail.com</a>
-      </footer>
-    </div>
-  )
+    <Router>
+      <div>
+        <header>
+        
+        </header>
+        <main>
+          <nav>
+            <ul>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/Courses">Courses</Link></li>
+              
+            </ul>
+          </nav>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Courses" element={<Courses />} />
+            
+          </Routes>
+        </main>
+        <footer>
+          <p>© LXLP. All Rights Reserved</p>
+          <a href="mailto:linuxlearningplatform@gmail.com">linuxlearningplatform@gmail.com</a>
+        </footer>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;
