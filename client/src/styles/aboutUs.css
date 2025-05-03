@@ -70,9 +70,3 @@
 .about-us-container ul li:hover {
     transform: translateY(-5px);
 }
-
-.about-us-container .team-member {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
