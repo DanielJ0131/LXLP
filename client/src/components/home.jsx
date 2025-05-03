@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css';
+import '../styles/Home.css';
 import linuxLogo from '../assets/Linux.png';
 
 export default function Home() {
