@@ -1,0 +1,73 @@
+/* aboutUs.css */
+.about-us-container {
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font for terminal-like feel */
+    background-color: #1e1e1e; /* Dark background */
+    color: #00ff00; /* Green text */
+    line-height: 1.6;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #00ff00; /* Green border */
+}
+
+.about-us-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #00ff00; /* Green text */
+    text-align: center;
+    text-shadow: 0 0 5px #00ff00; /* Glow effect */
+}
+
+.about-us-container p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.about-us-container h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #00ff00; /* Green text */
+    text-align: center;
+    text-shadow: 0 0 5px #00ff00; /* Glow effect */
+}
+
+.about-us-container ul {
+    list-style-type: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.about-us-container ul li {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #00ff00; /* Green text */
+    text-align: left; /* Align text to the left */
+    padding: 5px 10px;
+    border-bottom: 1px dashed #00ff00; /* Dashed separator */
+}
+
+.about-us-container ul li:hover {
+    background-color: #333333; /* Highlight on hover */
+    color: #ffffff; /* White text on hover */
+    cursor: pointer;
+}
+
+.about-us-container ul li a {
+    color: #00ff00; /* Green text */
+    text-decoration: none; /* Remove underline */
+}
+.about-us-container ul li a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Add this to make the names jump on hover */
+.about-us-container ul li {
+    transition: transform 0.3s ease;  /* Smooth transition for the jump effect */
+}
+
+.about-us-container ul li:hover {
+    transform: translateY(-5px); /* Make it jump up by 5 pixels */
+}
