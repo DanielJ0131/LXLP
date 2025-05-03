@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon --env-file=server/.env server/index.js",
-    "client": "cd client && npm run dev"
+    "client": "cd client && npm run dev",
+    "boom": "npm i && cd client && npm i && cd ../server && npm i"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
     "nodemon": "^3.1.9"
   },
   "dependencies": {
+    "all": "^0.0.0",
     "bcrypt": "^5.1.1"
   },
   "keywords": [],
