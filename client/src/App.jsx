@@ -25,6 +25,13 @@ function App() {
         <h1>Linux Learning Platform</h1>
       </header>
       <main>
+        <nav>
+          <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </nav>
         {currentUrl.includes('home') && <Home />}
       </main>
       <footer>
