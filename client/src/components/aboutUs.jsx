@@ -3,7 +3,7 @@ import '../styles/AboutUs.css';
 
 const AboutUs = () => {
     const teamMembers = [
-        { name: 'Daniel', role: 'Developer' , link: 'https://github.com/DanielJ0131'},
+        { name: 'Daniel', role: 'Developer' , link: 'https://gemini.google.com'},  //  https://github.com/DanielJ0131
         { name: 'Mustafa', role: 'Developer' , link: 'https://github.com/must-Zeus0036'},
         { name: 'Ryad', role: 'Developer' , link: 'https://github.com/ryadhazin0002'},
         { name: 'Tony', role: 'Developer' , link: 'https://github.com/TonyMNG'},
@@ -22,7 +22,9 @@ const AboutUs = () => {
             <ul>
                 {teamMembers.map((member, index) => (
                     <li key={index}>
-                        {member.name} - {member.role}
+                        <a href={member.link} target="_blank" rel="noopener noreferrer">
+                            {member.name} - {member.role}
+                        </a>
                     </li>
                 ))}
             </ul>
