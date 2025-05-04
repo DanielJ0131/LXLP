@@ -17,7 +17,10 @@ function App() {
             <ul>
               <li><Link to="/">Home</Link></li>
               <li><Link to="/Courses">Courses</Link></li>
-              <li><a href="/aboutUs">About us</a></li>
+              <li><Link to="/forum">Forum</Link></li>
+              <li><Link to="/login">Login</Link></li>
+              <li><Link to="/register">Register</Link></li>
+              <li><Link to="/aboutUs">About us</Link></li>
             </ul>
           </nav>
           <Routes>
