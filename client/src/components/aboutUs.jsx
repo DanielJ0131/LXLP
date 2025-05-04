@@ -3,12 +3,12 @@ import '../styles/AboutUs.css';
 
 const AboutUs = () => {
     const teamMembers = [
-        { name: 'Daniel', role: 'Developer' },
-        { name: 'Mustafa', role: 'Developer' },
-        { name: 'Ryad', role: 'Developer' },
-        { name: 'Tony', role: 'Developer' },
-        { name: 'Patric', role: 'Developer' },
-        { name: 'Sergej', role: 'Developer' },
+        { name: 'Daniel', role: 'Developer' , link: 'https://github.com/DanielJ0131'},
+        { name: 'Mustafa', role: 'Developer' , link: 'https://github.com/must-Zeus0036'},
+        { name: 'Ryad', role: 'Developer' , link: 'https://github.com/ryadhazin0002'},
+        { name: 'Tony', role: 'Developer' , link: 'https://github.com/TonyMNG'},
+        { name: 'Patric', role: 'Developer' , link: 'https://github.com/padthe'},
+        { name: 'Sergej', role: 'Developer' , link: 'https://github.com/sergejmm'},
     ];
 
     return (
