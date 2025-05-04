@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/Courses.css'; // Import the CSS file for styling
 
+
 const Courses = () => {
     return (
         <div className="courses-container">
@@ -14,7 +15,7 @@ const Courses = () => {
                             <iframe
                                 width="600"
                                 height="315"
-                                src="https://www.youtube.com/embed/_NFaYk9R9jI"
+                                src="https://video.pictory.ai/v2/preview/1122204564574302321831746314330750"
                                 title="YouTube video player"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowFullScreen
@@ -34,14 +35,14 @@ const Courses = () => {
                 </div>
 
             </div>
-            <h2 className="section-title">Video 2: Raspberry / Mustafa</h2>
+            <h2 className="section-title">Video 2: Raspberry PI / Mustafa</h2>
                 <div className="content-wrapper">
                     <div className="video-and-text">
                         <div className="video-container">
                             <iframe
                                 width="600"
                                 height="315"
-                                src="https://www.youtube.com/embed/_NFaYk9R9jI"
+                                src="https://www.youtube.com/embed/S4NcyAlBT74"
                                 title="YouTube video player"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowFullScreen
