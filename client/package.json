@@ -11,6 +11,7 @@
     "start:server": "nodemon server.js"
   },
   "dependencies": {
+    "@xterm/xterm": "^5.5.0",
     "nodemon": "^3.1.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

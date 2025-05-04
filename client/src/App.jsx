@@ -4,6 +4,7 @@ import Courses from './components/Courses.jsx';
 import Home from './components/Home.jsx';
 import AboutUs from './components/aboutUs.jsx';
 import './App.css';
+import XTerminal from "./components/terminal.js";
 
 function App() {
   return (
@@ -21,12 +22,14 @@ function App() {
               <li><Link to="/login">Login</Link></li>
               <li><Link to="/register">Register</Link></li>
               <li><Link to="/aboutUs">About us</Link></li>
+              <li><Link to ="/terminal">Terminal</Link></li>
             </ul>
           </nav>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/Courses" element={<Courses />} />
             <Route path="/aboutUs" element={<AboutUs />} />
+            <Route path="/terminal" element={<XTerminal />} />
           </Routes>
         </main>
         <footer>
