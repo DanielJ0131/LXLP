@@ -1,19 +1,13 @@
 .home-container {
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1e1e1e;
+    color: #00ff00;
+    line-height: 1.6;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    max-width: 800px; /* same as AboutUs */
+    margin: 0 auto; /* center the container */
+    border: 1px solid #00ff00;
     text-align: center;
-    padding: 2rem;
-}
-
-.linux-logo {
-    width: 150px;
-    margin-bottom: 1rem;
-}
-
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-p {
-    font-size: 1.2rem;
-    color: white;
 }
