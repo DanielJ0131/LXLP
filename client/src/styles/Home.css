@@ -1,19 +1,33 @@
 .home-container {
     text-align: center;
     padding: 2rem;
+    background-color: black; 
+    color: #00ff00; 
+    font-family: 'Courier New', Courier, monospace; 
 }
 
 .linux-logo {
     width: 150px;
     margin-bottom: 1rem;
+    animation: jump 1.5s infinite; /* Add jumping animation */
+}
+
+@keyframes jump {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px); /* Jump up */
+    }
 }
 
 h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
+    color: #00ff00; 
 }
 
 p {
     font-size: 1.2rem;
-    color: white;
+    color: #00ff00; /* Green text */
 }
