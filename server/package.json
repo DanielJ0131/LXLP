@@ -2,11 +2,11 @@
   "name": "lxlp",
   "version": "1.0.0",
   "description": "A start for the fullstack project",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx nodemon --env-file=.env app.js"
+    "dev": "npx nodemon --env-file=.env index.js"
   },
   "repository": {
     "type": "git",
