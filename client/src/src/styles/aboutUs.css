@@ -1,0 +1,71 @@
+.about-us-container {
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1e1e1e;
+    color: #00ff00;
+    line-height: 1.6;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+    border: 1px solid #00ff00;
+}
+
+.about-us-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #00ff00;
+    text-align: center;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.about-us-container p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.about-us-container h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #00ff00;
+    text-align: center;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.about-us-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.about-us-container ul li {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #00ff00;
+    text-align: left;
+    padding: 5px 10px;
+    border-bottom: 1px dashed #00ff00;
+}
+
+.about-us-container ul li:hover {
+    background-color: #333333;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.about-us-container ul li a {
+    color: #00ff00;
+    text-decoration: none;
+}
+
+.about-us-container ul li a:hover {
+    text-decoration: underline;
+}
+
+.about-us-container ul li {
+    transition: transform 0.3s ease;
+}
+
+.about-us-container ul li:hover {
+    transform: translateY(-5px);
+}
