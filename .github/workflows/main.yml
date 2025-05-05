@@ -1,0 +1,26 @@
+name: Generate .env with Secret
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create .env file with secret
+        env:
+          MONGODB_URI: ${{ secrets.MONGO_URI }}
+        run: |
+          echo "MONGODB_URI=$MONGODB_URI" > .env
+          cat .env
+
+      - name: Use the .env file (example)
+        run: |
+          if [ -f .env ]; then
+            source .env
+            echo "MongoDB URI from .env: $MONGODB_URI"
+          else
+            echo ".env file not found."
+          fi
