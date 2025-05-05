@@ -1,49 +1,62 @@
+/* courses.css */
+
+/* Base container for the entire courses page */
 .courses-container {
+    width: 100vw;
+    min-height: 100vh;
     padding: 20px;
     font-family: 'Courier New', Courier, monospace;
-    background-color: #1e1e1e;
-    color: #00ff00;
+    background-color: #1e1e1e; /* Dark background for terminal look */
+    color: #00ff00; /* Green text for terminal look */
     line-height: 1.6;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-    margin: 0 auto;
-    border: 1px solid #00ff00;
+    border: 1px solid #00ff00; /* Green border for emphasis */
+    text-align: center; /* Center-align initial content */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
-/* Titles */
+/* Main title of the courses page */
 .page-title {
     font-size: 2.5rem;
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Increased margin for better spacing */
     color: #00ff00;
     text-align: center;
-    text-shadow: 0 0 5px #00ff00;
+    text-shadow: 0 0 5px #00ff00; /* Subtle green glow */
 }
 
+/* Section containing each video and its description */
+.section {
+    margin-bottom: 50px; /* Increased margin between video sections */
+}
+
+/* Title of each video section */
 .section-title {
     font-size: 2rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Increased margin for better spacing */
     color: #00ff00;
     text-align: center;
     text-shadow: 0 0 5px #00ff00;
 }
 
-/* Wrapper for each video & notes block */
+/* Wrapper for the video container and text explanation */
 .content-wrapper {
-    margin-bottom: 40px;
+    /* No specific layout rules here, allows video and text to flow naturally (text below video) */
+    margin-bottom: 30px; /* Space below the video and description block */
 }
 
-/* Responsive Video Container */
+/* Container for the embedded video iframe */
 .video-container {
-    position: relative;
+    position: relative; /* Needed for aspect ratio trick */
     width: 100%;
-    padding-bottom: 56.25%;
+    max-width: 800px; /* Maximum width of the video player */
+    margin: 0 auto 20px; /* Center the video and add space below */
+    padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
     height: 0;
     border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+    overflow: hidden; /* Hide any overflow from the iframe */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); /* Subtle green shadow for the video */
 }
 
+/* Style for the embedded iframe to make it responsive */
 .video-container iframe {
     position: absolute;
     width: 100%;
@@ -53,14 +66,21 @@
     left: 0;
 }
 
-/* Text Below Video */
+/* Text description displayed below each video */
 .text-explanation {
     font-size: 1.1rem;
-    margin-bottom: 10px;
-    text-align: justify;
+    line-height: 1.7; /* Slightly increased line height for readability */
+    margin-top: 15px; /* Add some space between the video and the text */
+    margin-bottom: 25px; /* Space below the description */
+    text-align: left; /* Align text to the left for better readability */
+    max-width: 800px; /* Match the max-width of the video */
+    margin-left: auto;
+    margin-right: auto; /* Center the text block if max-width is less than 100% */
+    color: #f0f8ff; /* Light text color for better contrast against the dark background */
 }
 
-/* Notes Text Area */
+/* The following styles for the text area are now removed as per the request */
+
 .write-text {
     display: flex;
     justify-content: center;
