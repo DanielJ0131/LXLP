@@ -2,6 +2,7 @@ import {Terminal} from '@xterm/xterm'
 import {useEffect, useRef} from "react"
 import "@xterm/xterm/css/xterm.css"
 import '../styles/terminal.css'
+import React from 'react'
 
 const term = new Terminal()
 term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
