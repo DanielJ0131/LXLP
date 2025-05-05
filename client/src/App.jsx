@@ -34,7 +34,7 @@ function App() {
         <main>
             <nav>
                 <ul>
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/home">Home</a></li>
                     <li><a href="/courses">Courses</a></li>
                     <li><a href="/aboutUs">About Us</a></li>
                     <li><a href="/terminal">Terminal</a></li>

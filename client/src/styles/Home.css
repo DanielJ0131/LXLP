@@ -10,3 +10,8 @@
     border: 1px solid #00ff00;
     text-align: center;
 }
+.linux-logo {
+    width: 400px;
+    height: auto;
+    margin-bottom: 20px;
+}

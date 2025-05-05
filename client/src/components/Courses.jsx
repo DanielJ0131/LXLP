@@ -1,25 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/courses.css'; // Import the CSS file for styling
 
-
 const Courses = () => {
-    const videos = [
-        {
-            title: 'Video 1: Dual-Boot / Daniel',
-            url: 'https://www.youtube.com/embed/2g8v4j0Xk6E',
-            description: 'Learn the basics of Linux',
-        },
-        {
-            title: 'Video 2: Raspberry PI / Mustafa',
-            url: 'https://www.youtube.com/embed/S4NcyAlBT74',
-            description: 'Learn the basics of Linux',
-        },
-        {
-            title: 'Video 3: Terminal / Sergej',
-            url: 'https://www.youtube.com/embed/2g0v1a3j4xE',
-            description: 'Learn the basics of Linux',
-        },
-    ];
+    // State to store the video data fetched from the backend
+    const [videos, setVideos] = useState([]);
+
+    useEffect(() => {
+        // Function to fetch video data (including title, URL, and description) from the backend
+        const fetchVideoData = async () => {
+            try {
+                const response = await fetch('/api/'); // use API Ryad created to fetch courses
+                if (!response.ok) {
+                    const message = `An error occurred: ${response.status}`;
+                    throw new Error(message);
+                }
+                const data = await response.json();
+                // backend must returns an array of video objects with 'title', 'url', and 'description'
+                setVideos(data.courses);
+            } catch (error) {
+                console.error("Failed to load course data", error);
+                // Optionally set an error state to display a message to the user
+                setVideos([]);
+            }
+        };
+
+        fetchVideoData();
+    }, []); // Empty dependency array ensures this runs only once after the initial render
 
     return (
         <div className="courses-container">
@@ -37,13 +43,9 @@ const Courses = () => {
                                 allowFullScreen
                             ></iframe>
                         </div>
+                        {/* Display the fetched description for the current video */}
                         <p className="text-explanation">{video.description}</p>
-                        <div className="write-text">
-                            <textarea
-                                placeholder="Write your notes here..."
-                                className="notes-textarea"
-                            ></textarea>
-                        </div>
+                        {/* The 'write-text' div and textarea have been removed */}
                     </div>
                 </div>
             ))}
@@ -52,4 +54,3 @@ const Courses = () => {
 };
 
 export default Courses;
-
