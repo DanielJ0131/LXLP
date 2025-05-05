@@ -1,0 +1,91 @@
+.courses-container {
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1e1e1e;
+    color: #00ff00;
+    line-height: 1.6;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+    border: 1px solid #00ff00;
+}
+
+/* Titles */
+.page-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #00ff00;
+    text-align: center;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #00ff00;
+    text-align: center;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+/* Wrapper for each video & notes block */
+.content-wrapper {
+    margin-bottom: 40px;
+}
+
+/* Responsive Video Container */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.video-container iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+    top: 0;
+    left: 0;
+}
+
+/* Text Below Video */
+.text-explanation {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+/* Notes Text Area */
+.write-text {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.notes-textarea {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    height: 200px;
+    padding: 15px;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fefefe;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    resize: vertical;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.notes-textarea:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+    outline: none;
+}

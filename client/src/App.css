@@ -1,8 +1,49 @@
+header {
+  padding: 1rem 2rem;
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  font-family: "Courier New", Courier, monospace;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #252526;
+  border-bottom: 1px solid #3c3c3c;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  font-size: 1rem;
+  color: #d4d4d4;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  transition: color 200ms;
+}
+
+nav a:hover {
+  color: #00ff00;
+}
+
 #root {
-  max-width: 1280px;
+  max-width: 2000px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .logo {
@@ -12,7 +53,7 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #569cd6aa);
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
@@ -35,6 +76,10 @@
 
 .card {
   padding: 2em;
+  background-color: #252526;
+  border: 1px solid #3c3c3c;
+  border-radius: 4px;
+  color: #d4d4d4;
 }
 
 .read-the-docs {
