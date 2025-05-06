@@ -4,7 +4,8 @@
     border-radius: 8px;
     max-width: 400px;
     margin: 2rem auto;
-    background-color: #f9f9f9;
+    background-color: #1e1e1e;
+    color: 00ff00;
   }
   
   .register-fieldset legend {

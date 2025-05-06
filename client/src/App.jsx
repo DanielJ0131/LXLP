@@ -6,8 +6,8 @@ import AboutUs from './components/aboutUs.jsx';
 import XTerminal from "./components/terminal.js";
 import './App.css';
 import Forum from './components/forum.jsx';
-// import Login from './components/login.jsx';
-// import Register from './components/register.jsx';
+import Login from './components/login.jsx';
+import Register from './components/register.jsx';
 
 function App() {
     const [currentUrl, setCurrentUrl] = useState(window.location.href);
@@ -42,6 +42,8 @@ function App() {
                     <li><a href="/forum">Forum</a></li>
                     <li><a href="/aboutUs">About Us</a></li>
                     <li><a href="/terminal">Terminal</a></li>
+                    <li><a href ="/login"></a></li>
+                    <li><a href="/register">Register</a></li>
                 </ul>
             </nav>
             
@@ -50,8 +52,8 @@ function App() {
             {currentUrl.includes('courses') && <Courses />}
             {currentUrl.includes('forum') && <Forum />} 
             {currentUrl.includes('terminal') && <XTerminal />}
-            {/* {currentUrl.includes('login') && <Login />} */}
-            {/* {currentUrl.includes('register') && <Register />} */}
+            {currentUrl.includes('login') && <Login />}
+            {currentUrl.includes('register') && <Register />}
         </main>
         <footer>
           <p>© LXLP. All Rights Reserved</p>

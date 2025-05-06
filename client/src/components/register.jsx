@@ -5,7 +5,7 @@ import '../styles/register.css'
 export default function Register() {
     const [formData, setFormData] = useState({
         email: '',
-        username: '',
+        name: '',
         password: ''
     });
     const [showPassword, setShowPassword] = useState(false);
@@ -17,10 +17,34 @@ export default function Register() {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (event) => {
-        //implement logic with password maybe type same password twice idk 
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Form submitted:', formData);
+    
+        try {
+            const response = await fetch("http://localhost:3000/api/users", { 
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData)
+            });
+    
+            const data = await response.json();
+    
+            if (!response.ok) {
+            
+                setError(data.message || "Something went wrong");
+                setSuccess('');
+            } else {
+                setSuccess("User successfully created!");
+                setError('');
+                setFormData({ email: '', name: '', password: '' }); 
+            }
+        } catch (err) {
+            console.error("Error submitting form:", err);
+            setError("Network error. Please try again later.");
+            setSuccess('');
+        }
     };
 
     return (
@@ -30,24 +54,24 @@ export default function Register() {
                     <legend>Create an Account</legend>
 
                     <div className="create-acc-input">
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="name">Username</label>
                         <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={formData.name}
                             onChange={handleChange}
                             required
                         />
                     </div>
 
                     <div className="create-acc-input">
-                        <label htmlFor="username">Username</label>
+                        <label htmlFor="email">Email</label>
                         <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            value={formData.username}
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
                             onChange={handleChange}
                             required
                         />
