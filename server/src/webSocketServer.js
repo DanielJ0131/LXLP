@@ -18,14 +18,26 @@ class WSS_Server {
             })
 
             ws.on('message', (message) => {
-                console.log('received ', message)
+                console.log('received $', message)
 
                 const data = JSON.parse(message.toString()) // Parse message with json
 
                 if (data.type === 'command'){
                     ptyProcess.write(data.data) // use pty to process data tp type in data that client sends to it
-                    ws.send(`echo: ${data.data}\n`)
                 }
+            })
+
+            ws.on('close', () => {
+                console.log('closed websocket')
+            })
+
+            ptyProcess.onData((data) => {
+                const message = JSON.stringify({
+                    type: 'data',
+                    data,
+                })
+
+                ws.send(message + '\n')
             })
         })
 
