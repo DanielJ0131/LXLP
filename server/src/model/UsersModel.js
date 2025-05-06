@@ -62,7 +62,7 @@ class UsersModel{
      */
     async getUserByName(searchName) {
         try {
-            const user = await DatabaseService.users.findOne({ name : searchName });
+            const user = await DatabaseService.users.findOne({ firstname : searchName });
             return user;
         } catch (error) {
             console.log(error);
@@ -77,7 +77,7 @@ class UsersModel{
      */
     async addUser(userData) {
         try {
-            const existingUser = await DatabaseService.users.findOne({ name: userData.name });
+            const existingUser = await DatabaseService.users.findOne({ firstname: userData.firstname });
             if (existingUser) {
                 throw new Error('User already exists');
             }
@@ -103,7 +103,8 @@ class UsersModel{
               id,  
               { 
                 $set: {
-                    name: updateData.name,
+                    firstname: updateData.firstname,
+                    lastname: updateData.lastname,
                     email: updateData.email,
                     password: updateData.password,
                     role: updateData.role
