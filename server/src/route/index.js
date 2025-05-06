@@ -4,6 +4,7 @@ import express from 'express'
 import { router as usersRoute } from './usersRoute.js'
 import { router as postsRoute } from './postsRoute.js'
 import { router as commentsRoute } from './commentsRoute.js'
+
 // This will be the main route connecting all the other routes
 // once we have jwt, api and user database routes.
 
