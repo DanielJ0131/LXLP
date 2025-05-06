@@ -14,14 +14,13 @@ body {
   margin: 2rem auto 0; /* Center content, remove bottom margin for footer */
   padding: 0;
   box-sizing: border-box;
-
 }
 
 /* ==================== Header Styling ==================== */
 header {
   padding: 1rem 2rem;
   background-color: #1e1e1e;
-  color: #d4d4d4;
+  color: #00ff00;
   font-family: "Courier New", Courier, monospace;
   position: sticky; /* Keep header at the top */
   top: 0;
