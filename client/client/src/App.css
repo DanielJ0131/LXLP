@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #1e1e1e; /* Consistent dark background */
+  color: #d4d4d4; /* Default text color */
+  display: flex; /* Enable flexbox for body to control footer positioning */
+  flex-direction: column; /* Stack header, main content, and footer */
+  min-height: 100vh; /* Ensure body takes at least the full viewport height */
+}
+
+#root {
+  width: 80%;
+  max-width: 1200px;
+  margin: 2rem auto 0; /* Center content, remove bottom margin for footer */
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ==================== Header Styling ==================== */
+header {
+  padding: 1rem 2rem;
+  background-color: #1e1e1e;
+  color: #00ff00;
+  font-family: "Courier New", Courier, monospace;
+  position: sticky; /* Keep header at the top */
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #3c3c3c;
+  text-align: center; /* Center the header title */
+}
+
+header h1 { /* Style the main title within the header if you have one */
+  margin: 0; /* Remove default margin for better centering */
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #252526;
+  border-bottom: 1px solid #3c3c3c;
+  padding: 0.5rem 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+}
+
+nav li {
+  font-size: 1rem;
+  color: #d4d4d4;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  transition: color 200ms;
+}
+
+nav a:hover {
+  color: #00ff00;
+}
+
+/* ==================== Footer Styling ==================== */
+footer {
+  background-color: #252526;
+  color: #d4d4d4;
+  padding: 1rem 0;
+  text-align: center; /* Center the footer content */
+  border-top: 1px solid #3c3c3c;
+}
+
+/* ==================== Specific Page Containers ==================== */
+.courses-container,
+.about-us-container,
+.home-container {
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  background-color: #1e1e1e;
+  color: #00ff00;
+  text-align: center; /* Default text alignment for page content */
+  box-sizing: border-box;
+  opacity: 1; /* Initially visible */
+  transition: opacity 0.3s ease-in-out; /* Add transition to page containers as well */
+}
+
+.about-us-container {
+  text-align: left; /* Override center alignment for about us content */
+}
+
+/* ==================== Reused Components ==================== */
+.card {
+  padding: 2em;
+  background-color: #252526;
+  border: 1px solid #3c3c3c;
+  border-radius: 4px;
+  color: #d4d4d4;
+  margin-bottom: 1rem;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* ==================== Utility Classes ==================== */
+.center-text {
+  text-align: center;
+}
+
+.page-exiting {
+  opacity: 0; /* Class to trigger fade out */
+}
