@@ -1,178 +1,167 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import './forum.css'; // Assuming you have some CSS for styling
+import '../styles/forum.css';
 
 const Forum = () => {
     const [posts, setPosts] = useState([]);
     const [skip, setSkip] = useState(0);
     const [limit] = useState(10);
     const [loading, setLoading] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [profileCardVisible, setProfileCardVisible] = useState(false);
-    const [comments, setComments] = useState({}); // { postId: [comments] }
+    const [comments, setComments] = useState({});
+    const [newComment, setNewComment] = useState({});
+    const [newPost, setNewPost] = useState({ title: '', body: '' });
+    const [error, setError] = useState(null);
+
+    const user = {
+        _id: 'user123',
+        firstName: 'Test',
+        lastName: 'User'
+    };
 
     const fetchPosts = useCallback(async () => {
         if (loading) return;
         setLoading(true);
         try {
-            const response = await fetch(`/api/forum/posts?limit=${limit}&skip=${skip}`); // Adjust your API endpoint
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-}
-    const data = await response.json();
-    setPosts((prevPosts) => [...prevPosts, ...data.posts]); // Assuming your backend returns { posts: [...] }
-    setSkip((prevSkip) => prevSkip + limit);
-    } catch (error) {
-    console.error('Error fetching posts:', error);
-      // Optionally set an error state to display a message to the user
-    } finally {
-    setLoading(false);
-    }
-}, [skip, limit, loading]);
+            const response = await fetch(`http://localhost:5000/api/posts?${limit}`); // Ryad and Daniel add this endpoint
+            const data = await response.json();
+            setPosts(prev => [...prev, ...data]);
+            setSkip(prev => prev + limit);
+        } catch (err) {
+            console.error('Error fetching posts:', err);
+            setError('Error loading posts.');
+        } finally {
+            setLoading(false);
+        }
+    }, [skip, limit, loading]);
 
-    const fetchUser = useCallback(async (userId) => {
-    try {
-         const response = await fetch(`/api/users/${userId}`); // Adjust your API endpoint
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    return data;
-    } catch (error) {
-        console.error('Error fetching user:', error);
-        return null;
-    }
-}, []);
+    const fetchComments = async (postId) => {
+        try {
+            const res = await fetch(`http://localhost:5000/api/comments`); // Ryad and Daniel add this endpoint
+            const data = await res.json();
+            setComments(prev => ({ ...prev, [postId]: data }));
+        } catch {
+            setComments(prev => ({ ...prev, [postId]: [] }));
+        }
+    };
 
-    const fetchComments = useCallback(async (postId) => {
-    try {
-      const response = await fetch(`/api/forum/posts/${postId}/comments`); // Adjust your API endpoint
-        if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    setComments(prevComments => ({ ...prevComments, [postId]: data.comments })); // Assuming { comments: [...] }
-    } catch (error) {
-        console.error('Error fetching comments:', error);
-        setComments(prevComments => ({ ...prevComments, [postId]: [] }));
-    }
-}, []);
+    const handlePostComment = async (postId) => {
+        if (!newComment[postId]) return;
+        try {
+            const res = await fetch(`http://localhost:5000/api/comments/by-post-id/${postId}`, { // Ryad and Daniel add this endpoint
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    content: newComment[postId],
+                    userId: user._id,
+                    name: user.name,
+                })
+            });
+            const comment = await res.json();
+            setComments(prev => ({
+                ...prev,
+                [postId]: [...(prev[postId] || []), comment]
+            }));
+            setNewComment(prev => ({ ...prev, [postId]: '' }));
+        } catch {
+            setError('Failed to post comment.');
+        }
+    };
 
-    const handleUsernameClick = useCallback(async (userId) => {
-    const user = await fetchUser(userId);
-    if (user) {
-        setSelectedUser(user);
-        setProfileCardVisible(true);
-    }
-}, [fetchUser]);
+    const handleCreatePost = async () => {
+        if (!newPost.title || !newPost.body) return;
+        try {
+            await fetch('/api/posts', { // Ryad and Daniel add this endpoint    
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...newPost,
+                    userId: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                })
+            });
+            setNewPost({ title: '', body: '' });
+            setSkip(0);
+            setPosts([]);
+            fetchPosts();
+        } catch {
+            setError('Failed to create post.');
+        }
+    };
 
-    const closeProfileCard = () => {
-    setProfileCardVisible(false);
-    setSelectedUser(null);
+    const handleLikePost = async (postId) => {
+        await fetch(`/api/posts/${postId}/like`, { method: 'POST' });   // Ryad and Daniel
+        fetchPosts();
+    };
+
+    const handleDislikePost = async (postId) => {
+        await fetch(`/api/posts/${postId}/dislike`, { method: 'POST' }); // Ryad and Daniel
+        fetchPosts();
     };
 
     useEffect(() => {
         fetchPosts();
-}, [fetchPosts]);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 200 && !loading
-) {
-    fetchPosts();
-    }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-}, [fetchPosts, loading]);
-
-    const toggleComments = async (postId) => {
-        if (!comments[postId]) {
-            await fetchComments(postId);
-    }
-    setComments(prevComments => ({
-        ...prevComments,
-      [postId]: prevComments[postId] ? undefined : [], // Toggle visibility by setting to undefined
-    }));
-};
+    }, [fetchPosts]);
 
     return (
-    <div className="forum-container">
-        <h1>Forum</h1>
-        <div className="posts-container">
-        {posts.map((post) => (
-            <div key={post.id} className="post">
-            <h2>{post.title}</h2>
-            <p>{post.body}</p>
-            <p>
-            <img
-                src={post.user.image} // Assuming your post object has user info
-                alt={`Profile picture of ${post.user.username}`}
-                className="user-profile-image"/>
-            <span
-                className="username"
-                data-user-id={post.user.id}
-                onClick={() => handleUsernameClick(post.user.id)}
-            >
-                {post.user.username}
-            </span>
-            </p>
-            <div className="tags">
-                <p>🎬Tags:</p>
-                {post.tags && post.tags.map((tag, index) => (
-                <span key={index}>{tag}</span>
-            ))}
-            </div>
-            <p>👍 Likes: {post.reactions?.likes || 0}, 👎 Dislikes: {post.reactions?.dislikes || 0}</p>
-            <p>👁️ Views: {post.views}</p>
-            <button className="show-comments-btn" onClick={() => toggleComments(post.id)}>
-                {comments[post.id] ? 'Hide Comments' : 'Show Comments'}
-            </button>
-            <div className="comments" style={{ display: comments[post.id] ? 'block' : 'none' }}>
-                <p>💬 Comments:</p>
-                {comments[post.id] && comments[post.id].map((comment) => (
-                <div key={comment.id} className="comment">
-                <img
-                    src={comment.user.image} // Assuming comment object has user info
-                    alt={`Profile picture of ${comment.user.username}`}
-                    className="comment-user-image" />
-                <span>
-                    {`${comment.user.firstName} ${comment.user.lastName} (${comment.user.username}): ${comment.body} Likes:👍 ${comment.likes}`}
-                </span>
-                </div>
-))}
-        {!comments[post.id] && comments[post.id] !== undefined && <p>No comments yet.</p>}
-            </div>
-        </div>
-        ))}
-        {loading && <p>Loading more posts...</p>}
-    </div>
+        <div className="forum-container">
+            <h1>Forum Platform</h1>
 
-    {profileCardVisible && selectedUser && (
-        <div id="profileCard" className="profile-card">
-        <button className="close-profile-card" onClick={closeProfileCard}>
-            &times;
-        </button>
-        <div id="user-profile">
-            <img src={selectedUser.image} alt={`Profile picture of ${selectedUser.firstName} ${selectedUser.lastName}`}
-            />
-            <h2>{`${selectedUser.firstName} ${selectedUser.lastName}`}</h2>
-            <p>Email: {selectedUser.email}</p>
-            <p>Address: {selectedUser.address?.address}, {selectedUser.address?.city}</p>
-            {/* Add other user details you want to display */}
-        </div>
-        </div>
-    )}
+            <div className="create-post">
+                <input
+                    type="text"
+                    placeholder="Title"
+                    value={newPost.title}
+                    onChange={e => setNewPost({ ...newPost, title: e.target.value })}
+                />
+                <textarea
+                    placeholder="Write your post..."
+                    value={newPost.body}
+                    onChange={e => setNewPost({ ...newPost, body: e.target.value })}
+                />
+                <button onClick={handleCreatePost}>Create Post</button>
+            </div>
 
-        <button
-        id="goToTopBtn"
-        style={{ display: posts.length > 10 ? 'block' : 'none' }}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-    >
-        Go to Top
-    </button>
-    </div>
-);
+            {error && <p className="error-message">{error}</p>}
+
+            <div className="posts-container">
+                {posts.map(post => (
+                    <div key={post._id} className="post">
+                        <h2>{post.title}</h2>
+                        <p>{post.body}</p>
+                        <p>By {post.firstName} {post.lastName}</p>
+                        <p>
+                            👍 {post.likes?.length || 0}  
+                            👎 {post.dislikes?.length || 0}
+                        </p>
+                        <button onClick={() => handleLikePost(post._id)}>Like</button>
+                        <button onClick={() => handleDislikePost(post._id)}>Dislike</button>
+
+                        <button onClick={() => fetchComments(post._id)}>
+                            {comments[post._id] ? 'Hide Comments' : 'Show Comments'}
+                        </button>
+
+                        {comments[post._id] && (
+                            <div className="comments">
+                                {comments[post._id].map(comment => (
+                                    <div key={comment._id} className="comment">
+                                        <strong>{comment.firstName} {comment.lastName}</strong>: {comment.text}
+                                    </div>
+                                ))}
+                                <input
+                                    type="text"
+                                    value={newComment[post._id] || ''}
+                                    onChange={e => setNewComment(prev => ({ ...prev, [post._id]: e.target.value }))}
+                                    placeholder="Write a comment..."
+                                />
+                                <button onClick={() => handlePostComment(post._id)}>Post Comment</button>
+                            </div>
+                        )}
+                    </div>
+                ))}
+                {loading && <p>Loading more posts...</p>}
+            </div>
+        </div>
+    );
 };
 
 export default Forum;
