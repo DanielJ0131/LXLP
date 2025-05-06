@@ -1,0 +1,17 @@
+.home-container {
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1e1e1e;
+    color: #00ff00;
+    line-height: 1.6;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    margin: 0 auto; /* center the container */
+    border: 1px solid #00ff00;
+    text-align: center;
+}
+.linux-logo {
+    width: 40%;
+    height: auto;
+    margin-bottom: 20px;
+}
