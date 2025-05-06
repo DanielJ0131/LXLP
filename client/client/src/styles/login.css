@@ -1,0 +1,65 @@
+.login-fieldset {
+    border: 2px solid #ccc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 2rem auto;
+  }
+  
+  .login-fieldset legend {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0 0.5rem;
+  }
+
+.login-input {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: flex-start;
+  }
+
+.login-input input{
+    border-radius: 6px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+.login-input label{
+    margin-right: 10px;
+    width: 150px;
+}
+
+.toggle-password {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+.toggle-password:hover {
+    color: #000;
+}
+
+.register-link{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prompt{
+    margin-right: 5px;
+}
+
+.button-wrp{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-left: 28px;
+  margin-top: 15px;
+}
