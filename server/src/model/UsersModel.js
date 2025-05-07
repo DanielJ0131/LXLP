@@ -185,6 +185,33 @@ class UsersModel{
             console.log(error);
         }
     }
+
+
+
+  /**
+   * Login user and get a JWT token.
+   *
+   * @async
+   * @param {object} username - The username.
+   * @param {object} password - The password for the username.
+   * @returns {Promise<string>} A JWT token if login succedded.
+   */
+  async login (username, password) {
+    const user = await this.getUserByUsername(username)
+    if (!user) {
+      throw new Error('User does not exists')
+    }
+
+    const hashedPassword = user.password
+    const success = await bcrypt.compare(password, hashedPassword)
+    if (!success) {
+      throw new Error('User and password dows not match')
+    }
+
+    const token = jwt.createJwtToken(user.username, user.role, user.email)
+    return token
+  }
+
     
 }
 
