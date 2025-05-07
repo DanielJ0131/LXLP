@@ -42,9 +42,9 @@ class WSS_Server {
         })
 
         // Listen on different port from express server
-        server.listen(port, () => {
-            console.log(`Websocket Server on port ${port}`)
-        })
+        // server.listen(port, () => {
+        //     console.log(`Websocket Server on port ${port}`)
+        // })
     }
 }
 
