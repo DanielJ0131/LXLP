@@ -9,6 +9,9 @@ import jwt from './jwt.js';
  */
 class UsersModel{
 
+
+
+
     async #hasPassword(plaintext) {
         const saltRounds = 10;
         return await bcrypt.hash(plaintext, saltRounds);
@@ -101,10 +104,11 @@ class UsersModel{
      */
     async addUser(userData) {
         try {
-            const existingUser = await DatabaseService.users.findOne({ firstname: userData.firstname });
+            const existingUser = await DatabaseService.users.findOne({ username: userData.username });
             if (existingUser) {
                 throw new Error('User already exists');
             }
+            console.log(userData);
             const hashedPassword = await this.#hasPassword(userData.password);
             userData.password = hashedPassword;
             const newUser = new DatabaseService.users(userData);
