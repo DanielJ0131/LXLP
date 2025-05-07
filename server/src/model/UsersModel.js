@@ -1,5 +1,7 @@
 import DatabaseService from '../service/DatabaseService.js';
 import bcrypt from 'bcrypt';
+import jwt from './jwt.js';
+
 
 
 /**
@@ -174,6 +176,15 @@ class UsersModel{
         }
     }
 
+
+    async getUserByUsername(searchUsername) {
+        try {
+            const user = await DatabaseService.users.findOne({ username : searchUsername });
+            return user;
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
 }
 
