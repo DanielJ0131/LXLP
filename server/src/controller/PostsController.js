@@ -46,7 +46,7 @@ class PostsController {
      */
     async getAllPosts(req, res, next) {
         try {
-            console.log(res.locals.jwt);
+            //console.log(res.locals.jwt);
             const posts = await PostsModel.getAllPosts();
             res.status(200).json(posts);
         } catch (error) {
