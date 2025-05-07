@@ -1,10 +1,32 @@
 import DatabaseService from '../service/DatabaseService.js';
+import bcrypt from 'bcrypt';
 
 
 /**
  * The UsersModel class provides methods to interact with the users data in the database.
  */
 class UsersModel{
+
+    async #hasPassword(plaintext) {
+        const saltRounds = 10;
+        return await bcrypt.hash(plaintext, saltRounds);
+    }
+
+
+    async initPasswords() {
+        const users = this.getAllUsers();
+        for (const user of users) {
+            if (user.password) {
+                const hashedPassword = await this.#hasPassword(user.password);
+                user.password = hashedPassword;
+                await DatabaseService.users.findByIdAndUpdate(user._id, { password: hashedPassword });
+            }
+        }
+    }
+
+
+
+    
     /**
      * Retrieves a single user from the database by its ID.
      * 
@@ -81,6 +103,8 @@ class UsersModel{
             if (existingUser) {
                 throw new Error('User already exists');
             }
+            const hashedPassword = await this.#hasPassword(userData.password);
+            userData.password = hashedPassword;
             const newUser = new DatabaseService.users(userData);
             await newUser.save();
             return newUser;
@@ -140,6 +164,17 @@ class UsersModel{
             throw error; 
           }
     }
+
+    async getUserByEmail(searchEmail) {
+        try {
+            const user = await DatabaseService.users.findOne({ email : searchEmail });
+            return user;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    
 }
 
 export default new UsersModel();
