@@ -10,7 +10,7 @@ import WSS_Server from "./webSocketServer.js";
 export const app = express()
 
 // Start Websocket server for terminal
-//WSS_Server.startServer(app)
+WSS_Server.startServer(app)
 
 // Use the morgan logger
 if (process.env.NODE_ENV !== 'test') {

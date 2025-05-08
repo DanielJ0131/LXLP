@@ -1,6 +1,7 @@
 import {WebSocketServer} from 'ws' // A way to communicate between client and server without request
 import http from 'http' // Needed for the new server
-import {spawn} from 'node-pty' // Needed to bypass threaded ways of node.js
+import {spawn} from 'node-pty'
+import databaseService from "./service/DatabaseService.js"; // Needed to bypass threaded ways of node.js
 
 
 class WSS_Server {
@@ -42,9 +43,19 @@ class WSS_Server {
         })
 
         // Listen on different port from express server
-        // server.listen(port, () => {
-        //     console.log(`Websocket Server on port ${port}`)
-        // })
+        server.listen(port, () => {
+            console.log(`Websocket Server on port ${port}`)
+        })
+
+
+        // Shutdown stupid port on server close
+        async function shutdown () {
+            server.close()
+            await databaseService.closeConnection()
+        }
+
+        process.on('SIGINT', shutdown)
+        process.on('SIGTERM', shutdown)
     }
 }
 
