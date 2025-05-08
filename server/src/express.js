@@ -4,13 +4,13 @@ import logger from 'morgan'
 import {router} from './route/index.js'
 import {errorHandler} from './middleware/errorHandler.js'
 import cors from 'cors' // Import cors for cross-origin resource sharing
-// import WSS_Server from "./webSocketServer.js";
+import WSS_Server from "./webSocketServer.js";
 
 
 export const app = express()
 
 // Start Websocket server for terminal
-// WSS_Server.startServer(app)
+WSS_Server.startServer(app)
 
 // Use the morgan logger
 if (process.env.NODE_ENV !== 'test') {
