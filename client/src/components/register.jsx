@@ -21,7 +21,7 @@ export default function Register() {
         event.preventDefault();
     
         try {
-            const response = await fetch("http://localhost:3000/api/users", { 
+            const response = await fetch("http://localhost:5000/api/users", { 
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -54,12 +54,36 @@ export default function Register() {
                     <legend>Create an Account</legend>
 
                     <div className="create-acc-input">
-                        <label htmlFor="name">Username</label>
+                        <label htmlFor="username">Username</label>
                         <input
                             type="text"
-                            id="name"
-                            name="name"
-                            value={formData.name}
+                            id="username"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="create-acc-input">
+                        <label htmlFor="firstname">First name</label>
+                        <input
+                            type="text"
+                            id="firstname"
+                            name="firstname"
+                            value={formData.firstname}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    
+                    <div className="create-acc-input">
+                        <label htmlFor="lastname">Last name</label>
+                        <input
+                            type="text"
+                            id="lastname"
+                            name="lastname"
+                            value={formData.lastname}
                             onChange={handleChange}
                             required
                         />
