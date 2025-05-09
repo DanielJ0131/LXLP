@@ -20,15 +20,15 @@ function XTerminal() {
         term.write('web shell $ ');
 
 
-        const ws = new WebSocket('ws://localhost:8080')
+        const webSocket = new WebSocket('ws://localhost:8080')
 
-         ws.onopen = () => {
+         webSocket.onopen = () => {
              term.write('\r\nWebSocket Connection Established\r\n');
          };
 
 
     // Get websocket from backend to work with frontend
-        ws.onmessage = (event) => {
+        webSocket.onmessage = (event) => {
             const data = JSON.parse(event.data)
             if (event.data.type === 'data') term.write(data) // write in terminal
         }
@@ -38,7 +38,7 @@ function XTerminal() {
                 term.write('\r\n')
                 entries.push(currentLine)
 
-                ws.send(currentLine)
+                webSocket.send(currentLine)
 
                 currentLine = ''
             }
@@ -57,7 +57,7 @@ function XTerminal() {
 
          return () => {
             term.dispose()
-             ws.close()
+             webSocket.close()
          }
 
     }, [])
