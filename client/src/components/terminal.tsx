@@ -5,47 +5,64 @@ import '../styles/terminal.css'
 // @ts-ignore
 import React from 'react'
 
-const term = new Terminal()
-const ws = new WebSocket('ws://localhost:8080')
+
 
 
 function XTerminal() {
     const terminalRef = useRef<HTMLDivElement | null>(null)
+    let currentLine = ""
+    const entries = []
+
+
+     useEffect(() => {
+        const term = new Terminal()
+        term.open(terminalRef.current)
+        term.write('web shell $ ');
+
+
+        const ws = new WebSocket('ws://localhost:8080')
+
+         ws.onopen = () => {
+             term.write('\r\nWebSocket Connection Established\r\n');
+         };
 
 
     // Get websocket from backend to work with frontend
-    useEffect(() => {
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data)
             if (event.data.type === 'data') term.write(data) // write in terminal
         }
 
-        return () => {
-            ws.close() // close websocket
-        }
-    }, []);
+        term.onKey(({key, domEvent}) => {
+            if (domEvent.key === 'Enter') { // Enter key
+                term.write('\r\n')
+                entries.push(currentLine)
 
-    // Just a terminal frontend
-    useEffect(() => {
-        if (!terminalRef.current) return
+                ws.send(currentLine)
 
-        term.open(terminalRef.current)
+                currentLine = ''
+            }
 
-        // Pass the key to the backend
-        term.onKey((e) => {
-            ws.send(
-                JSON.stringify({
-                    type: 'command',
-                    data: e.key
-                })
-            )
+
+            else if (domEvent.key === 'Backspace') {
+                if (currentLine) {
+                    currentLine = currentLine.slice(0, currentLine.length - 1);
+                    term.write('\b \b');
+                }
+            } else{
+              currentLine += key
+                term.write(key)
+            }
         })
 
-    }, [terminalRef])
+         return () => {
+            term.dispose()
+             ws.close()
+         }
 
-    return (
-        <div ref={terminalRef}></div>
-    )
+    }, [])
+
+    return <div ref={terminalRef}></div>
 }
 
 export default XTerminal
