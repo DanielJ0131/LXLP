@@ -108,7 +108,6 @@ class UsersModel{
             if (existingUser) {
                 throw new Error('User already exists');
             }
-            console.log(userData);
             const hashedPassword = await this.#hasPassword(userData.password);
             userData.password = hashedPassword;
             const newUser = new DatabaseService.users(userData);
