@@ -1,35 +1,248 @@
+/* Forum.css */
 
-    /* Forum styles */
-    .forum-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
+.forum-container {
+    margin: 16px 0;
+}
+
+.forum-title {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    background-image: linear-gradient(to right, #60a5fa, #8b5cf6);
+    color: transparent;
+    background-clip: text;
+    display: inline-block;
+}
+
+.forum-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+}
+
+@media (min-width: 768px) {
+    .forum-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-    
-    .forum-header {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
+}
+
+@media (min-width: 1024px) {
+    .forum-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
-    
-    .forum-post {
-        width: 100%;
-        max-width: 800px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    padding: 16px;
+}
+
+.post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.post-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.avatar-container {
+    border-radius: 50%;
+    overflow: hidden;
+    height: 40px;
+    width: 40px;
+}
+
+.avatar-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.avatar-placeholder {
+    background-color: #9ca3af;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.user-name {
+    font-size: 18px;
+    font-weight: semibold;
+    color: #f8fafc;
+    margin-bottom: 4px;
+}
+
+.post-date {
+    font-size: 12px;
+    color: #d1d5db;
+}
+
+.post-content {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.post-text {
+    color: #e2e8f0;
+    line-height: 1.6;
+}
+
+.post-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.action-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #d1d5db;
+}
+
+.post-status {
+    padding: 4px 8px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: semibold;
+}
+
+.status-fixed {
+    color: #22c55e;
+    background-color: rgba(34, 197, 94, 0.2);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.status-pending {
+    color: #f59e0b;
+    background-color: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.no-posts {
+    text-align: center;
+    color: #d1d5db;
+    padding: 32px 0;
+    grid-column: 1 / -1;
+}
+
+.loading-container {
+    margin: 16px 0;
+}
+
+.loading-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6b7280;
+}
+
+.loading-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    .loading-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-    
-    .forum-post-title {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 10px;
+}
+
+@media (min-width: 1024px) {
+    .loading-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
-    
-    .forum-post-content {
-        font-size: 16px;
-        line-height: 1.5;
-    }
+}
+
+.loading-card {
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.loading-card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.loading-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #d1d5db;
+}
+
+.loading-text-short {
+    height: 16px;
+    width: 80px;
+    background-color: #d1d5db;
+    border-radius: 4px;
+}
+
+.loading-text-long {
+    height: 12px;
+    width: 128px;
+    margin-top: 4px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+}
+
+.loading-card-content {
+    margin-top: 16px;
+}
+
+.loading-text-full {
+    height: 24px;
+    width: 100%;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.loading-text-medium {
+    height: 24px;
+    width: 75%;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+}
+
+.error-message {
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    padding: 16px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.error-strong {
+    font-weight: bold;
+}
+
+.error-span {
+    display: block;
+}

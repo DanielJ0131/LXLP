@@ -1,7 +1,7 @@
 import React from 'react';
-import '../styles/aboutUs.css';
+import '../styles/about.css';
 
-const AboutUs = () => {
+const About = () => {
     const teamMembers = [
         { name: 'Daniel', role: 'Developer' , link: 'https://gemini.google.com'},  //  https://github.com/DanielJ0131
         { name: 'Mustafa', role: 'Developer' , link: 'https://github.com/must-Zeus0036'},
@@ -35,4 +35,4 @@ const AboutUs = () => {
     );
 };
 
-export default AboutUs;
+export default About;

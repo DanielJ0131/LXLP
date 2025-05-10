@@ -1,0 +1,119 @@
+/* WHITE THEME */
+body {
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #ffffff; /* Light background */
+    color: #333333; /* Default text color */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#root {
+    width: 80%;
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==================== Header Styling ==================== */
+header {
+    padding: 1rem 2rem;
+    background-color: #f5f5f5; /* Light header background */
+    color: #333333; /* Dark text for contrast */
+    font-family: "Courier New", Courier, monospace;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #cccccc;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eaeaea; /* Light nav background */
+    border-bottom: 1px solid #cccccc;
+    padding: 0.5rem 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    font-size: 1rem;
+    color: #333333;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333333;
+    transition: color 200ms;
+}
+
+nav a:hover {
+    color: #007acc; /* Accent color for hover */
+}
+
+/* ==================== Footer Styling ==================== */
+footer {
+    background-color: #f5f5f5; /* Light footer background */
+    color: #333333;
+    padding: 1rem 0;
+    text-align: center;
+    border-top: 1px solid #cccccc;
+}
+
+/* ==================== Specific Page Containers ==================== */
+.courses-container,
+.about-us-container,
+.home-container {
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+    background-color: #ffffff;
+    color: #333333;
+    text-align: center;
+    box-sizing: border-box;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.about-us-container {
+    text-align: left;
+}
+
+/* ==================== Reused Components ==================== */
+.card {
+    padding: 2em;
+    background-color: #f9f9f9; /* Light card background */
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    color: #333333;
+    margin-bottom: 1rem;
+}
+
+.read-the-docs {
+    color: #666666; /* Subtle text color */
+}
+
+/* ==================== Utility Classes ==================== */
+.center-text {
+    text-align: center;
+}
+
+.page-exiting {
+    opacity: 0;
+}

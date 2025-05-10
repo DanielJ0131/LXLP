@@ -1,10 +1,37 @@
 import DatabaseService from '../service/DatabaseService.js';
+import bcrypt from 'bcrypt';
+import jwt from './jwt.js';
+
 
 
 /**
  * The UsersModel class provides methods to interact with the users data in the database.
  */
 class UsersModel{
+
+
+
+
+    async #hasPassword(plaintext) {
+        const saltRounds = 10;
+        return await bcrypt.hash(plaintext, saltRounds);
+    }
+
+
+    async initPasswords() {
+        const users = this.getAllUsers();
+        for (const user of users) {
+            if (user.password) {
+                const hashedPassword = await this.#hasPassword(user.password);
+                user.password = hashedPassword;
+                await DatabaseService.users.findByIdAndUpdate(user._id, { password: hashedPassword });
+            }
+        }
+    }
+
+
+
+    
     /**
      * Retrieves a single user from the database by its ID.
      * 
@@ -62,7 +89,7 @@ class UsersModel{
      */
     async getUserByName(searchName) {
         try {
-            const user = await DatabaseService.users.findOne({ name : searchName });
+            const user = await DatabaseService.users.findOne({ firstname : searchName });
             return user;
         } catch (error) {
             console.log(error);
@@ -77,10 +104,12 @@ class UsersModel{
      */
     async addUser(userData) {
         try {
-            const existingUser = await DatabaseService.users.findOne({ name: userData.name });
+            const existingUser = await DatabaseService.users.findOne({ username: userData.username });
             if (existingUser) {
                 throw new Error('User already exists');
             }
+            const hashedPassword = await this.#hasPassword(userData.password);
+            userData.password = hashedPassword;
             const newUser = new DatabaseService.users(userData);
             await newUser.save();
             return newUser;
@@ -103,7 +132,8 @@ class UsersModel{
               id,  
               { 
                 $set: {
-                    name: updateData.name,
+                    firstname: updateData.firstname,
+                    lastname: updateData.lastname,
                     email: updateData.email,
                     password: updateData.password,
                     role: updateData.role
@@ -139,6 +169,62 @@ class UsersModel{
             throw error; 
           }
     }
+
+    async getUserByEmail(searchEmail) {
+        try {
+            const user = await DatabaseService.users.findOne({ email : searchEmail });
+            return user;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    async getUserByUsername(searchUsername) {
+        try {
+            const user = await DatabaseService.users.findOne({ username : searchUsername });
+            return user;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
+  /**
+   * Login user and get a JWT token.
+   *
+   * @async
+   * @param {object} username - The username.
+   * @param {object} password - The password for the username.
+   * @returns {Promise<string>} A JWT token if login succedded.
+   */
+  async login (username, password) {
+    const user = await this.getUserByUsername(username)
+    if (!user) {
+      throw new Error('User does not exists')
+    }
+
+    const hashedPassword = user.password
+    const success = await bcrypt.compare(password, hashedPassword)
+    if (!success) {
+      throw new Error('User and password dows not match')
+    }
+
+    const token = jwt.createJwtToken(user.username, user.role, user.email)
+    return {
+        token,
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          firstname: user.firstname,
+          lastname: user.lastname,
+        }
+  }
+
+}
+
 }
 
 export default new UsersModel();

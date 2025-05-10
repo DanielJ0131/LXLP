@@ -1,6 +1,6 @@
 import React from 'react';
-import '../styles/Home.css';
-import linuxLogo from '../assets/Linux.png';
+import '../styles/home.css';
+import linuxLogo from '../assets/linux.png';
 
 export default function Home() {
     return (

@@ -130,6 +130,71 @@ class UsersController {
             next(error);
         }
     }
+
+
+    /**
+     * Get a user by email.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async getUserByEmail(req, res, next) {
+        const email = req.params.email;
+        try {
+            const user = await UserModel.getUserByEmail(email);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            res.status(200).json(user);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
+    /**
+     * Get a user by username.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+        async getUserByUsername(req, res, next) {
+            const username = req.params.username;
+            try {
+                const user = await UserModel.getUserByUsername(username);
+                if (!user) {
+                    return res.status(404).json({ message: 'User not found' });
+                }
+                res.status(200).json(user);
+            } catch (error) {
+                next(error);
+            }
+        }
+
+    
+        /**
+         * Log in a user.
+         *
+         * @param {Request} req - The request object.
+         * @param {Response} res - The response object.
+         */
+        async loginUser(req, res, next) {
+            try {
+                const { username, password } = req.body;
+        
+                const { token, user } = await UserModel.login(username, password);
+        
+                res.status(200).json({
+                    message: 'Login successful',
+                    token,
+                    user
+                });
+            } catch (error) {
+                res.status(401).json({ error: error.message });
+            }
+        }
+
+
 }
 
 export default new UsersController();
