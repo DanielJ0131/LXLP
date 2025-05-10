@@ -116,3 +116,8 @@ footer {
 .page-exiting {
   opacity: 0;
 }
+
+.welcome-user{
+  display: flex;
+  justify-content: left;
+}
