@@ -170,6 +170,31 @@ class UsersController {
                 next(error);
             }
         }
+
+    
+        /**
+         * Log in a user.
+         *
+         * @param {Request} req - The request object.
+         * @param {Response} res - The response object.
+         */
+        async loginUser(req, res, next) {
+            try {
+                const { username, password } = req.body;
+        
+                const { token, user } = await UserModel.login(username, password);
+        
+                res.status(200).json({
+                    message: 'Login successful',
+                    token,
+                    user
+                });
+            } catch (error) {
+                res.status(401).json({ error: error.message });
+            }
+        }
+
+
 }
 
 export default new UsersController();

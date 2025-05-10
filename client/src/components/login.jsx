@@ -25,20 +25,27 @@ export default function Login(){
         event.preventDefault()
         setError('')
         setSuccess('')
-
+    
         try {
-        const res = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-        })
-
-        const data = await res.json()
-        if (!res.ok) throw new Error(data.error || 'Whoops something went wrong')
-        setSuccess('Login Successful')
-        console.log('Token:', data.token)
+            const res = await fetch('http://localhost:5000/api/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            })
+    
+            const data = await res.json()
+    
+            if (!res.ok) {
+                throw new Error(data.error || 'Login failed')
+            }
+    
+            setSuccess('Login Successful')
+            localStorage.setItem('user', JSON.stringify(data.user))
+            localStorage.setItem('token', data.token)
+    
+            navigate('/dashboard')
         } catch (err) {
-        setError(err.message)
+            setError(err.message)
         }
     }
 
