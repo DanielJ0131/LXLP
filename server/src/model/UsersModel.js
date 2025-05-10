@@ -212,10 +212,19 @@ class UsersModel{
     }
 
     const token = jwt.createJwtToken(user.username, user.role, user.email)
-    return token
+    return {
+        token,
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          firstname: user.firstname,
+          lastname: user.lastname,
+        }
   }
 
-    
+}
+
 }
 
 export default new UsersModel();
