@@ -7,6 +7,7 @@ import { router as commentsRoute } from './commentsRoute.js'
 import { router as jwtRoute } from './jwtRoute.js'
 import { jwtMiddleware } from '../middleware/jwtMiddlewere.js'
 
+
 // This will be the main route connecting all the other routes
 // once we have jwt, api and user database routes.
 

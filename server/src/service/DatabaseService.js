@@ -3,6 +3,7 @@ import { config } from '../config/database.js'
 import UserSchema from '../schemas/userSchema.js'
 import PostSchema from '../schemas/postSchema.js'
 import CommentSchema from '../schemas/commentSchema.js'
+import CourseSchema from '../schemas/coursesSchema.js'
 
 /**
  * Service (singleton) to manage database operations.
@@ -14,6 +15,7 @@ class DatabaseService {
   users = null
   posts = null
   comments = null
+  courses = null
 
   async connect() {
     console.log('Trying to Connect to Database...');
@@ -27,6 +29,7 @@ class DatabaseService {
       this.users = UserSchema
       this.posts = PostSchema;
       this.comments = CommentSchema;
+      this.courses = CourseSchema;
     } catch (error) {
       console.log('Error with connection: ' + error);
     }
