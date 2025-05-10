@@ -46,7 +46,12 @@ function App() {
         
       </header>
       <main>
-        {user && (<p>👋Welcome, {user.firstname}</p>)}
+        {user ?
+         (<p>👋Welcome, {user.firstname}</p>)
+          : (
+            <p>👋Welcome, Guest!</p>
+          )
+        }
         <nav>
           <ul>
             <li><a href="/home">Home</a></li>
