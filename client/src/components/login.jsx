@@ -43,7 +43,7 @@ export default function Login(){
             localStorage.setItem('user', JSON.stringify(data.user))
             localStorage.setItem('token', data.token)
     
-            navigate('/dashboard')
+            //navigate('/dashboard') will be implemented later 
         } catch (err) {
             setError(err.message)
         }
