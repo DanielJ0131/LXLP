@@ -4,6 +4,9 @@ import '../styles/register.css'
 
 export default function Register() {
     const [formData, setFormData] = useState({
+        username: '',
+        firstname: '',
+        lastname: '',
         email: '',
         name: '',
         password: ''
@@ -38,8 +41,15 @@ export default function Register() {
             } else {
                 setSuccess("User successfully created!");
                 setError('');
-                setFormData({ email: '', name: '', password: '' }); 
-            }
+                setFormData({
+                    username: '',
+                    firstname: '',
+                    lastname: '',
+                    email: '',
+                    name: '',
+                    password: ''
+                    }); 
+                    }
         } catch (err) {
             console.error("Error submitting form:", err);
             setError("Network error. Please try again later.");

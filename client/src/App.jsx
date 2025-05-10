@@ -11,7 +11,10 @@ import './App.css';
 
 function App() {
     const [currentUrl, setCurrentUrl] = useState(window.location.href);
-  
+    const [user, setUser] = useState(null)
+
+    
+      
     useEffect(() => {
       const handleUrlChange = () => {
         setCurrentUrl(window.location.href);
@@ -28,13 +31,27 @@ function App() {
         window.removeEventListener('pushstate', handleUrlChange);
       };
     }, []);
+
+      useEffect(() => { ////// fetch user from the localStorage
+        const savedUser = localStorage.getItem("user")
+        if (savedUser) {
+          setUser(JSON.parse(savedUser))
+        }
+      }, [])
   
     return (
       <div>
       <header>
         <h1>Linux Learning Platform</h1>
+        
       </header>
       <main>
+        {user ?
+         (<p>👋Welcome, {user.firstname}</p>)
+          : (
+            <p>👋Welcome, Guest!</p>
+          )
+        }
         <nav>
           <ul>
             <li><a href="/home">Home</a></li>

@@ -108,7 +108,6 @@ class UsersModel{
             if (existingUser) {
                 throw new Error('User already exists');
             }
-            console.log(userData);
             const hashedPassword = await this.#hasPassword(userData.password);
             userData.password = hashedPassword;
             const newUser = new DatabaseService.users(userData);
@@ -213,10 +212,19 @@ class UsersModel{
     }
 
     const token = jwt.createJwtToken(user.username, user.role, user.email)
-    return token
+    return {
+        token,
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          firstname: user.firstname,
+          lastname: user.lastname,
+        }
   }
 
-    
+}
+
 }
 
 export default new UsersModel();
