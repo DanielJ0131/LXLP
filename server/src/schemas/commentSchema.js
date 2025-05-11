@@ -12,7 +12,10 @@ const commentSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'users' 
         },
-        content: String,
+        content: {
+            type: String,
+            required: true,
+        },
         likes: {
             type: Number,
             default: 0
