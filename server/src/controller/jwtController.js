@@ -43,7 +43,7 @@ jwtController.register = async (req, res) => {
   const email = req.body.email
   
   // Validate the password
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
   if (!passwordRegex.test(password)) {
     return res.status(400).json({
       type: 'failed',
