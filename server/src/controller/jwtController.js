@@ -41,6 +41,15 @@ jwtController.register = async (req, res) => {
   const firstname = req.body.firstname
   const lastname = req.body.lastname
   const email = req.body.email
+  
+  // Validate the password
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
+  if (!passwordRegex.test(password)) {
+    return res.status(400).json({
+      type: 'failed',
+      message: 'The password must be at least 10 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (e.g., -, _, or a number).'
+    })
+  }
   const user = await UsersModel.getUserByUsername(username)
 
   if (user) {
