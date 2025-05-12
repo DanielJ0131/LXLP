@@ -1,4 +1,4 @@
-import CoursesModel from "../model/CoursesModel.js";
+import CoursesModel from "../model/CoursesModel.js"
 
 
 /**
