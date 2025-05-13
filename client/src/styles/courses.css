@@ -43,6 +43,28 @@
     font-size: 1rem;
     color: #2ecc71;
     margin-bottom: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #2ecc71;
+    animation: typing 4s steps(40, end), blink 0.5s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    from {
+        border-color: transparent;
+    }
+    to {
+        border-color: #2ecc71;
+    }
 }
 
 .courses-container a {
@@ -89,3 +111,4 @@
     border: 5px solid green;
     border-radius: 10px;
 }
+

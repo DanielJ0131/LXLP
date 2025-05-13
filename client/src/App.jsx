@@ -47,7 +47,7 @@ function App() {
       </header>
       <main>
         {user ?
-         (<p>👋Welcome, {user.firstname}</p>)
+        (<p>👋Welcome, {user.firstname}</p>)
           : (
             <p>👋Welcome, Guest!</p>
           )
@@ -57,8 +57,8 @@ function App() {
             <li><a href="/home">Home</a></li>
             <li><a href="/courses">Courses</a></li>
             <li><a href="/forum">Forum</a></li>
-            <li><a href="/about">About</a></li>
             <li><a href="/terminal">Terminal</a></li>
+            <li><a href="/about">About</a></li>
             <li><a href="/login">Login</a></li>
             <li><a href="/register">Register</a></li>
           </ul>
@@ -68,7 +68,7 @@ function App() {
         {currentUrl.includes('about') && <About />}
         {currentUrl.includes('courses') && <Courses />}
         {currentUrl.includes('forum') && <Forum />} 
-         {currentUrl.includes('terminal') && <XTerminal />}
+        {currentUrl.includes('terminal') && <XTerminal />}
         {currentUrl.includes('login') && <Login />}
         {currentUrl.includes('register') && <Register />}
       </main>
