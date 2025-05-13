@@ -225,6 +225,23 @@ class UsersModel{
 
 }
 
+/**
+ * Logs out the user by invalidating their JWT token.
+ *
+ * @async
+ * @param {string} token - The JWT token to invalidate.
+ * @returns {Promise<void>} A promise that resolves when the token is invalidated.
+ */
+async logout(token) {
+    try {
+        await jwt.blacklist(token);
+        console.log('User logged out successfully');
+    } catch (error) {
+        console.log(error);
+        throw new Error('Error logging out');
+    }
+}
+
 }
 
 export default new UsersModel();

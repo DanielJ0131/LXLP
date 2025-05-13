@@ -116,3 +116,35 @@ jwtController.token = async (req, res) => {
     payload: res.locals.jwt
   })
 }
+
+/**
+ * Logout the user and blacklist the JWT token.
+ *
+ * @param {object} req Express request object.
+ * @param {object} res Express response object.
+ */
+jwtController.logout = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: 'No authorization header' });
+    }
+
+    const token = authHeader
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    await jwt.blacklist(token);
+    res.json({
+      type: 'success',
+      message: 'The user was logged out.'
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({
+      type: 'error',
+      message: error.message || 'Logout failed'
+    });
+  }
+}
