@@ -15,22 +15,50 @@ if (process.env.NODE_ENV !== 'test') {
 // Use helmet as a basic protection layer
 app.use(helmet())
 
-app.use(cors())
+
+
+// Enable CORS for specific origins
+const corsOptions = {
+    origin: [
+        'http://localhost:5000',   // Allow HTTP origin
+        'ws://localhost:8080',      // Allow WebSocket origin
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Optional: specify allowed methods
+    credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.)
+};
+
+app.use(cors(corsOptions));
+
+// Set Content Security Policy header allowing WebSocket connections
+app.use((req, res, next) => {
+    res.setHeader('Content-Security-Policy', "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:8080;");
+    next();
+});
 
 // Be more silent
 app.disable('x-powered-by')
 
 // Use the public folder for static resources
-app.use(express.static('public'))
+// app.use(express.static('public'))
+
+// Use the public folder for static resources
+app.use(express.static('../client/dist'))
 
 // Middleware to parse JSON data as part of the body
 app.use(express.json())
 
 // Redirect from the server's root to the client's /home
-app.get('/', (req, res) => {
-    res.redirect('http://localhost:5173/home');
-});
+// app.get('/', (req, res) => {
+//     res.redirect('http://localhost:5173/home');
+// });
 
+app.use((req, res, next) => {
+    res.sendFile('index.html', { root: '../client/dist' }, (err) => {
+        if (err) {
+            next(err)
+        }
+    })
+})
 
 // Mount the routes
 app.use('/', router)
