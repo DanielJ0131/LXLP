@@ -1,21 +1,12 @@
 /* courses.css */
 
-.courses-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 .courses-container h1 {
+    font-size: 30px;
+    font-weight: bold;
     text-align: center;
-    font-size: 2.5rem;
-    color: #00ff00;
-    margin-bottom: 20px;
+    align-items: center;
+    color: green;
+    background-clip: text;
 }
 
 .courses-container ul {
@@ -24,7 +15,7 @@
 }
 
 .courses-container li {
-    background-color: #ffffff;
+    background-color: rgb(45, 45, 45);
     margin-bottom: 15px;
     padding: 15px;
     border-radius: 8px;
@@ -39,7 +30,6 @@
 
 .courses-container h2 {
     font-size: 1.5rem;
-    color: #34495e;
     margin-bottom: 10px;
 }
 .courses-container h2:hover {
@@ -57,7 +47,7 @@
 .courses-container a {
     display: inline-block;
     font-size: 1rem;
-    color: #3498db;
+    color: #ffffff;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.2s;

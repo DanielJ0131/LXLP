@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/courses.css'; // Import the CSS file for styling
 
 const Courses = () => {
