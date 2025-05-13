@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react'
 import Home from './components/home.jsx';
 import About from './components/about.jsx';
-//import XTerminal from "./components/terminal.js";
+import XTerminal from "./components/terminal.js";
 import Forum from './components/forum.jsx';
 import Login from './components/login.jsx';
 import Register from './components/register.jsx';
@@ -68,7 +68,7 @@ function App() {
         {currentUrl.includes('about') && <About />}
         {currentUrl.includes('courses') && <Courses />}
         {currentUrl.includes('forum') && <Forum />} 
-        {/* {currentUrl.includes('terminal') && <XTerminal />} */}
+         {currentUrl.includes('terminal') && <XTerminal />}
         {currentUrl.includes('login') && <Login />}
         {currentUrl.includes('register') && <Register />}
       </main>
