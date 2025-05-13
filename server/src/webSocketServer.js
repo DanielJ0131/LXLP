@@ -1,6 +1,6 @@
 import {WebSocketServer} from 'ws' // A way to communicate between client and server without request
 import http from 'http' // Needed for the new server
-import {spawn} from 'node-pty'
+import * as pty from 'node-pty'
 import os from 'os'
 
 
@@ -15,7 +15,7 @@ class WSS_Server {
             // Spawn a terminal
             // Determine the shell based on the operating system
             const shell = os.platform() === 'win32' ? 'cmd.exe' : 'bash';  // Or 'powershell.exe'
-            const ptyProcess = spawn(shell, [], {
+            const ptyProcess = pty.spawn(shell, [], {
                 name: 'xterm-color',
                 env: process.env,
             });

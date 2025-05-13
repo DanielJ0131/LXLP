@@ -51,14 +51,14 @@ function XTerminal() {
         // Get websocket from backend to work with frontend
         webSocket.current.onmessage = (event) => {
             try {
+                const message = JSON.parse(event.data); // Parse the incoming JSON string
+                if (message.type === 'data') term.current.write(message.data); // Access the 'data' property of the parsed object
 
-                const data = JSON.parse(event.data)
-                if (event.data.type === 'data') term.current.write(data.data) // write in terminal
             } catch (error) {
-                console.error("Error parsing WebSocket message: ", error)
-                term.current?.write(`Error: ${error}\r\n`)
+                console.error("Error parsing WebSocket message: ", error);
+                term.current?.write(`Error: ${error}\r\n`);
             }
-        }
+        };
 
         webSocket.current.close = () => {
             term.current?.write("\r\nWebsocet connection closed\r\n")
