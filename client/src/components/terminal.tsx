@@ -1,4 +1,5 @@
 import {Terminal} from '@xterm/xterm'
+import {FitAddon} from 'xterm-addon-fit'
 import {useEffect, useRef} from "react"
 import "@xterm/xterm/css/xterm.css"
 import '../styles/terminal.css'
@@ -6,63 +7,107 @@ import '../styles/terminal.css'
 import React from 'react'
 
 
-
-
 function XTerminal() {
     const terminalRef = useRef<HTMLDivElement | null>(null)
+    const term = useRef<Terminal | null>(null)
+    const fitAddon = useRef<FitAddon | null>(null)
+    const webSocket = useRef<WebSocket | null>(null)
     let currentLine = ""
     const entries = []
 
 
-     useEffect(() => {
-        const term = new Terminal()
-        term.open(terminalRef.current)
-        term.write('web shell $ ');
+    useEffect(() => {
+        // Initialize terminal
+        term.current = new Terminal({
+            cursorBlink: true,
+            convertEol: true, // Ensures new line are handled correctly
+        })
+        fitAddon.current = new FitAddon() // Create fitaddon instance
+        term.current.loadAddon(fitAddon.current) // load fitaddon
+        term.current.open(terminalRef.current)
+        term.current.write('web shell $ ');
+        fitAddon.current.fit() // fit terminal to container
+
+        // Handle terminal resizing
+        const resizeObserver = new ResizeObserver(() => {
+            fitAddon.current?.fit()
+        })
+
+        if (terminalRef.current) {
+            resizeObserver.observe(terminalRef.current)
+        }
+        window.addEventListener('resize', () => {
+            fitAddon.current?.fit()
+        })
+
+        // Initialize websocket connection
+        webSocket.current = new WebSocket('ws://localhost:8080')
+
+        webSocket.current.onopen = () => {
+            term.current?.write('\r\nWebSocket Connection Established\r\n');
+        };
 
 
-        const webSocket = new WebSocket('ws://localhost:8080')
+        // Get websocket from backend to work with frontend
+        webSocket.current.onmessage = (event) => {
+            try {
 
-         webSocket.onopen = () => {
-             term.write('\r\nWebSocket Connection Established\r\n');
-         };
-
-
-    // Get websocket from backend to work with frontend
-        webSocket.onmessage = (event) => {
-            const data = JSON.parse(event.data)
-            if (event.data.type === 'data') term.write(data) // write in terminal
+                const data = JSON.parse(event.data)
+                if (event.data.type === 'data') term.current.write(data.data) // write in terminal
+            } catch (error) {
+                console.error("Error parsing WebSocket message: ", error)
+                term.current?.write(`Error: ${error}\r\n`)
+            }
         }
 
-        term.onKey(({key, domEvent}) => {
+        webSocket.current.close = () => {
+            term.current?.write("\r\nWebsocet connection closed\r\n")
+        }
+
+        webSocket.current.onerror = (error) => {
+            console.log('WebSocket error: ', error)
+            term.current?.write(`Websocket error: ${error}\r\n`)
+        }
+
+
+        term.current.onKey(({key, domEvent}) => {
             if (domEvent.key === 'Enter') { // Enter key
-                term.write('\r\n')
+                term.current.write('\r\n')
                 entries.push(currentLine)
 
-                webSocket.send(currentLine)
+                if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN){
+                    webSocket.current.send(JSON.stringify({
+                        type: 'command',
+                        data: currentLine,
+                    }))
+                }else{
+                    term.current?.write(`WebSocket not connected. Command: ${currentLine}\r\n`)
+                }
 
                 currentLine = ''
-            }
-
-
-            else if (domEvent.key === 'Backspace') {
-                if (currentLine) {
+            } else if (domEvent.key === 'Backspace') {
+                if (currentLine.length > 0) {
                     currentLine = currentLine.slice(0, currentLine.length - 1);
-                    term.write('\b \b');
+                    term.current?.write('\b \b');
                 }
-            } else{
-              currentLine += key
-                term.write(key)
+            } else {
+                currentLine += key
+                term.current?.write(key)
             }
         })
 
-         return () => {
-            term.dispose()
-             webSocket.close()
-         }
+        return () => {
+            resizeObserver.disconnect()
+            window.removeEventListener('resize', () => {
+                fitAddon.current?.fit()
+            })
+            term.current?.dispose()
+            webSocket.current?.close()
+        }
 
     }, [])
 
-    return <div ref={terminalRef}></div>
+    return <div ref={terminalRef} className="terminal-container" />
 }
 
 export default XTerminal
