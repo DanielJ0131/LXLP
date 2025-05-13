@@ -10,10 +10,9 @@ export default function Login(){
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const [showPassword, setShowPassword] = useState(false)
-    const navigate = useNavigate();
 
     const forwardToRegister = () =>{
-        navigate('/register')
+        return window.location.href = "/register" 
     }
 
     const handleChange = (event) => {
