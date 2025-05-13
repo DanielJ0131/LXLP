@@ -12,9 +12,21 @@ const Forum = () => {
         const fetchData = async () => {
             try {
                 const [usersResponse, postsResponse, commentsResponse] = await Promise.all([
-                    fetch('http://localhost:5000/api/users'),
-                    fetch('http://localhost:5000/api/posts'),
-                    fetch('http://localhost:5000/api/comments')
+                    fetch('http://localhost:5000/api/users',{
+                        headers: {
+                            'Authorization': `${localStorage.getItem('token')}`
+                        },
+                        }),
+                    fetch('http://localhost:5000/api/posts',{
+                        headers: {
+                            'Authorization': `${localStorage.getItem('token')}`
+                        },
+                        }),
+                    fetch('http://localhost:5000/api/comments',{
+                        headers: {
+                            'Authorization': `${localStorage.getItem('token')}`
+                        },
+                        })
                 ]);
 
                 if (!usersResponse.ok) {
