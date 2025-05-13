@@ -43,10 +43,26 @@
     font-size: 1rem;
     color: #2ecc71;
     margin-bottom: 10px;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 2px solid #2ecc71;
-    animation: typing 4s steps(40, end), blink 0.5s step-end infinite;
+    white-space: normal; /* Allow text to wrap */
+    border-right: 2px solid #2ecc71; /* Add the blinking cursor */
+    animation: typing 4s steps(40, end), blink 0.7s step-end infinite; /* Typing and blinking animations */
+    width: 100%; /* Ensure full width for text to be shown */
+
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for typing effect */
+    font-size: 1.2rem; /* Increase font size */
+    color: #2ecc71; /* Change text color */
+    text-shadow: 0 0 5px rgba(46, 204, 113, 0.5); /* Add a subtle glow effect */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 5px; /* Add some padding */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); /* Glow effect */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+    cursor: pointer; /* Change cursor to pointer */
+    text-align: left; /* Align the text to the left */
+    margin: 0 auto; /* Center the element */
+    max-width: 80%; /* Limit the width of the text */
+    line-height: 1.5; /* Increase line height for better readability */
+    overflow: hidden; /* Hide overflowing text during animation */
 }
 
 @keyframes typing {
