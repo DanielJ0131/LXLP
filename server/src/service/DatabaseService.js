@@ -4,6 +4,7 @@ import UserSchema from '../schemas/userSchema.js'
 import PostSchema from '../schemas/postSchema.js'
 import CommentSchema from '../schemas/commentSchema.js'
 import CourseSchema from '../schemas/coursesSchema.js'
+import BlackListedTokenSchema from '../schemas/BlackListedTokenSchema.js'
 
 /**
  * Service (singleton) to manage database operations.
@@ -16,6 +17,7 @@ class DatabaseService {
   posts = null
   comments = null
   courses = null
+  blacklistedTokens = null
 
   async connect() {
     console.log('Trying to Connect to Database...');
@@ -30,6 +32,7 @@ class DatabaseService {
       this.posts = PostSchema;
       this.comments = CommentSchema;
       this.courses = CourseSchema;
+      this.blacklistedTokens = BlackListedTokenSchema;
     } catch (error) {
       console.log('Error with connection: ' + error);
     }
