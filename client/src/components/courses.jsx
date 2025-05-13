@@ -72,7 +72,19 @@ const Courses = () => {
                                 {visibleSteps[courseId] ? 'Hide Steps' : 'Show Steps'}
                             </button>
 
-                            {visibleSteps[courseId] && <p>{course.content}</p>}
+                            {visibleSteps[courseId] && (
+                                <div>
+                                    {course.content.split('|').map((section, idx) => (
+                                        <p key={idx}>
+                                            {section.split('. ').map((sentence, sentenceIdx) => (
+                                                <span key={sentenceIdx}>
+                                                    {sentence.trim() + (sentenceIdx < section.split('. ').length - 1 ? '.' : '')}
+                                                </span>
+                                            ))}
+                                        </p>
+                                    ))}
+                                </div>
+                            )}
                         </li>
                     );
                 })}
