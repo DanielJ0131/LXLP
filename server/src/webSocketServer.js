@@ -21,17 +21,21 @@ class WSS_Server {
             });
 
             ws.on('message', (message) => {
-                console.log('received $', message)
-
-                const data = JSON.parse(message.toString()) // Parse message with json
-
-                if (data.type === 'command') {
-                    ptyProcess.write(data.data) // use pty to process data tp type in data that client sends to it
+                try{
+                    const data = Json.parse(message.toString());
+                    if (data.type === "commmand"){
+                        ptyProcess.write(data.data + '\r\n')
+                    }
+                }catch(error){
+                    //If parsing fails, assume it's a plain text command
+                    console.warn('Received non-JSON message: ' + message.toString())
+                    ptyProcess.write(message.toString() + '\r\n');
                 }
             })
 
             ws.on('close', () => {
                 console.log('closed websocket')
+                ptyProcess.kill() // Ensure the spawned process is terminated
             })
 
             ptyProcess.onData((data) => {
