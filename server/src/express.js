@@ -22,6 +22,7 @@ const corsOptions = {
     origin: [
         'http://localhost:5000',   // Allow HTTP origin
         'ws://localhost:8080',      // Allow WebSocket origin
+        'http://localhost:5173',  // Allow  frontend URL
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Optional: specify allowed methods
     credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.)
@@ -31,7 +32,7 @@ app.use(cors(corsOptions));
 
 // Set Content Security Policy header allowing WebSocket connections
 app.use((req, res, next) => {
-    res.setHeader('Content-Security-Policy', "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:8080;");
+    res.setHeader('Content-Security-Policy',"", "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:8080;");
     next();
 });
 
@@ -52,6 +53,10 @@ app.use(express.json())
 //     res.redirect('http://localhost:5173/home');
 // });
 
+
+// Mount the routes
+app.use('/', router)
+
 app.use((req, res, next) => {
     res.sendFile('index.html', { root: '../client/dist' }, (err) => {
         if (err) {
@@ -59,9 +64,6 @@ app.use((req, res, next) => {
         }
     })
 })
-
-// Mount the routes
-app.use('/', router)
 
 // Middleware för 404
 app.use(errorHandler.notFoundDefault)
