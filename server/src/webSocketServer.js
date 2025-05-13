@@ -22,8 +22,8 @@ class WSS_Server {
 
             ws.on('message', (message) => {
                 try{
-                    const data = Json.parse(message.toString());
-                    if (data.type === "commmand"){
+                    const data = JSON.parse(message.toString());
+                    if (data.type === "command"){
                         ptyProcess.write(data.data + '\r\n')
                     }
                 }catch(error){
