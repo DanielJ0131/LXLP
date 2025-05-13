@@ -80,15 +80,9 @@ jwtController.login = async (req, res) => {
   const password = req.body.password
   let data
 
-  try {
+  
     data = await UsersModel.login(username, password)
-  } catch (err) {
-    console.error(err)
-    return res.status(401).json({
-      type: 'failed',
-      message: 'Wrong username or password!'
-    })
-  }
+  
 
   res.json({
     type: 'success',
