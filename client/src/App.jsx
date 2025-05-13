@@ -1,12 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
 import Home from './components/home.jsx';
-import Courses from './components/courses.jsx';
 import About from './components/about.jsx';
 //import XTerminal from "./components/terminal.js";
 import Forum from './components/forum.jsx';
 import Login from './components/login.jsx';
 import Register from './components/register.jsx';
+import Courses from './components/courses.jsx';
 import './App.css';
 
 function App() {
