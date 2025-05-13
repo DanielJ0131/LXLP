@@ -1,143 +1,68 @@
-import { useState, useRef, useEffect } from "react";
+import {Terminal} from '@xterm/xterm'
+import {useEffect, useRef} from "react"
+import "@xterm/xterm/css/xterm.css"
 import '../styles/terminal.css'
+// @ts-ignore
+import React from 'react'
 
-// Simple command handler (expand as needed)
-const directoriesRef = { current: ["Documents", "Downloads", "Music", "Pictures", "Videos"] };
 
-const commands = {
-    help: () => "Available commands: help, echo, clear, date, whoami, ls, mkdir",
-    echo: (args) => args.join(" "),
-    date: () => new Date().toString(),
-    whoami: () => "browser-user",
-    ls: () => directoriesRef.current.join("  "),
-    mkdir: (args) => {
-        if (args.length === 0) return "mkdir: missing operand";
-        const dir = args[0];
-        if (directoriesRef.current.includes(dir)) {
-            return `mkdir: cannot create directory '${dir}': File exists`;
+
+
+function XTerminal() {
+    const terminalRef = useRef<HTMLDivElement | null>(null)
+    let currentLine = ""
+    const entries = []
+
+
+     useEffect(() => {
+        const term = new Terminal()
+        term.open(terminalRef.current)
+        term.write('web shell $ ');
+
+
+        const webSocket = new WebSocket('ws://localhost:8080')
+
+         webSocket.onopen = () => {
+             term.write('\r\nWebSocket Connection Established\r\n');
+         };
+
+
+    // Get websocket from backend to work with frontend
+        webSocket.onmessage = (event) => {
+            const data = JSON.parse(event.data)
+            if (event.data.type === 'data') term.write(data) // write in terminal
         }
-        directoriesRef.current.push(dir);
-        return "";
-    },
-};
 
-export default function Terminal2() {
-    const [history, setHistory] = useState([
-        "Welcome to the Browser Terminal! Type 'help' to get started.",
-    ]);
-    const [input, setInput] = useState("");
-    const [commandHistory, setCommandHistory] = useState([]);
-    const [historyIndex, setHistoryIndex] = useState(-1);
-    const inputRef = useRef(null);
-    const scrollRef = useRef(null);
+        term.onKey(({key, domEvent}) => {
+            if (domEvent.key === 'Enter') { // Enter key
+                term.write('\r\n')
+                entries.push(currentLine)
 
-    useEffect(() => {
-        inputRef.current.focus();
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }, [history]);
+                webSocket.send(currentLine)
 
-    const handleCommand = (cmdLine) => {
-        const [cmd, ...args] = cmdLine.trim().split(" ");
-        if (cmd === "clear") {
-            setHistory([]);
-            return;
-        }
-        const handler = commands[cmd];
-        if (handler) {
-            return handler(args);
-        }
-        return `Command not found: ${cmd}`;
-    };
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        if (!input.trim()) return;
-        setHistory((h) => [
-            ...h,
-            `$ ${input}`,
-            handleCommand(input),
-        ]);
-        setCommandHistory((h) => [...h, input]);
-        setHistoryIndex(-1);
-        setInput("");
-    };
-
-    const onKeyDown = (e) => {
-        if (e.key === "ArrowUp") {
-            if (commandHistory.length === 0) return;
-            const newIndex =
-                historyIndex < commandHistory.length - 1
-                    ? historyIndex + 1
-                    : commandHistory.length - 1;
-            setHistoryIndex(newIndex);
-            setInput(commandHistory[commandHistory.length - 1 - newIndex]);
-            e.preventDefault();
-        } else if (e.key === "ArrowDown") {
-            if (historyIndex <= 0) {
-                setHistoryIndex(-1);
-                setInput("");
-            } else {
-                setHistoryIndex(historyIndex - 1);
-                setInput(commandHistory[commandHistory.length - historyIndex]);
+                currentLine = ''
             }
-            e.preventDefault();
-        }
-    };
 
-    return (
-        <div
-            style={{
-                background: "linear-gradient(135deg, #232526 0%, #414345 100%)",
-                color: "#39ff14",
-                fontFamily: "Fira Mono, monospace",
-                padding: 32,
-                borderRadius: 16,
-                overflow: "hidden",
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "column",
-                boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-                border: "2px solid #39ff14",
-            }}
-        >
-            <div
-                ref={scrollRef}
-                style={{
-                    flex: 1,
-                    overflowY: "auto",
-                    marginBottom: 16,
-                    whiteSpace: "pre-wrap",
-                    fontSize: 22,
-                    lineHeight: 1.7,
-                    letterSpacing: 0.5,
-                    paddingRight: 8,
-                }}
-            >
-                {history.map((line, i) => (
-                    <div key={i}>{line}</div>
-                ))}
-            </div>
-            <form onSubmit={onSubmit} style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "bold", fontSize: 24 }}>$&nbsp;</span>
-                <input
-                    ref={inputRef}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={onKeyDown}
-                    style={{
-                        background: "transparent",
-                        color: "#39ff14",
-                        border: "none",
-                        outline: "none",
-                        flex: 1,
-                        fontFamily: "Fira Mono, monospace",
-                        fontSize: 24,
-                        padding: "6px 0",
-                        caretColor: "#39ff14",
-                    }}
-                    autoComplete="off"
-                />
-            </form>
-        </div>
-    );
+
+            else if (domEvent.key === 'Backspace') {
+                if (currentLine) {
+                    currentLine = currentLine.slice(0, currentLine.length - 1);
+                    term.write('\b \b');
+                }
+            } else{
+              currentLine += key
+                term.write(key)
+            }
+        })
+
+         return () => {
+            term.dispose()
+             webSocket.close()
+         }
+
+    }, [])
+
+    return <div ref={terminalRef}></div>
 }
+
+export default XTerminal
