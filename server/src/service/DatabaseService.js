@@ -1,4 +1,4 @@
-import mongoose, {Schema} from 'mongoose'
+import mongoose from 'mongoose'
 import { config } from '../config/database.js'
 import UserSchema from '../schemas/userSchema.js'
 import PostSchema from '../schemas/postSchema.js'

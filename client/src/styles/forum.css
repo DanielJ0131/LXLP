@@ -8,9 +8,9 @@
     font-size: 30px;
     font-weight: bold;
     text-align: center;
-    color: transparent;
+    align-items: center;
+    color: green;
     background-clip: text;
-    display: inline-block;
 }
 
 .forum-grid {
