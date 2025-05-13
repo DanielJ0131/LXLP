@@ -5,6 +5,7 @@ const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [visibleVideos, setVisibleVideos] = useState({});
     const [visibleSteps, setVisibleSteps] = useState({});
+    const [animationKeys, setAnimationKeys] = useState({});
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -21,6 +22,8 @@ const Courses = () => {
     }, []);
 
     const toggleVideoVisibility = (courseId) => {
+        const newKey = Date.now(); // new key for animation re-trigger
+        setAnimationKeys((prev) => ({ ...prev, [courseId]: newKey }));
         setVisibleVideos((prevState) => ({
             ...prevState,
             [courseId]: !prevState[courseId],
@@ -38,34 +41,41 @@ const Courses = () => {
         <div className="courses-container">
             <h1>Courses</h1>
             <ul>
-                {courses.map((course, index) => (
-                    <li key={course._id || index}>
-                        <h2
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => toggleVideoVisibility(course._id || index)}
-                        >
-                            {course.title}
-                        </h2>
-                        
-                        {visibleVideos[course._id || index] && (
-                            <div className="video-container">
-                                <iframe
-                                    width="560"
-                                    height="315"
-                                    src={course.video.replace('watch?v=', 'embed/')}
-                                    title={course.title}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                ></iframe>
-                            </div>
-                        )}
+                {courses.map((course, index) => {
+                    const courseId = course._id || index;
 
-                        <button onClick={() => toggleStepsVisibility(course._id || index)}>
-                            {visibleSteps[course._id || index] ? 'Hide Steps' : 'Show Steps'}
-                        </button>
-                        {visibleSteps[course._id || index] && <p>{course.content}</p>}
-                    </li>
-                ))}
+                    return (
+                        <li key={courseId}>
+                            <h2
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => toggleVideoVisibility(courseId)}
+                            >
+                                {course.title}
+                            </h2>
+
+                            {visibleVideos[courseId] && (
+                                <div className="video-container">
+                                    <iframe
+                                        key={animationKeys[courseId]}
+                                        className="video-animate"
+                                        width="560"
+                                        height="315"
+                                        src={course.video.replace('watch?v=', 'embed/')}
+                                        title={course.title}
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    ></iframe>
+                                </div>
+                            )}
+
+                            <button onClick={() => toggleStepsVisibility(courseId)}>
+                                {visibleSteps[courseId] ? 'Hide Steps' : 'Show Steps'}
+                            </button>
+
+                            {visibleSteps[courseId] && <p>{course.content}</p>}
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );

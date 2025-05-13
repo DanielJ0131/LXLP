@@ -14,6 +14,7 @@
     padding: 0;
 }
 
+
 .courses-container li {
     background-color: rgb(45, 45, 45);
     margin-bottom: 15px;
@@ -40,14 +41,14 @@
 
 .courses-container p {
     font-size: 1rem;
-    color: #7f8c8d;
+    color: #2ecc71;
     margin-bottom: 10px;
 }
 
 .courses-container a {
     display: inline-block;
     font-size: 1rem;
-    color: #ffffff;
+    color: #2ecc71;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.2s;
@@ -55,4 +56,36 @@
 
 .courses-container a:hover {
     color: #2980b9;
+}
+
+/* Animation for jumping and scaling the iframe video */
+.video-animate {
+    animation: jumpAndScale 0.4s ease;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Larger scale animation for iframe */
+.video-animate {
+    animation: jumpAndScaleBig 0.4s ease;
+    transform: scale(1); /* Make it larger */
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+/* Jump and grow keyframes */
+@keyframes jumpAndScaleBig {
+    0% {
+        transform: translateY(0) scale(0.5);
+    }
+    50% {
+        transform: translateY(-15px) scale(1);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+.courses-container iframe {
+    border: 5px solid green;
+    border-radius: 10px;
 }
