@@ -66,13 +66,7 @@ jwtController.register = async (req, res) => {
     email
   }
   await UsersModel.addUser(userData)
-  res.json({
-    type: 'success',
-    message: 'The user was registered.',
-    user: {
-      username
-    }
-  })
+  jwtController.login(req, res)
 }
 
 /**
@@ -89,6 +83,7 @@ jwtController.login = async (req, res) => {
   try {
     data = await UsersModel.login(username, password)
   } catch (err) {
+    console.error(err)
     return res.status(401).json({
       type: 'failed',
       message: 'Wrong username or password!'

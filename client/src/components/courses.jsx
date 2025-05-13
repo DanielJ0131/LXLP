@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { fetchWithAuth } from '../utils/http.js'; // Import the fetchWithAuth function
 import '../styles/courses.css'; // Import the CSS file for styling
 
 const Courses = () => {
@@ -10,7 +11,7 @@ const Courses = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/courses');
+                const response = await fetchWithAuth('http://localhost:5000/api/courses');
                 const data = await response.json();
                 setCourses(data);
             } catch (error) {
