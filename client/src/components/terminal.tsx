@@ -1,113 +1,143 @@
-import {Terminal} from '@xterm/xterm'
-import {FitAddon} from 'xterm-addon-fit'
-import {useEffect, useRef} from "react"
-import "@xterm/xterm/css/xterm.css"
+mport { useState, useRef, useEffect } from "react";
 import '../styles/terminal.css'
-// @ts-ignore
-import React from 'react'
 
+// Simple command handler (expand as needed)
+const directoriesRef = { current: ["Documents", "Downloads", "Music", "Pictures", "Videos"] };
 
-function XTerminal() {
-    const terminalRef = useRef<HTMLDivElement | null>(null)
-    const term = useRef<Terminal | null>(null)
-    const fitAddon = useRef<FitAddon | null>(null)
-    const webSocket = useRef<WebSocket | null>(null)
-    let currentLine = ""
-    const entries = []
+const commands = {
+    help: () => "Available commands: help, echo, clear, date, whoami, ls, mkdir",
+    echo: (args) => args.join(" "),
+    date: () => new Date().toString(),
+    whoami: () => "browser-user",
+    ls: () => directoriesRef.current.join("  "),
+    mkdir: (args) => {
+        if (args.length === 0) return "mkdir: missing operand";
+        const dir = args[0];
+        if (directoriesRef.current.includes(dir)) {
+            return `mkdir: cannot create directory '${dir}': File exists`;
+        }
+        directoriesRef.current.push(dir);
+        return "";
+    },
+};
 
+export default function Terminal2() {
+    const [history, setHistory] = useState([
+        "Welcome to the Browser Terminal! Type 'help' to get started.",
+    ]);
+    const [input, setInput] = useState("");
+    const [commandHistory, setCommandHistory] = useState([]);
+    const [historyIndex, setHistoryIndex] = useState(-1);
+    const inputRef = useRef(null);
+    const scrollRef = useRef(null);
 
     useEffect(() => {
-        // Initialize terminal
-        term.current = new Terminal({
-            cursorBlink: true,
-            convertEol: true, // Ensures new line are handled correctly
-        })
-        fitAddon.current = new FitAddon() // Create fitaddon instance
-        term.current.loadAddon(fitAddon.current) // load fitaddon
-        term.current.open(terminalRef.current)
-        term.current.write('web shell $ ');
-        fitAddon.current.fit() // fit terminal to container
+        inputRef.current.focus();
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }, [history]);
 
-        // Handle terminal resizing
-        const resizeObserver = new ResizeObserver(() => {
-            fitAddon.current?.fit()
-        })
-
-        if (terminalRef.current) {
-            resizeObserver.observe(terminalRef.current)
+    const handleCommand = (cmdLine) => {
+        const [cmd, ...args] = cmdLine.trim().split(" ");
+        if (cmd === "clear") {
+            setHistory([]);
+            return;
         }
-        window.addEventListener('resize', () => {
-            fitAddon.current?.fit()
-        })
-
-        // Initialize websocket connection
-        webSocket.current = new WebSocket('ws://localhost:8080')
-
-        webSocket.current.onopen = () => {
-            term.current?.write('\r\nWebSocket Connection Established\r\n');
-        };
-
-
-        // Get websocket from backend to work with frontend
-        webSocket.current.onmessage = (event) => {
-            try {
-
-                const data = JSON.parse(event.data)
-                if (event.data.type === 'data') term.current.write(data.data) // write in terminal
-            } catch (error) {
-                console.error("Error parsing WebSocket message: ", error)
-                term.current?.write(`Error: ${error}\r\n`)
-            }
+        const handler = commands[cmd];
+        if (handler) {
+            return handler(args);
         }
+        return `Command not found: ${cmd}`;
+    };
 
-        webSocket.current.close = () => {
-            term.current?.write("\r\nWebsocet connection closed\r\n")
-        }
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if (!input.trim()) return;
+        setHistory((h) => [
+            ...h,
+            `$ ${input}`,
+            handleCommand(input),
+        ]);
+        setCommandHistory((h) => [...h, input]);
+        setHistoryIndex(-1);
+        setInput("");
+    };
 
-        webSocket.current.onerror = (error) => {
-            console.log('WebSocket error: ', error)
-            term.current?.write(`Websocket error: ${error}\r\n`)
-        }
-
-
-        term.current.onKey(({key, domEvent}) => {
-            if (domEvent.key === 'Enter') { // Enter key
-                term.current.write('\r\n')
-                entries.push(currentLine)
-
-                if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN){
-                    webSocket.current.send(JSON.stringify({
-                        type: 'command',
-                        data: currentLine,
-                    }))
-                }else{
-                    term.current?.write(`WebSocket not connected. Command: ${currentLine}\r\n`)
-                }
-
-                currentLine = ''
-            } else if (domEvent.key === 'Backspace') {
-                if (currentLine.length > 0) {
-                    currentLine = currentLine.slice(0, currentLine.length - 1);
-                    term.current?.write('\b \b');
-                }
+    const onKeyDown = (e) => {
+        if (e.key === "ArrowUp") {
+            if (commandHistory.length === 0) return;
+            const newIndex =
+                historyIndex < commandHistory.length - 1
+                    ? historyIndex + 1
+                    : commandHistory.length - 1;
+            setHistoryIndex(newIndex);
+            setInput(commandHistory[commandHistory.length - 1 - newIndex]);
+            e.preventDefault();
+        } else if (e.key === "ArrowDown") {
+            if (historyIndex <= 0) {
+                setHistoryIndex(-1);
+                setInput("");
             } else {
-                currentLine += key
-                term.current?.write(key)
+                setHistoryIndex(historyIndex - 1);
+                setInput(commandHistory[commandHistory.length - historyIndex]);
             }
-        })
-
-        return () => {
-            resizeObserver.disconnect()
-            window.removeEventListener('resize', () => {
-                fitAddon.current?.fit()
-            })
-            term.current?.dispose()
-            webSocket.current?.close()
+            e.preventDefault();
         }
+    };
 
-    }, [])
-
-    return <div ref={terminalRef} className="terminal-container" />
+    return (
+        <div
+            style={{
+                background: "linear-gradient(135deg, #232526 0%, #414345 100%)",
+                color: "#39ff14",
+                fontFamily: "Fira Mono, monospace",
+                padding: 32,
+                borderRadius: 16,
+                overflow: "hidden",
+                boxSizing: "border-box",
+                display: "flex",
+                flexDirection: "column",
+                boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+                border: "2px solid #39ff14",
+            }}
+        >
+            <div
+                ref={scrollRef}
+                style={{
+                    flex: 1,
+                    overflowY: "auto",
+                    marginBottom: 16,
+                    whiteSpace: "pre-wrap",
+                    fontSize: 22,
+                    lineHeight: 1.7,
+                    letterSpacing: 0.5,
+                    paddingRight: 8,
+                }}
+            >
+                {history.map((line, i) => (
+                    <div key={i}>{line}</div>
+                ))}
+            </div>
+            <form onSubmit={onSubmit} style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontWeight: "bold", fontSize: 24 }}>$&nbsp;</span>
+                <input
+                    ref={inputRef}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={onKeyDown}
+                    style={{
+                        background: "transparent",
+                        color: "#39ff14",
+                        border: "none",
+                        outline: "none",
+                        flex: 1,
+                        fontFamily: "Fira Mono, monospace",
+                        fontSize: 24,
+                        padding: "6px 0",
+                        caretColor: "#39ff14",
+                    }}
+                    autoComplete="off"
+                />
+            </form>
+        </div>
+    );
 }
-
-export default XTerminal
