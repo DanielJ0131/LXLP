@@ -1,4 +1,4 @@
-mport { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import '../styles/terminal.css'
 
 // Simple command handler (expand as needed)
