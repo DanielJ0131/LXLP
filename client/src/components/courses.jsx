@@ -78,7 +78,8 @@ const Courses = () => {
                                         <p key={idx}>
                                             {section.split('. ').map((sentence, sentenceIdx) => (
                                                 <span key={sentenceIdx}>
-                                                    {sentence.trim() + (sentenceIdx < section.split('. ').length - 1 ? '.' : '')}
+                                                    {sentence.trim()}
+                                                    <br />
                                                 </span>
                                             ))}
                                         </p>
