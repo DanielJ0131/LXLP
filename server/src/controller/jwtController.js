@@ -41,6 +41,15 @@ jwtController.register = async (req, res) => {
   const firstname = req.body.firstname
   const lastname = req.body.lastname
   const email = req.body.email
+  
+  // Validate the password
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
+  if (!passwordRegex.test(password)) {
+    return res.status(400).json({
+      type: 'failed',
+      message: 'The password must be at least 10 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (e.g., -, _, or a number).'
+    })
+  }
   const user = await UsersModel.getUserByUsername(username)
 
   if (user) {
@@ -106,4 +115,36 @@ jwtController.token = async (req, res) => {
     message: 'The JWT token was validated.',
     payload: res.locals.jwt
   })
+}
+
+/**
+ * Logout the user and blacklist the JWT token.
+ *
+ * @param {object} req Express request object.
+ * @param {object} res Express response object.
+ */
+jwtController.logout = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: 'No authorization header' });
+    }
+
+    const token = authHeader
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    await jwt.blacklist(token);
+    res.json({
+      type: 'success',
+      message: 'The user was logged out.'
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({
+      type: 'error',
+      message: error.message || 'Logout failed'
+    });
+  }
 }

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon --env-file=server/.env server/index.js",
-    "client": "cd client && npm run dev",
+    "server": "cd server && nodemon --env-file=.env index.js",
+    "client": "cd client && npm run build && npm run dev",
     "boom": "npm i && cd client && npm i && cd ../server && npm i"
   },
   "repository": {

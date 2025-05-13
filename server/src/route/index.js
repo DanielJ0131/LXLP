@@ -15,7 +15,7 @@ import { router as courseRoute } from './coursesRoute.js'
 export const router = express.Router()
 
 router.use('/api/jwt', jwtRoute)
-//router.use(jwtMiddleware.jwtTokenIsValid)
+router.use(jwtMiddleware.jwtTokenIsValid)
 router.use('/api/users', usersRoute)
 router.use('/api/posts', postsRoute)
 router.use('/api/comments', commentsRoute)
