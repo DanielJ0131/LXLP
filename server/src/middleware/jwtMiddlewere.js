@@ -41,6 +41,16 @@ middleware.jwtTokenIsValid = async (req, res, next) => {
   }
 
     res.locals.jwt = jwt.verify(token)
+    const expirationDate = new Date(res.locals.jwt.exp)
+    console.log('Expiration date:', expirationDate)
+    console.log('Current date:', new Date(Date.now()))
+
+    if(expirationDate < Date.now()) {
+      return res.status(401).json({
+        type: 'failed',
+        message: 'The JWT token is expired.'
+      })
+    }
     console.log(token)
     console.log(res.locals.jwt)
   } catch (err) {

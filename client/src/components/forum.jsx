@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/forum.css';
+import { fetchWithAuth } from '../utils/http.js';
 
 const Forum = () => {
     const [postsWithUserDetails, setPostsWithUserDetails] = useState([]);
@@ -12,9 +13,9 @@ const Forum = () => {
         const fetchData = async () => {
             try {
                 const [usersResponse, postsResponse, commentsResponse] = await Promise.all([
-                    fetch('http://localhost:5000/api/users'),
-                    fetch('http://localhost:5000/api/posts'),
-                    fetch('http://localhost:5000/api/comments')
+                    fetchWithAuth('http://localhost:5000/api/users'),
+                    fetchWithAuth('http://localhost:5000/api/posts'),
+                    fetchWithAuth('http://localhost:5000/api/comments')
                 ]);
 
                 if (!usersResponse.ok) {

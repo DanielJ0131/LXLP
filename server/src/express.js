@@ -25,7 +25,8 @@ const corsOptions = {
         'http://localhost:5173',  // Allow  frontend URL
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Optional: specify allowed methods
-    credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.)
+    credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.),
+    
 };
 
 app.use(cors(corsOptions));

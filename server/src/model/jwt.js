@@ -13,6 +13,7 @@ export default model
  * @returns {object} Details on the user.
  */
 model.createJwtToken = (username, role, email) => {
+  const currentDate = new Date()
   const payload = {
     iss: 'Issuer id',
     sub: username,
@@ -20,12 +21,11 @@ model.createJwtToken = (username, role, email) => {
     email,
     role,
     permissions: ['read', 'write'],
-    iat: Date.now()
+    iat: Date.now(),
+    exp: Date.now() + 60 * 60 * 1000 * 24 * 365 // 1 year expiration
   }
-  const options = {
-    expiresIn: '1h'
-  }
-  const token = jwt.sign(payload, process.env.JWT_SECRET, options)
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET)
   return token
 }
 
@@ -46,7 +46,14 @@ model.decode = (token) => {
  * @returns {object} The content of the verified token.
  */
 model.verify = (token) => {
-  return jwt.verify(token, process.env.JWT_SECRET)
+  return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    console.log('Decoded token:', model.decode(token))
+    if (err) {
+      console.error('Token verification failed:', err)
+      return null
+    }
+    return decoded
+  })
 }
 
 
