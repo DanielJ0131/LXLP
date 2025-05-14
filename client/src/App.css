@@ -33,10 +33,51 @@ header h1 { /* Style the main title within the header if you have one */
   margin: 0; /* Remove default margin for better centering */
 }
 
+.top-navs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #232323;
+  padding: 0.5rem 2rem;
+  border-bottom: 1px solid #3c3c3c;
+  font-size: 1.1rem;
+}
+
+.top-navs p {
+  margin: 0;
+  color: #00ff00;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.auth-links {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.auth-links li {
+  display: inline;
+}
+
+.auth-links a {
+  color: #d4d4d4;
+  text-decoration: none;
+  padding: 0.3em 0.8em;
+  border-radius: 3px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.auth-links a:hover {
+  background: #00ff00;
+  color: #232323;
+}
+
 nav {
   display: flex;
   justify-content: center;
-  align-items: center;
   background-color: #252526;
   border-bottom: 1px solid #3c3c3c;
   padding: 0.5rem 0;
@@ -47,7 +88,7 @@ nav ul {
   display: flex;
   margin: 0;
   padding: 0;
-  gap: 10px;
+  gap: 20px;
 }
 
 nav li {
