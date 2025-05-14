@@ -79,7 +79,7 @@ function App() {
       {currentUrl.includes('home') && <Home />}
       {currentUrl.includes('about') && <About />}
       {currentUrl.includes('courses') && <Courses />}
-      {currentUrl.includes('forum') && <Forum />} 
+      {currentUrl.includes('forum') && <Forum user={user} />} 
       {currentUrl.includes('terminal') && <XTerminal />}
       {currentUrl.includes('login') && <Login />}
       {currentUrl.includes('register') && <Register />}
