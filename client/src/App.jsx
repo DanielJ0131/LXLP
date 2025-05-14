@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import Home from './components/home.jsx';
 import About from './components/about.jsx';
 import XTerminal from "./components/terminal.js";
@@ -12,9 +12,26 @@ import './App.css';
 function App() {
     const [currentUrl, setCurrentUrl] = useState(window.location.href);
     const [user, setUser] = useState(null)
+    const [theme, setTheme] = useState('light');
+
+    const toggleTheme = () => {
+      const newTheme = theme === 'light' ? 'dark' : 'light';
+      setTheme(newTheme);
+      document.body.className = newTheme; // Apply the theme to the body
+    }
 
     
-      
+    useEffect(() => {
+      const savesTheme = localStorage.getItem('theme');
+      if (savesTheme) {
+        setTheme(savesTheme);
+        document.body.className = savesTheme; // Apply the saved theme to the body
+      }
+    }, []);
+    useEffect(() => {
+      localStorage.setItem('theme', theme);
+      document.body.className = theme; // Apply the theme to the body
+    }, [theme]);
     useEffect(() => {
       const handleUrlChange = () => {
         setCurrentUrl(window.location.href);
