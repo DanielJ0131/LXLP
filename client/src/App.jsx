@@ -95,9 +95,11 @@ function App() {
           )}
 
           {/* Theme Toggle Button */}
-          <button onClick={toggleTheme} className="theme-toggle">
-            Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
-          </button>
+          <section className="theme-toggle-container">
+            <button onClick={toggleTheme} className="theme-toggle">
+              Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
+            </button>
+          </section>
         </section>
 
         <nav>
@@ -120,7 +122,7 @@ function App() {
         {currentUrl.includes('logout') && <Logout />}
       </main>
 
-      
+
       <footer>
         <p>© LXLP. All Rights Reserved</p>
         <a href="mailto:linuxlearningplatform@gmail.com">linuxlearningplatform@gmail.com</a>
