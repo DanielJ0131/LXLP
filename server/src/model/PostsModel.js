@@ -1,5 +1,5 @@
 import DatabaseService from '../service/DatabaseService.js';
-import UserMiddleware from '../middleware/userMiddlewere.js';
+
 
 /**
  * The PostsModel class provides methods to interact with the post data in the database.

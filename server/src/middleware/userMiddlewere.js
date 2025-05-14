@@ -12,6 +12,7 @@ UserMiddleware.getUserByToken = async () => {
          catch (error) {
              next(error);
          }
+         next();
      }
 }
 
