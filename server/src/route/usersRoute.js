@@ -1,9 +1,11 @@
 import express from 'express'
 import UsersController from '../controller/UserController.js'
 import {checkRole} from '../middleware/roleMiddelwere.js'
+import {jwtMiddleware} from '../middleware/jwtMiddlewere.js'
 
 export const router = express.Router()
 
+router.use(jwtMiddleware.jwtTokenIsValid)
 
 router.get('/:id', UsersController.getUserById)
 router.get('/', UsersController.getAllUsers)
