@@ -134,15 +134,10 @@ class PostsController {
                 newPost: newPost
             });
         } catch (error) {
-            next(error)
-            };
-    }  
-
-            res.status(201).json(newPost);
-        } catch (error) {
             next(error);
+        }  
+            res.status(201).json(newPost);
         }
-    }
 }
 
 
