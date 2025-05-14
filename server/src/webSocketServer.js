@@ -12,9 +12,10 @@ class WSS_Server {
         // Function to check if the origin is allowed
         const originIsAllowed = (origin) => {
             const allowedOrigins = [
-                'http://localhost:5173',
                 'https://lxlp.onrender.com',
-                'http://localhost:5000'
+                'http://localhost:5000',
+                'http://192.168.0.101:5000' // Server IP
+
             ];
             return allowedOrigins.includes(origin);
         };

@@ -1,49 +1,52 @@
-import {Terminal} from '@xterm/xterm'
-import {FitAddon} from 'xterm-addon-fit'
-import {useEffect, useRef} from "react"
-import "@xterm/xterm/css/xterm.css"
-import React from 'react'
-
+import { Terminal } from '@xterm/xterm';
+import { FitAddon } from 'xterm-addon-fit';
+import { useEffect, useRef } from "react";
+import "@xterm/xterm/css/xterm.css";
+import React from 'react';
 
 function XTerminal() {
-    const terminalRef = useRef(null)
-    const term = useRef(null)
-    const fitAddon = useRef(null)
-    const webSocket = useRef(null)
-    let currentLine = ""
-    const entries = []
-
+    const terminalRef = useRef(null);
+    const term = useRef(null);
+    const fitAddon = useRef(null);
+    const webSocket = useRef(null);
+    let currentLine = "";
+    const entries = [];
 
     useEffect(() => {
         // Initialize terminal
         term.current = new Terminal({
             cursorBlink: true,
             convertEol: true, // Ensures new line are handled correctly
-        })
-        fitAddon.current = new FitAddon() // Create fitaddon instance
-        term.current.loadAddon(fitAddon.current) // load fitaddon
-        term.current.open(terminalRef.current)
+        });
+        fitAddon.current = new FitAddon(); // Create fitaddon instance
+        term.current.loadAddon(fitAddon.current); // load fitaddon
+        term.current.open(terminalRef.current);
         term.current.write('web shell $ ');
-        fitAddon.current.fit() // fit terminal to container
+        fitAddon.current.fit(); // fit terminal to container
 
         // Handle terminal resizing
         const resizeObserver = new ResizeObserver(() => {
-            fitAddon.current?.fit()
-        })
+            fitAddon.current?.fit();
+        });
 
         if (terminalRef.current) {
-            resizeObserver.observe(terminalRef.current)
+            resizeObserver.observe(terminalRef.current);
         }
         window.addEventListener('resize', () => {
-            fitAddon.current?.fit()
-        })
+            fitAddon.current?.fit();
+        });
+
+        // Determine the WebSocket URL dynamically
+        const wsUrl = window.location.hostname === 'localhost'
+            ? 'ws://localhost:8080' // Use localhost if running on the same machine
+            : `ws://${window.location.hostname}:8080`; // Use the current hostname
+        console.log(wsUrl);
         // Initialize websocket connection
-        webSocket.current = new WebSocket('ws://localhost:8080', 'echo-protocol')
+        webSocket.current = new WebSocket(wsUrl, 'echo-protocol');
 
         webSocket.current.onopen = () => {
             term.current?.write('\r\nWebSocket Connection Established\r\n');
         };
-
 
         // Get websocket from backend to work with frontend
         webSocket.current.onmessage = (event) => {
@@ -58,53 +61,52 @@ function XTerminal() {
         };
 
         webSocket.current.close = () => {
-            term.current?.write("\r\nWebsocet connection closed\r\n")
-        }
+            term.current?.write("\r\nWebsocet connection closed\r\n");
+        };
 
         webSocket.current.onerror = (error) => {
-            console.log('WebSocket error: ', error)
-            term.current?.write(`Websocket error: ${error}\r\n`)
-        }
+            console.log('WebSocket error: ', error);
+            term.current?.write(`Websocket error: ${error}\r\n`);
+        };
 
-
-        term.current.onKey(({key, domEvent}) => {
+        term.current.onKey(({ key, domEvent }) => {
             if (domEvent.key === 'Enter') { // Enter key
-                term.current.write('\r\n')
-                entries.push(currentLine)
+                term.current.write('\r\n');
+                entries.push(currentLine);
 
-                if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN){
+                if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN) {
                     webSocket.current.send(JSON.stringify({
                         type: 'command',
                         data: currentLine,
-                    }))
-                }else{
-                    term.current?.write(`WebSocket not connected. Command: ${currentLine}\r\n`)
+                    }));
+                } else {
+                    term.current?.write(`WebSocket not connected. Command: ${currentLine}\r\n`);
                 }
 
-                currentLine = ''
+                currentLine = '';
             } else if (domEvent.key === 'Backspace') {
                 if (currentLine.length > 0) {
                     currentLine = currentLine.slice(0, currentLine.length - 1);
                     term.current?.write('\b \b');
                 }
             } else {
-                currentLine += key
-                term.current?.write(key)
+                currentLine += key;
+                term.current?.write(key);
             }
-        })
+        });
 
         return () => {
-            resizeObserver.disconnect()
+            resizeObserver.disconnect();
             window.removeEventListener('resize', () => {
-                fitAddon.current?.fit()
-            })
-            term.current?.dispose()
-            webSocket.current?.close()
-        }
+                fitAddon.current?.fit();
+            });
+            term.current?.dispose();
+            webSocket.current?.close();
+        };
 
-    }, [])
+    }, []);
 
-    return <div ref={terminalRef} className="terminal-container" />
+    return <div ref={terminalRef} className="terminal-container" />;
 }
 
-export default XTerminal
+export default XTerminal;
