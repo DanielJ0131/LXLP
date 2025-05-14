@@ -1,5 +1,5 @@
 import PostsModel from "../model/PostsModel.js";
-import UserMiddleware from "../middleware/userMiddlewere.js";
+import UsersModel from "../model/UsersModel.js";
 
 
 /**
@@ -119,24 +119,24 @@ class PostsController {
      * @param {Response} res - The response object.
      */
     async createPost(req, res, next) {
-            try {
-                const user = UserMiddleware.getUserByToken();
-                const userId = user._id;
-                const postData = {
-                    userId: userId,
-                    content: req.body.content,
-                };
-                const newPost = await PostsModel.createPost(postData);
-                res.status(201).json({
-                    message: 'User added successfully',
-                    newPost: newPost
-    
-                });
-    
-            } catch (error) {
-                }
-                next(error);
-                }        
+        try {
+            const username = res.locals.jwt.username;
+            const user = await UsersModel.getUserByUsername(username);
+            const userId = user._id;
+            const postData = {
+                userId: userId,
+                content: req.body.content,
+            };
+            console.log(postData);
+            const newPost = await PostsModel.createPost(postData);
+            res.status(201).json({
+                message: 'User added successfully',
+                newPost: newPost
+            });
+        } catch (error) {
+            next(error)
+            };
+            }        
         
 
 }

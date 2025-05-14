@@ -16,3 +16,4 @@ router.get('/:id', (req, res, next) => PostsController.getPostById(req, res, nex
 router.get('/by-user-id/:userId', PostsController.getPostsByUserId);
 router.put('/:id', (req, res, next) => PostsController.updatePost(req, res, next))
 router.delete('/:id', (req, res, next) => PostsController.deletePost(req, res, next))
+router.post('/', (req, res, next) => PostsController.createPost(req, res, next))
