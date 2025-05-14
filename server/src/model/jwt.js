@@ -47,7 +47,7 @@ model.decode = (token) => {
  */
 model.verify = (token) => {
   return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    console.log('Decoded token:', model.decode(token))
+    //console.log('Decoded token:', model.decode(token))
     if (err) {
       console.error('Token verification failed:', err)
       return null
@@ -60,7 +60,7 @@ model.verify = (token) => {
 model.isTokenBlacklisted = async (token) => {
   try {
     const blacklistedToken = await DatabaseService.blacklistedTokens.findOne({ token: token });
-    console.log('Blacklisted token:', token);
+    //console.log('Blacklisted token:', token);
     return !!blacklistedToken; // Return true if the token is found in the blacklist
   }
   catch (error) {

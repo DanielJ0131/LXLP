@@ -9,7 +9,10 @@
     "client": "cd client && npm run build && npm run dev",
     "boom": "npm i && cd client && npm i && cd ../server && npm i",
     "render-server": "cd server && node index.js",
-    "render-run": "concurrently \"npm run render-server\" \"npm run client\""
+    "render-run": "concurrently \"npm run render-server\" \"npm run client\"",
+    "clean-server": "cd server && rm -rf package-lock.json node_modules/",
+    "clean-client": "cd client && rm -rf package-lock.json node_modules/",
+    "clean": "npm run clean-server; npm run clean-client; rm -rf package-lock.json node_modules/;"
   },
   "repository": {
     "type": "git",
