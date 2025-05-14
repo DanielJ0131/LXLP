@@ -8,10 +8,10 @@ import React from 'react'
 
 
 function XTerminal() {
-    const terminalRef = useRef<HTMLDivElement | null>(null)
-    const term = useRef<Terminal | null>(null)
-    const fitAddon = useRef<FitAddon | null>(null)
-    const webSocket = useRef<WebSocket | null>(null)
+    const terminalRef = useRef(null)
+    const term = useRef(null)
+    const fitAddon = useRef(null)
+    const webSocket = useRef(null)
     let currentLine = ""
     const entries = []
 
