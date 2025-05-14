@@ -26,7 +26,7 @@ export default function Register() {
 
     try {
       const response = await fetchWithAuth(
-        "http://localhost:5000/api/jwt/register",
+        "/api/jwt/register",
         {
           method: "POST",
           body: JSON.stringify(formData),

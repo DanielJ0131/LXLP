@@ -45,7 +45,7 @@ app.disable('x-powered-by')
 // app.use(express.static('public'))
 
 // Use the public folder for static resources
-app.use(express.static('../client/dist'))
+app.use(express.static('../client/dist/'))
 
 // Middleware to parse JSON data as part of the body
 app.use(express.json())

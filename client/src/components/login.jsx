@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { fetchWithAuth } from '../utils/http.js'
 import '../styles/login.css'
@@ -27,7 +26,7 @@ export default function Login(){
         setSuccess('')
     
         try {
-            const res = await fetchWithAuth('http://localhost:5000/api/jwt/login', {
+            const res = await fetchWithAuth('/api/jwt/login', {
                 method: 'POST',
                 body: JSON.stringify(formData),
             })
