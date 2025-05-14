@@ -40,18 +40,18 @@ const Forum = ({ user }) => {
 
                 // Map comments by postId
                 const commentsMap = commentsData.reduce((acc, comment) => {
-                    const postId = comment.postId?.$oid;
+                    const postId = comment.postId;
                     if (!acc[postId]) acc[postId] = [];
                     acc[postId].push({
                         ...comment,
-                        user: usersMap.get(comment.userId?.$oid) || { firstname: 'Unknown', lastname: 'User' }
+                        user: usersMap.get(comment.userId) || { firstname: 'Unknown', lastname: 'User' }
                     });
                     return acc;
                 }, {});
 
                 // Combine post data with user details and comment counts
                 const enrichedPosts = postsData.map(post => {
-                    const postUser = usersMap.get(post.userId.$oid) || { firstname: 'Unknown', lastname: 'User', image: '', username: 'Unknown' };
+                    const postUser = usersMap.get(post.userId) || { firstname: 'Unknown', lastname: 'User', Image: '', username: 'Unknown' };
                     const commentCount = commentsMap[post._id]?.length || 0;
                     return { ...post, user: postUser, commentCount };
                 });
@@ -119,17 +119,18 @@ const Forum = ({ user }) => {
         setSubmitError(null);
 
         try {
-            let currentUser = user;
-
+            const userRes = await fetchWithAuth(`/api/users/username/${user.username}`);
+            if (!userRes.ok) {
+                throw new Error('Failed to fetch current user');
+            }
+            const currentUser = await userRes.json();
+            console.log(currentUser)
             const res = await fetchWithAuth('/api/posts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    userId: currentUser._id?.$oid || currentUser._id,
-                    content: newPostContent,
-                    status: 'published',
-                    likes: 0,
-                    dislikes: 0
+                    userId: currentUser._id,
+                    content: newPostContent
                 })
             });
 
@@ -138,14 +139,18 @@ const Forum = ({ user }) => {
             }
 
             const createdPost = await res.json();
-            // Ensure _id is a string for consistency
+            // Enrich the created post with user details
             const enrichedPost = {
                 ...createdPost,
-                _id: createdPost._id?.$oid || createdPost._id,
-                user: currentUser,
+                user: {
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    Image: user.Image,
+                    username: user.username
+                },
                 commentCount: 0
             };
-            setPostsWithUserDetails([enrichedPost, ...postsWithUserDetails]);
+            setPostsWithUserDetails(prev => [enrichedPost, ...prev]);
             setNewPostContent('');
         } catch (err) {
             setSubmitError(err.message || 'Failed to create post.');
@@ -198,11 +203,11 @@ const Forum = ({ user }) => {
                         <div key={post._id} className="post-card">
                             <div className="post-header">
                                 <div className="avatar-container">
-                                    {post.user.image ? (
-                                        <img src={post.user.image} alt={`${post.user.firstname} ${post.user.lastname}`} className="avatar-image"/>
+                                    {post.user.Image ? (
+                                        <img src={post.user.Image} alt={`${post.user.firstname} ${post.user.lastname}`} className="avatar-image"/>
                                     ) : (
                                         <div className="avatar-placeholder">
-                                            {`${post.user. firstname?.[0] || ''}${post.user.lastname?.[0] || ''}`}
+                                            {`${post.user.firstname?.[0] || ''}${post.user.lastname?.[0] || ''}`}
                                         </div>
                                     )}
                                 </div>
@@ -247,102 +252,101 @@ const Forum = ({ user }) => {
                                 </button>
                             </div>
                             <form
-                                    className="new-comment-form"
-                                    onSubmit={async (e) => {
-                                        e.preventDefault();
-                                        const form = e.target;
-                                        const commentContent = form.elements['comment-content'].value.trim();
-                                        console.log(commentContent)
-                                        if (!commentContent) return;
-                                        try {
-                                            const res = await fetchWithAuth('/api/comments', {
-                                                method: 'POST',
-                                                headers: { 'Content-Type': 'application/json' },
-                                                body: JSON.stringify({
-                                                    postId: post._id?.$oid || post._id,
-                                                    userId: user._id?.$oid || user._id,
-                                                    content: commentContent
-                                                })
-                                            });
-                                            if (!res.ok) throw new Error('Failed to add comment');
-                                            const createdComment = await res.json();
-                                            const newComment = {
-                                                ...createdComment,
-                                                _id: createdComment._id?.$oid || createdComment._id,
-                                                user: user
-                                            };
-                                            setCommentsByPostId(prev => ({
-                                                ...prev,
-                                                [post._id]: [...(prev[post._id] || []), newComment]
-                                            }));
-                                            setPostsWithUserDetails(prev =>
-                                                prev.map(p =>
-                                                    (p._id?.$oid || p._id) === (post._id?.$oid || post._id)
-                                                        ? { ...p, commentCount: (p.commentCount || 0) + 1 }
-                                                        : p
-                                                )
-                                            );
-                                            form.reset();
-                                        } catch (err) {
-                                            alert(err.message || 'Failed to add comment.');
-                                        }
-                                    }}
-                                    style={{ marginTop: '10px' }}
-                                >
-                                    <input
-                                        type="text"
-                                        name="comment-content"
-                                        className="new-comment-input"
-                                        placeholder="Write a comment..."
-                                        minLength={1}
-                                        required
-                                        style={{ width: '80%', marginRight: '8px' }}
-                                    />
-                                    <button type="submit" className="new-comment-button">
-                                        Comment
-                                    </button>
-                                </form>
-                            <div className="post-actions-extra">
-                            <button
-                                className="delete-post-button"
-                                onClick={async () => {
-                                    if (!window.confirm('Are you sure you want to delete this post?')) return;
+                                className="new-comment-form"
+                                onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const form = e.target;
+                                    const commentContent = form.elements['comment-content'].value.trim();
+                                    if (!commentContent) return;
                                     try {
-                                        const postId = post._id?.$oid || post._id;
-                                        // Delete the post
-                                        const res = await fetchWithAuth(`/api/posts/${postId}`, {
-                                            method: 'DELETE'
+                                        const res = await fetchWithAuth('/api/comments', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                postId: post._id,
+                                                userId: user._id,
+                                                content: commentContent
+                                            })
                                         });
-                                        // Delete all comments for this post
-                                        if (commentsByPostId[postId]?.length) {
-                                            await Promise.all(
-                                                commentsByPostId[postId].map(comment =>
-                                                    fetchWithAuth(`/api/comments/${comment._id}`, {
-                                                        method: 'DELETE'
-                                                    })
-                                                )
-                                            );
-                                        }
-                                        if (!res.ok) throw new Error('Failed to delete post');
-                                        setPostsWithUserDetails(postsWithUserDetails.filter(p => (p._id?.$oid || p._id) !== postId));
+                                        if (!res.ok) throw new Error('Failed to add comment');
+                                        const createdComment = await res.json();
+                                        const newComment = {
+                                            ...createdComment,
+                                            _id: createdComment._id,
+                                            user: user
+                                        };
+                                        setCommentsByPostId(prev => ({
+                                            ...prev,
+                                            [post._id]: [...(prev[post._id] || []), newComment]
+                                        }));
+                                        setPostsWithUserDetails(prev =>
+                                            prev.map(p =>
+                                                p._id === post._id
+                                                    ? { ...p, commentCount: (p.commentCount || 0) + 1 }
+                                                    : p
+                                            )
+                                        );
+                                        form.reset();
                                     } catch (err) {
-                                        alert(err.message || 'Failed to delete post.');
+                                        alert(err.message || 'Failed to add comment.');
                                     }
                                 }}
-                                disabled={submitting}
-                                style={{
-                                    background: '#ff4d4f',
-                                    color: '#fff',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    padding: '4px 10px',
-                                    marginTop: '10px',
-                                    cursor: 'pointer'
-                                }}
+                                style={{ marginTop: '10px' }}
                             >
-                                Delete
-                            </button>
-                        </div>
+                                <input
+                                    type="text"
+                                    name="comment-content"
+                                    className="new-comment-input"
+                                    placeholder="Write a comment..."
+                                    minLength={1}
+                                    required
+                                    style={{ width: '80%', marginRight: '8px' }}
+                                />
+                                <button type="submit" className="new-comment-button">
+                                    Comment
+                                </button>
+                            </form>
+                            <div className="post-actions-extra">
+                                <button
+                                    className="delete-post-button"
+                                    onClick={async () => {
+                                        if (!window.confirm('Are you sure you want to delete this post?')) return;
+                                        try {
+                                            const postId = post._id;
+                                            // Delete the post
+                                            const res = await fetchWithAuth(`/api/posts/${postId}`, {
+                                                method: 'DELETE'
+                                            });
+                                            // Delete all comments for this post
+                                            if (commentsByPostId[postId]?.length) {
+                                                await Promise.all(
+                                                    commentsByPostId[postId].map(comment =>
+                                                        fetchWithAuth(`/api/comments/${comment._id}`, {
+                                                            method: 'DELETE'
+                                                        })
+                                                    )
+                                                );
+                                            }
+                                            if (!res.ok) throw new Error('Failed to delete post');
+                                            setPostsWithUserDetails(postsWithUserDetails.filter(p => p._id !== postId));
+                                        } catch (err) {
+                                            alert(err.message || 'Failed to delete post.');
+                                        }
+                                    }}
+                                    disabled={submitting}
+                                    style={{
+                                        background: '#ff4d4f',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        padding: '4px 10px',
+                                        marginTop: '10px',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     ))
                 ) : (
