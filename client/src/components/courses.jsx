@@ -1,20 +1,26 @@
 import { useEffect, useState } from 'react';
-import { fetchWithAuth } from '../utils/http.js'; // Import the fetchWithAuth function
-import '../styles/courses.css'; // Import the CSS file for styling
+import { fetchWithAuth } from '../utils/http.js';
+import '../styles/courses.css';
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [visibleVideos, setVisibleVideos] = useState({});
     const [visibleSteps, setVisibleSteps] = useState({});
     const [animationKeys, setAnimationKeys] = useState({});
+    const [authFailed, setAuthFailed] = useState(false);
 
     useEffect(() => {
         const fetchCourses = async () => {
             try {
                 const response = await fetchWithAuth('http://localhost:5000/api/courses');
+                if (response.status === 401 || response.status === 403) {
+                    setAuthFailed(true);
+                    return;
+                }
                 const data = await response.json();
                 setCourses(data);
             } catch (error) {
+                setAuthFailed(true);
                 console.error('Error fetching courses:', error);
             }
         };
@@ -22,25 +28,24 @@ const Courses = () => {
         fetchCourses();
     }, []);
 
-    const toggleVideoVisibility = (courseId) => {
-        const newKey = Date.now(); // new key for animation re-trigger
-        setAnimationKeys((prev) => ({ ...prev, [courseId]: newKey }));
-        setVisibleVideos((prevState) => ({
-            ...prevState,
-            [courseId]: !prevState[courseId],
-        }));
-    };
-
-    const toggleStepsVisibility = (courseId) => {
-        setVisibleSteps((prevState) => ({
-            ...prevState,
-            [courseId]: !prevState[courseId],
-        }));
-    };
+    if (authFailed) {
+        return (
+            <div className="courses-container">
+            <h2
+                style={{ cursor: 'pointer' }}
+                onClick={() => window.location.href = '/login'}
+            >
+                Please log in to view courses
+            </h2>
+            </div>
+        );
+    }
 
     return (
         <div className="courses-container">
-            <h1>Courses</h1>
+            <h1 className="courses-title">
+                Courses
+            </h1>
             <ul>
                 {courses.map((course, index) => {
                     const courseId = course._id || index;
@@ -93,6 +98,22 @@ const Courses = () => {
             </ul>
         </div>
     );
+
+    function toggleVideoVisibility(courseId) {
+        const newKey = Date.now();
+        setAnimationKeys((prev) => ({ ...prev, [courseId]: newKey }));
+        setVisibleVideos((prevState) => ({
+            ...prevState,
+            [courseId]: !prevState[courseId],
+        }));
+    }
+
+    function toggleStepsVisibility(courseId) {
+        setVisibleSteps((prevState) => ({
+            ...prevState,
+            [courseId]: !prevState[courseId],
+        }));
+    }
 };
 
 export default Courses;
