@@ -1,5 +1,6 @@
 import DatabaseService from '../service/DatabaseService.js';
 
+
 /**
  * The PostsModel class provides methods to interact with the post data in the database.
  */
@@ -57,56 +58,74 @@ class PostsModel{
         }
     }
 
-        /**
-         * Updates an existing post in the database by its ID.
-         * 
-         * @param {string} id - The ID of the post to update.
-         * @param {Object} updateData - The data to update the post with.
-         * @returns {Promise<Object|null>} A promise that resolves to the updated post object if successful, or null if not found.
-         */
-        async updatePost(id, updateData) {
-            try {
-                const updatedPost = await DatabaseService.posts.findByIdAndUpdate(
-                  id,  
-                  { 
-                    $set: {
-                        content: updateData.content,
-                        status: updateData.status,
-                        likes: updateData.likes,
-                        dislikes: updateData.dislikes
-                    }
-                  },
-                  { 
-                    new: true,         // Return the updated document
-                    runValidators: true // Run schema validators
-                  }
-                );
-                return updatedPost;
-              } catch(error) {
-                console.log(error);
-                throw error; 
+    /**
+     * Updates an existing post in the database by its ID.
+     * 
+     * @param {string} id - The ID of the post to update.
+     * @param {Object} updateData - The data to update the post with.
+     * @returns {Promise<Object|null>} A promise that resolves to the updated post object if successful, or null if not found.
+     */
+    async updatePost(id, updateData) {
+        try {
+            const updatedPost = await DatabaseService.posts.findByIdAndUpdate(
+              id,  
+              { 
+                $set: {
+                    content: updateData.content,
+                    status: updateData.status,
+                    likes: updateData.likes,
+                    dislikes: updateData.dislikes
+                }
+              },
+              { 
+                new: true,         // Return the updated document
+                runValidators: true // Run schema validators
               }
+            );
+            return updatedPost;
+          } catch(error) {
+            console.log(error);
+            throw error; 
+          }
+    }
+
+
+    /**
+     * Deletes a post from the database by its ID.
+     * 
+     * @param {string} id - The ID of the post to delete.
+     * @returns {Promise<Object|null>} A promise that resolves to the deleted post object if successful, or null if not found.
+     */
+    async deletePost(id) {
+        try{
+            const deletedPost = await DatabaseService.posts.findByIdAndDelete(id);
+            return deletedPost;
+            
+          }catch (error) {
+            error.message = 'Error deleting post';
+            error.status = 400;
+            console.log(error);
+            throw error; 
+          }
+    }
+
+    /**
+     * Creates a new post in the database.
+     * 
+     * @param {Object} postData - The data for the new post.
+     * @returns {Promise<Object>} A promise that resolves to the created post object.
+     */
+    async createPost(postData) {
+        try {
+            
+            const newPost = new DatabaseService.posts(postData);
+            await newPost.save();
+            return newPost;
+        } catch (error) {
+            console.log(error);
+            throw error;
         }
-
-
-            /**
-             * Deletes a post from the database by its ID.
-             * 
-             * @param {string} id - The ID of the post to delete.
-             * @returns {Promise<Object|null>} A promise that resolves to the deleted post object if successful, or null if not found.
-             */
-            async deletePost(id) {
-                try{
-                    const deletedPost = await DatabaseService.posts.findByIdAndDelete(id);
-                    return deletedPost;
-                    
-                  }catch (error) {
-                    error.message = 'Error deleting post';
-                    error.status = 400;
-                    console.log(error);
-                    throw error; 
-                  }
-            }
+    }
 }
 
 

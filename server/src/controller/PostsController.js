@@ -1,4 +1,5 @@
 import PostsModel from "../model/PostsModel.js";
+import UsersModel from "../model/UsersModel.js";
 
 
 /**
@@ -7,14 +8,6 @@ import PostsModel from "../model/PostsModel.js";
  * @class
  */
 class PostsController {
-
-
-
-
-    // !!!TODO add a method to add a post to the database!!!!
-
-
-
 
 
 
@@ -96,28 +89,54 @@ class PostsController {
     }
 
 
-        /**
-         * Delete a post.
-         *
-         * @param {Request} req - The request object.
-         * @param {Response} res - The response object.
-         */
-        async deletePost(req, res, next) {
-            const id = req.params.id;
-            try {
-              const result = await PostsModel.getPostById(id);
-              if (!result) {
-                return res.status(404).json({ message: "Post not found" });
-              }
-              PostsModel.deletePost(id);
-              res.status(200).json({ 
-                message: "Post deleted successfully",
-                deletedPost: result
-              });
-            } catch (error) {
-                next(error);
-            }
+    /**
+     * Delete a post.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async deletePost(req, res, next) {
+        const id = req.params.id;
+        try {
+          const result = await PostsModel.getPostById(id);
+          if (!result) {
+            return res.status(404).json({ message: "Post not found" });
+          }
+          PostsModel.deletePost(id);
+          res.status(200).json({ 
+            message: "Post deleted successfully",
+            deletedPost: result
+          });
+        } catch (error) {
+            next(error);
         }
+    }
+
+    /**
+     * Create new post.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async createPost(req, res, next) {
+        try {
+            const username = res.locals.jwt.username;
+            const user = await UsersModel.getUserByUsername(username);
+            const userId = user._id;
+            const postData = {
+                userId: userId,
+                content: req.body.content,
+            };
+            const newPost = await PostsModel.createPost(postData);
+            res.status(201).json({
+                message: 'User added successfully',
+                newPost: newPost
+            });
+        } catch (error) {
+            next(error)
+            };
+            }        
+        
 
 }
 
