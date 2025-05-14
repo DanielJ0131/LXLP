@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/forum.css';
+import { fetchWithAuth } from '../utils/http.js';
 
 const Forum = () => {
     const [postsWithUserDetails, setPostsWithUserDetails] = useState([]);
@@ -12,9 +13,9 @@ const Forum = () => {
         const fetchData = async () => {
             try {
                 const [usersResponse, postsResponse, commentsResponse] = await Promise.all([
-                    fetch('http://localhost:5000/api/users'),
-                    fetch('http://localhost:5000/api/posts'),
-                    fetch('http://localhost:5000/api/comments')
+                    fetchWithAuth('/api/users'),
+                    fetchWithAuth('/api/posts'),
+                    fetchWithAuth('/api/comments')
                 ]);
 
                 if (!usersResponse.ok) {
@@ -98,9 +99,13 @@ const Forum = () => {
 
     if (error) {
         return (
-            <div className="error-message" role="alert">
-                <strong className="error-strong">Error: </strong>
-                <span className="error-span">{error}</span>
+            <div className="forum-container">
+                <h2
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => window.location.href = '/login'}
+                >
+                    Please log in to view the forum
+                </h2>
             </div>
         );
     }
@@ -110,7 +115,23 @@ const Forum = () => {
             <h1 className="forum-title">
                 Community Forum
             </h1>
-
+            <style>
+            {`
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .forum-grid .post-card {
+                animation: fadeInUp 4s cubic-bezier(0.23, 1, 0.32, 1) both;
+            }
+            `}
+            </style>
             <div className="forum-grid">
                 {postsWithUserDetails.length > 0 ? (
                     postsWithUserDetails.map((post) => (

@@ -18,12 +18,14 @@
     font-size: 20px;
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    white-space: nowrap;
+    margin-bottom: 6px;
     justify-content: flex-start;
   }
   
   .create-acc-input input {
     border-radius: 6px;
+    margin-left: 20px;
     padding: 5px;
     border: 1px solid #ccc;
   }
@@ -42,5 +44,27 @@
     align-items: center;
     font-size: 1.2rem;
     color: #555;
+  }
+  
+  @media (max-width: 500px) {
+    .register-fieldset {
+      max-width: 95vw;
+      padding: 2rem;
+    }
+    .create-acc-input {
+      flex-direction: column;
+      align-items: stretch;
+      font-size: 16px;
+    }
+    .create-acc-input label {
+      width: auto;
+      margin-bottom: 4px;
+      margin-right: 0;
+    }
+    .create-acc-input input {
+      margin-left: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
   }
   

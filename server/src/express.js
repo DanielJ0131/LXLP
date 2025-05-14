@@ -27,10 +27,12 @@ const corsOptions = {
     origin: [
         'http://localhost:5000',   // Allow HTTP origin
         'ws://localhost:8080',      // Allow WebSocket origin
-        'http://localhost:5173',  // Allow  frontend URL
+        'http://localhost:5173',  // Allow  frontend URL,
+        'https://lxlp.onrender.com' // Allow render
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Optional: specify allowed methods
-    credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.)
+    credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.),
+    
 };
 
 app.use(cors(corsOptions));
@@ -48,7 +50,7 @@ app.disable('x-powered-by')
 // app.use(express.static('public'))
 
 // Use the public folder for static resources
-app.use(express.static('../client/dist'))
+app.use(express.static('../client/dist/'))
 
 // Middleware to parse JSON data as part of the body
 app.use(express.json())

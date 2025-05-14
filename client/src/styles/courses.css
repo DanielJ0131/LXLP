@@ -14,6 +14,19 @@
     padding: 0;
 }
 
+.courses-container li {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    animation: courseFadeIn 4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation-delay: var(--course-delay, 0s);
+}
+
+@keyframes courseFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
 
 .courses-container li {
     background-color: rgb(45, 45, 45);
@@ -29,20 +42,58 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.courses-container h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-.courses-container h2:hover {
-    color: #2ecc71;
-    text-decoration: underline;
-    transition: color 0.3s, text-decoration 0.3s;
+.courses-title {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    color: green;
+    background-clip: text;
+    margin: 0;
 }
 
 .courses-container p {
     font-size: 1rem;
     color: #2ecc71;
     margin-bottom: 10px;
+    white-space: normal; /* Allow text to wrap */
+    border-right: 2px solid #2ecc71; /* Add the blinking cursor */
+    animation: typing 4s steps(40, end), blink 0.7s step-end infinite; /* Typing and blinking animations */
+    width: 100%; /* Ensure full width for text to be shown */
+
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for typing effect */
+    font-size: 1.2rem; /* Increase font size */
+    color: #2ecc71; /* Change text color */
+    text-shadow: 0 0 5px rgba(46, 204, 113, 0.5); /* Add a subtle glow effect */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 5px; /* Add some padding */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); /* Glow effect */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+    cursor: pointer; /* Change cursor to pointer */
+    text-align: left; /* Align the text to the left */
+    margin: 0 auto; /* Center the element */
+    max-width: 80%; /* Limit the width of the text */
+    line-height: 1.5; /* Increase line height for better readability */
+    overflow: hidden; /* Hide overflowing text during animation */
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    from {
+        border-color: transparent;
+    }
+    to {
+        border-color: #2ecc71;
+    }
 }
 
 .courses-container a {
@@ -89,3 +140,4 @@
     border: 5px solid green;
     border-radius: 10px;
 }
+

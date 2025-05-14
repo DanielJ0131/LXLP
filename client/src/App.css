@@ -18,7 +18,6 @@ body {
 
 /* ==================== Header Styling ==================== */
 header {
-  padding: 1rem 2rem;
   background-color: #1e1e1e;
   color: #00ff00;
   font-family: "Courier New", Courier, monospace;
@@ -27,16 +26,59 @@ header {
   z-index: 10;
   border-bottom: 1px solid #3c3c3c;
   text-align: center; /* Center the header title */
+  justify-content: center;
+  align-items: center;
 }
 
 header h1 { /* Style the main title within the header if you have one */
   margin: 0; /* Remove default margin for better centering */
 }
 
+.top-navs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #232323;
+  padding: 0.5rem 2rem;
+  border-bottom: 1px solid #3c3c3c;
+  font-size: 1.1rem;
+}
+
+.top-navs p {
+  margin: 0;
+  color: #00ff00;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.auth-links {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.auth-links li {
+  display: inline;
+}
+
+.auth-links a {
+  color: #d4d4d4;
+  text-decoration: none;
+  padding: 0.3em 0.8em;
+  border-radius: 3px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.auth-links a:hover {
+  background: #00ff00;
+  color: #232323;
+}
+
 nav {
   display: flex;
   justify-content: center;
-  align-items: center;
   background-color: #252526;
   border-bottom: 1px solid #3c3c3c;
   padding: 0.5rem 0;
@@ -45,9 +87,10 @@ nav {
 nav ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   margin: 0;
   padding: 0;
-  gap: 10px;
+  gap: 20px;
 }
 
 nav li {
@@ -67,6 +110,9 @@ nav a:hover {
 
 /* ==================== Footer Styling ==================== */
 footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: #252526;
   color: #d4d4d4;
   padding: 1rem 0;
@@ -116,3 +162,33 @@ footer {
 .page-exiting {
   opacity: 0; /* Class to trigger fade out */
 }
+
+/* ==================== Responsive Styling ==================== */
+@media (max-width: 700px) {
+  footer a{
+    font-size: 20px;
+    word-wrap: break-word;
+  }
+
+  .top-navs {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .auth-links {
+    white-space: nowrap;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  nav ul {
+    text-align: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+}
+

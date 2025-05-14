@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
 import { FaEye, FaEyeSlash } from "react-icons/fa"
+import { fetchWithAuth } from '../utils/http.js'
 import '../styles/login.css'
 
 
@@ -26,16 +26,15 @@ export default function Login(){
         setSuccess('')
     
         try {
-            const res = await fetch('http://localhost:5000/api/users/login', {
+            const res = await fetchWithAuth('/api/jwt/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             })
     
             const data = await res.json()
     
             if (!res.ok) {
-                throw new Error(data.error || 'Login failed')
+                throw new Error(data.message || 'Login failed')
             }
     
             setSuccess('Login Successful')

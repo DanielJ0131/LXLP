@@ -4,7 +4,7 @@ import express from 'express'
 import { router as usersRoute } from './usersRoute.js'
 import { router as postsRoute } from './postsRoute.js'
 import { router as commentsRoute } from './commentsRoute.js'
-//import { router as jwtRoute } from './jwtRoute.js'
+import { router as jwtRoute } from './jwtRoute.js'
 //import { jwtMiddleware } from '../middleware/jwtMiddlewere.js'
 import { router as courseRoute } from './coursesRoute.js'
 
@@ -13,7 +13,7 @@ import { router as courseRoute } from './coursesRoute.js'
 
 export const router = express.Router()
 
-//router.use('/api/jwt', jwtRoute)
+router.use('/api/jwt', jwtRoute)
 //router.use(jwtMiddleware.jwtTokenIsValid)
 router.use('/api/users', usersRoute)
 router.use('/api/posts', postsRoute)

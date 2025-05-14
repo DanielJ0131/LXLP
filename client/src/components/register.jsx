@@ -1,141 +1,136 @@
-import { useState } from 'react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import '../styles/register.css'
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { fetchWithAuth } from "../utils/http.js";
+import "../styles/register.css";
 
 export default function Register() {
-    const [formData, setFormData] = useState({
-        username: '',
-        firstname: '',
-        lastname: '',
-        email: '',
-        name: '',
-        password: ''
-    });
-    const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+  const [formData, setFormData] = useState({
+    username: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    name: "",
+    password: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
-    };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-    
-        try {
-            const response = await fetch("http://localhost:5000/api/users", { 
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData)
-            });
-    
-            const data = await response.json();
-    
-            if (!response.ok) {
-            
-                setError(data.message || "Something went wrong");
-                setSuccess('');
-            } else {
-                setSuccess("User successfully created!");
-                setError('');
-                setFormData({
-                    username: '',
-                    firstname: '',
-                    lastname: '',
-                    email: '',
-                    name: '',
-                    password: ''
-                    }); 
-                    }
-        } catch (err) {
-            console.error("Error submitting form:", err);
-            setError("Network error. Please try again later.");
-            setSuccess('');
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetchWithAuth(
+        "/api/jwt/register",
+        {
+          method: "POST",
+          body: JSON.stringify(formData),
         }
-    };
+      );
 
-    return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <fieldset className="register-fieldset">
-                    <legend>Create an Account</legend>
+      const data = await response.json();
 
-                    <div className="create-acc-input">
-                        <label htmlFor="username">Username</label>
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+      if (!response.ok) {
+        setError(data.message || "Something went wrong");
+        setSuccess("");
+      } else {
+        setSuccess("Login Successful");
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
 
-                    <div className="create-acc-input">
-                        <label htmlFor="firstname">First name</label>
-                        <input
-                            type="text"
-                            id="firstname"
-                            name="firstname"
-                            value={formData.firstname}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    
-                    <div className="create-acc-input">
-                        <label htmlFor="lastname">Last name</label>
-                        <input
-                            type="text"
-                            id="lastname"
-                            name="lastname"
-                            value={formData.lastname}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+        window.location.href = "/forum";
+      }
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      setError("Network error. Please try again later.");
+      setSuccess("");
+    }
+  };
 
-                    <div className="create-acc-input">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <fieldset className="register-fieldset">
+          <legend>Create an Account</legend>
 
-                    <div className="create-acc-input">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                        <button
-                            type="button"
-                            className="toggle-password"
-                            onClick={() => setShowPassword((prev) => !prev)}
-                        >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </button>
-                    </div>
+          <div className="create-acc-input">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-                    <button type="submit">Create Account</button>
+          <div className="create-acc-input">
+            <label htmlFor="firstname">First name</label>
+            <input
+              type="text"
+              id="firstname"
+              name="firstname"
+              value={formData.firstname}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {success && <p style={{ color: 'green' }}>{success}</p>}
-                </fieldset>
-            </form>
-        </>
-    );
+          <div className="create-acc-input">
+            <label htmlFor="lastname">Last name</label>
+            <input
+              type="text"
+              id="lastname"
+              name="lastname"
+              value={formData.lastname}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="create-acc-input">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="create-acc-input">
+            <label htmlFor="password">Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
+          <button type="submit">Create Account</button>
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {success && <p style={{ color: "green" }}>{success}</p>}
+        </fieldset>
+      </form>
+    </>
+  );
 }

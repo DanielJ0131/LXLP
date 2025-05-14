@@ -66,13 +66,7 @@ jwtController.register = async (req, res) => {
     email
   }
   await UsersModel.addUser(userData)
-  res.json({
-    type: 'success',
-    message: 'The user was registered.',
-    user: {
-      username
-    }
-  })
+  jwtController.login(req, res)
 }
 
 /**
@@ -84,22 +78,17 @@ jwtController.register = async (req, res) => {
 jwtController.login = async (req, res) => {
   const username = req.body.username
   const password = req.body.password
-  let jwtToken
+  let data
 
-  try {
-    jwtToken = await UsersModel.login(username, password)
-  } catch (err) {
-    return res.status(401).json({
-      type: 'failed',
-      message: 'Wrong username or password!'
-    })
-  }
+  
+    data = await UsersModel.login(username, password)
+  
 
   res.json({
     type: 'success',
     message: 'The user was authenticated.',
-    payload: jwt.decode(jwtToken),
-    token: jwtToken
+    user: data.user,
+    token: data.token
   })
 }
 

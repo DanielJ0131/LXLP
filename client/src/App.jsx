@@ -1,10 +1,10 @@
-import React from 'react';
 import { useState, useEffect } from 'react'
 import Home from './components/home.jsx';
 import About from './components/about.jsx';
 import XTerminal from "./components/terminal.jsx";
 import Forum from './components/forum.jsx';
 import Login from './components/login.jsx';
+import Logout from './components/logout.jsx';
 import Register from './components/register.jsx';
 import Courses from './components/courses.jsx';
 import './App.css';
@@ -40,58 +40,57 @@ function App() {
       }, [])
   
     return (
-      <div>
+      <div className="app-container">
+
       <header>
-        <h1>Linux Learning Platform</h1>
-        
+      <h1>Linux Learning Platform</h1>
       </header>
+
       <main>
-        {user ?
-         (<p>👋Welcome, {user.firstname}</p>)
-          : (
-            <p>👋Welcome, Guest!</p>
-          )
-        }
-        <nav>
-          <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/courses">Courses</a></li>
-            <li><a href="/forum">Forum</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/terminal">Terminal</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">Register</a></li>
-          </ul>
-        </nav>
-        
-        {currentUrl.includes('home') && <Home />}
-        {currentUrl.includes('about') && <About />}
-        {currentUrl.includes('courses') && <Courses />}
-        {currentUrl.includes('forum') && <Forum />} 
-         {currentUrl.includes('terminal') && <XTerminal />}
-        {currentUrl.includes('login') && <Login />}
-        {currentUrl.includes('register') && <Register />}
+      <section className="top-navs">
+        {user ? (
+        <>
+          <p>👋 Welcome back, {user.firstname}!</p>
+          <section className="auth-links">
+          <li><a href="/logout">Logout</a></li>
+          </section>
+        </>
+        ) : (
+        <>
+          <p>👋 Welcome, Guest!</p>
+          <section className="auth-links">
+          <li><a href="/login">Login</a></li>
+          <li><a href="/register">Register</a></li>
+          </section>
+        </>
+        )}
+      </section>
+
+      <nav>
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/courses">Courses</a></li>
+        <li><a href="/forum">Forum</a></li>
+        <li><a href="/terminal">Terminal</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      </nav>
+      
+      {currentUrl.includes('home') && <Home />}
+      {currentUrl.includes('about') && <About />}
+      {currentUrl.includes('courses') && <Courses />}
+      {currentUrl.includes('forum') && <Forum />} 
+      {currentUrl.includes('terminal') && <XTerminal />}
+      {currentUrl.includes('login') && <Login />}
+      {currentUrl.includes('register') && <Register />}
+      {currentUrl.includes('logout') && <Logout />}
       </main>
       <footer>
-        <p>© LXLP. All Rights Reserved</p>
-        <a href="mailto:linuxlearningplatform@gmail.com">linuxlearningplatform@gmail.com</a>
+      <p>© LXLP. All Rights Reserved</p>
+      <a href="mailto:linuxlearningplatform@gmail.com">linuxlearningplatform@gmail.com</a>
       </footer>
       </div>
     );
-
-    function switchStylesheet(theme) {
-      const link = document.querySelector('link[href="./App.css"]');
-      if (link) {
-        if (theme === 'dark-theme') {
-          link.href = 'App2.css';
-        } else if (theme === 'white-theme') {
-          link.href = 'App1.css';
-        } else {
-          link.href = 'App.css';
-        }
-      }
-      document.body.className = theme;
-    }
   }
   
   export default App
