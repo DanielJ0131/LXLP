@@ -127,7 +127,6 @@ class PostsController {
                 userId: userId,
                 content: req.body.content,
             };
-            console.log(postData);
             const newPost = await PostsModel.createPost(postData);
             res.status(201).json({
                 message: 'User added successfully',

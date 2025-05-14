@@ -12,7 +12,7 @@ const postSchema = new Schema({
     },
     status: {
         type: String,
-        default: 'draft',
+        default: 'published',
         enum: ['draft', 'published', 'archived']
     },
     likes: {
