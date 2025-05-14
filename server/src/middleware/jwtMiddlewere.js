@@ -15,15 +15,8 @@ export { middleware as jwtMiddleware }
  * @param {object} next Express next object.
  */
 middleware.jwtTokenIsValid = async (req, res, next) => {
-  const authHeader = req.header('Authorization')
-  if(!authHeader) {
-    return res.status(401).json({
-      type: 'failed',
-      message: 'No authorization header'
-    })
-  }
-  
-  const token = authHeader
+  const token = req.cookies.accessToken //changed from auth header to cookie
+
   if (!token) {
     return res.status(401).json({
       type: 'failed',
@@ -35,32 +28,29 @@ middleware.jwtTokenIsValid = async (req, res, next) => {
     const isBlacklisted = await jwt.isTokenBlacklisted(token)
     if (isBlacklisted) {
       return res.status(401).json({
-      type: 'failed',
-      message: 'The JWT token is blacklisted.'
-    })
-  }
+        type: 'failed',
+        message: 'The JWT token is blacklisted.'
+      })
+    }
 
-    res.locals.jwt = jwt.verify(token)
-    const expirationDate = new Date(res.locals.jwt.exp)
-    //console.log('Expiration date:', expirationDate)
-    //console.log('Current date:', new Date(Date.now()))
+    const payload = jwt.verify(token)
+    res.locals.jwt = payload
 
-    if(expirationDate < Date.now()) {
+    const expirationDate = new Date(payload.exp * 1000)
+    if (expirationDate < new Date()) {
       return res.status(401).json({
         type: 'failed',
         message: 'The JWT token is expired.'
       })
     }
-    //console.log(token)
-    //console.log(res.locals.jwt)
+
+    next()
+
   } catch (err) {
     console.error(err)
-    err.status = 403
-    if (err.name === 'TokenExpiredError') {
-      err.status = 401
-    }
-    throw err
+    return res.status(403).json({
+      type: 'error',
+      message: 'Invalid or expired token'
+    })
   }
-
-  next()
 }

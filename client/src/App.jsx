@@ -32,12 +32,22 @@ function App() {
       };
     }, []);
 
-      useEffect(() => { ////// fetch user from the localStorage
-        const savedUser = localStorage.getItem("user")
-        if (savedUser) {
-          setUser(JSON.parse(savedUser))
+      useEffect(()=>{
+        const fetchUser = async ()=>{
+          const res = await fetch('/api/jwt/token', {
+            method: 'GET',
+            credentials: 'include'
+          })
+
+          const data = await res.json()
+
+          if(res.ok){
+            setUser(data.payload) // the content from jwt , should be the first name as we want
+          }
         }
-      }, [])
+
+        fetchUser()
+      },[])
   
     return (
       <div className="app-container">
