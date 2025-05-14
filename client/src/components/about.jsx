@@ -7,7 +7,7 @@ const About = () => {
         { name: 'Mustafa', role: 'Developer' , link: 'https://github.com/must-Zeus0036'},
         { name: 'Ryad', role: 'Developer' , link: 'https://github.com/ryadhazin0002'},
         { name: 'Tony', role: 'Developer' , link: 'https://github.com/TonyMNG'},
-        { name: 'Patric', role: 'Developer' , link: 'https://github.com/padthe'},
+        { name: 'Patrick', role: 'Developer' , link: 'https://github.com/padthe'},
         { name: 'Sergej', role: 'Developer' , link: 'https://github.com/sergejmm'},
     ];
 
