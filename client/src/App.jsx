@@ -22,16 +22,18 @@ function App() {
 
     
     useEffect(() => {
-      const savesTheme = localStorage.getItem('theme');
-      if (savesTheme) {
-        setTheme(savesTheme);
-        document.body.className = savesTheme; // Apply the saved theme to the body
-      }
+      const savesTheme = localStorage.getItem('theme') || 'dark';
+      setTheme(savesTheme);
+      document.body.className = savesTheme; // Apply the theme to the body
     }, []);
+
     useEffect(() => {
       localStorage.setItem('theme', theme);
       document.body.className = theme; // Apply the theme to the body
     }, [theme]);
+
+
+
     useEffect(() => {
       const handleUrlChange = () => {
         setCurrentUrl(window.location.href);
@@ -91,6 +93,13 @@ function App() {
           </section>
         </>
         )}
+
+        
+        // Theme toggle button
+        <section className="theme-toggle">
+          <button onClick={toggleTheme}>
+            {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+          </button>
       </section>
 
       <nav>
@@ -112,6 +121,8 @@ function App() {
       {currentUrl.includes('register') && <Register />}
       {currentUrl.includes('logout') && <Logout />}
       </main>
+
+      
       <footer>
       <p>© LXLP. All Rights Reserved</p>
       <a href="mailto:linuxlearningplatform@gmail.com">linuxlearningplatform@gmail.com</a>
