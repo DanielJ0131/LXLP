@@ -108,6 +108,23 @@ class CommentsModel{
           }
     }
 
+    /**
+     * Creates a new comment in the database.
+     * 
+     * @param {Object} commentData - The data for the new comment.
+     * @returns {Promise<Object>} A promise that resolves to the created comment object.
+     */
+    async createComment(commentData) {
+        try {
+            const newComment = new DatabaseService.comments(commentData);
+            await newComment.save();
+            return newComment;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
 
 }
 
