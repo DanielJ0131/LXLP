@@ -18,12 +18,14 @@
     font-size: 20px;
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    white-space: nowrap;
+    margin-bottom: 6px;
     justify-content: flex-start;
   }
   
   .create-acc-input input {
     border-radius: 6px;
+    margin-left: 20px;
     padding: 5px;
     border: 1px solid #ccc;
   }
