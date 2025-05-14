@@ -1,16 +1,30 @@
 import { useEffect } from 'react';
-import '../styles/logout.css'
+import { fetchWithAuth } from '../utils/http.js';
+import '../styles/logout.css';
 
 const LogoutHandler = () => {
     useEffect(() => {
-        // Clear auth data
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        // Redirect after 2 seconds
-        const timer = setTimeout(() => {
-            window.location.href = '/login';
-        }, 2000);
-        return () => clearTimeout(timer);
+        const logout = async () => {
+            try {
+                // Make API call to blacklist the token
+                await fetchWithAuth('http://localhost:5000/api/jwt/logout', {
+                    method: 'POST',
+                });
+            } catch (error) {
+                console.error('Error blacklisting token:', error);
+            } finally {
+                // Clear auth data
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                // Redirect after 2 seconds
+                const timer = setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+                clearTimeout(timer);
+            }
+        };
+
+        logout();
     }, []);
 
     return (
