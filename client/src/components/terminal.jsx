@@ -37,9 +37,8 @@ function XTerminal() {
         window.addEventListener('resize', () => {
             fitAddon.current?.fit()
         })
-
         // Initialize websocket connection
-        webSocket.current = new WebSocket('ws://localhost:8080')
+        webSocket.current = new WebSocket('ws://localhost:8080', 'echo-protocol')
 
         webSocket.current.onopen = () => {
             term.current?.write('\r\nWebSocket Connection Established\r\n');
