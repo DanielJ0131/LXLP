@@ -131,6 +131,9 @@ footer {
   transition: background-color 0.3s, color 0.3s;
 }
 
+.theme-toggle:focus {
+  outline: none; /* Remove default focus outline */
+}
 .theme-toggle:hover {
   background-color: #232323;
   color: #00ff00;
