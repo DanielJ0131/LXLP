@@ -124,27 +124,31 @@ jwtController.token = async (req, res) => {
  * @param {object} res Express response object.
  */
 jwtController.logout = async (req, res) => {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      return res.status(401).json({ message: 'No authorization header' });
-    }
+  try{
+    const token = req.cookies.accessToken;
 
-    const token = authHeader
-    if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
+    if(!token){
+      return res.status(401).json({message:'No token provided in cookie'})
     }
+    await jwt.blacklist(token)
 
-    await jwt.blacklist(token);
+    res.clearCookie('accessToken', {
+      httpOnly:true,
+      secure:process.env.NODE_ENV=== 'production',
+      sameSite:'Lax',
+      maxAge:0 //probably makes the token delete immidiatly
+    })
+
     res.json({
-      type: 'success',
-      message: 'The user was logged out.'
-    });
-  } catch (error) {
-    console.error('Logout error:', error);
+      type:'success',
+      message:'User was logged out and token is blacklisted'
+    })
+
+  } catch (error){
+    console.log('Logout error', error)
     res.status(500).json({
-      type: 'error',
-      message: error.message || 'Logout failed'
-    });
+      type:'error',
+      message:error.message ||'Logout failed'
+    })
   }
 }
