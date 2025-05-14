@@ -115,7 +115,23 @@ const Forum = () => {
             <h1 className="forum-title">
                 Community Forum
             </h1>
-
+            <style>
+            {`
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .forum-grid .post-card {
+                animation: fadeInUp 4s cubic-bezier(0.23, 1, 0.32, 1) both;
+            }
+            `}
+            </style>
             <div className="forum-grid">
                 {postsWithUserDetails.length > 0 ? (
                     postsWithUserDetails.map((post) => (

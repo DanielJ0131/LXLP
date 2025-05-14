@@ -47,6 +47,7 @@ const Courses = () => {
                 Courses
             </h1>
             <ul>
+                
                 {courses.map((course, index) => {
                     const courseId = course._id || index;
 
