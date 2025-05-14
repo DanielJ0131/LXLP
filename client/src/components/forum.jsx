@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/forum.css';
 import { fetchWithAuth } from '../utils/http.js';
 
-const Forum = () => {
+const Forum = ({ user }) => {
     const [postsWithUserDetails, setPostsWithUserDetails] = useState([]);
     const [commentsByPostId, setCommentsByPostId] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [visibleComments, setVisibleComments] = useState({});
+    const [newPostContent, setNewPostContent] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,7 +36,7 @@ const Forum = () => {
                 const commentsData = await commentsResponse.json();
 
                 // Create a map of users for efficient lookup
-                const usersMap = new Map(usersData.map(user => [user._id, user]));
+                const usersMap = new Map(usersData.map(u => [u._id, u]));
 
                 // Map comments by postId
                 const commentsMap = commentsData.reduce((acc, comment) => {
@@ -48,9 +51,9 @@ const Forum = () => {
 
                 // Combine post data with user details and comment counts
                 const enrichedPosts = postsData.map(post => {
-                    const user = usersMap.get(post.userId.$oid) || { firstname: 'Unknown', lastname: 'User', image: '' };
+                    const postUser = usersMap.get(post.userId.$oid) || { firstname: 'Unknown', lastname: 'User', image: '', username: 'Unknown' };
                     const commentCount = commentsMap[post._id]?.length || 0;
-                    return { ...post, user, commentCount };
+                    return { ...post, user: postUser, commentCount };
                 });
 
                 setPostsWithUserDetails(enrichedPosts);
@@ -110,6 +113,56 @@ const Forum = () => {
         );
     }
 
+    const handleNewPostSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        setSubmitError(null);
+
+        try {
+            let currentUser = user;
+            if (!currentUser) {
+                const storedUser = JSON.parse(localStorage.getItem('user'));
+                try {
+                    const usersRes = await fetchWithAuth('/api/users');
+                    if (usersRes.ok) {
+                        const users = await usersRes.json();
+                        currentUser = users.find(u => u.username === storedUser.username)
+                    } 
+                } catch {
+                    currentUser = storedUser;
+                }
+            }
+
+            const res = await fetchWithAuth('/api/posts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: currentUser._id?.$oid || currentUser._id,
+                    content: newPostContent,
+                    status: 'published'
+                })
+            });
+
+            if (!res.ok) {
+                throw new Error('Failed to create post');
+            }
+
+            const createdPost = await res.json();
+            // Ensure _id is a string for consistency
+            const enrichedPost = {
+                ...createdPost,
+                _id: createdPost._id?.$oid || createdPost._id,
+                user: currentUser,
+                commentCount: 0
+            };
+            setPostsWithUserDetails([enrichedPost, ...postsWithUserDetails]);
+            setNewPostContent('');
+        } catch (err) {
+            setSubmitError(err.message || 'Failed to create post.');
+        }
+        setSubmitting(false);
+    };
+
     return (
         <div className="forum-container">
             <h1 className="forum-title">
@@ -132,7 +185,24 @@ const Forum = () => {
             }
             `}
             </style>
-            <div className="forum-grid">
+            <div className="new-post-container">
+                <form onSubmit={handleNewPostSubmit} className="new-post-form">
+                    <textarea
+                        className="new-post-textarea"
+                        placeholder="Share something with the community..."
+                        value={newPostContent}
+                        onChange={e => setNewPostContent(e.target.value)}
+                        required
+                        minLength={3}
+                        disabled={submitting}
+                    />
+                    <button type="submit" className="new-post-button" disabled={submitting || !newPostContent.trim()}>
+                        {submitting ? 'Posting...' : 'Post'}
+                    </button>
+                    {submitError && <div className="new-post-error">{submitError}</div>}
+                </form>
+            </div>
+            <div className="forum-grid">                
                 {postsWithUserDetails.length > 0 ? (
                     postsWithUserDetails.map((post) => (
                         <div key={post._id} className="post-card">
@@ -142,7 +212,7 @@ const Forum = () => {
                                         <img src={post.user.image} alt={`${post.user.firstname} ${post.user.lastname}`} className="avatar-image"/>
                                     ) : (
                                         <div className="avatar-placeholder">
-                                            {`${post.user.firstname?.[0]}${post.user.lastname?.[0]}`}
+                                            {`${post.user.firstname?.[0] || ''}${post.user.lastname?.[0] || ''}`}
                                         </div>
                                     )}
                                 </div>
@@ -186,6 +256,46 @@ const Forum = () => {
                                     {visibleComments[post._id] ? 'Hide Comments' : 'Show Comments'}
                                 </button>
                             </div>
+                            <div className="post-actions-extra">
+                            <button
+                                className="delete-post-button"
+                                onClick={async () => {
+                                    if (!window.confirm('Are you sure you want to delete this post?')) return;
+                                    try {
+                                        // Delete the post
+                                        const res = await fetchWithAuth(`/api/posts/${post._id}`, {
+                                            method: 'DELETE'
+                                        });
+                                        // Delete all comments for this post
+                                        if (commentsByPostId[post._id]?.length) {
+                                            await Promise.all(
+                                                commentsByPostId[post._id].map(comment =>
+                                                    fetchWithAuth(`/api/comments/${comment._id}`, {
+                                                        method: 'DELETE'
+                                                    })
+                                                )
+                                            );
+                                        }
+                                        if (!res.ok) throw new Error('Failed to delete post');
+                                        setPostsWithUserDetails(postsWithUserDetails.filter(p => p._id !== post._id));
+                                    } catch (err) {
+                                        alert(err.message || 'Failed to delete post.');
+                                    }
+                                }}
+                                disabled={submitting}
+                                style={{
+                                    background: '#ff4d4f',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    padding: '4px 10px',
+                                    marginTop: '10px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Delete
+                            </button>
+                        </div>
                         </div>
                     ))
                 ) : (
