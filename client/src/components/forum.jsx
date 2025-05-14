@@ -37,18 +37,18 @@ const Forum = () => {
 
                 // Map comments by postId
                 const commentsMap = commentsData.reduce((acc, comment) => {
-                    const postId = comment.postId?.$oid;
+                    const postId = comment.postId;
                     if (!acc[postId]) acc[postId] = [];
                     acc[postId].push({
                         ...comment,
-                        user: usersMap.get(comment.userId?.$oid) || { firstname: 'Unknown', lastname: 'User' }
+                        user: usersMap.get(comment.userId) || { firstname: 'Unknown', lastname: 'User' }
                     });
                     return acc;
                 }, {});
 
                 // Combine post data with user details and comment counts
                 const enrichedPosts = postsData.map(post => {
-                    const user = usersMap.get(post.userId.$oid) || { firstname: 'Unknown', lastname: 'User', image: '' };
+                    const user = usersMap.get(post.userId) || { firstname: 'Unknown', lastname: 'User', image: '' };
                     const commentCount = commentsMap[post._id]?.length || 0;
                     return { ...post, user, commentCount };
                 });

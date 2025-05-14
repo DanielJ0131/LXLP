@@ -123,6 +123,7 @@ class PostsController {
             const username = res.locals.jwt.username;
             const user = await UsersModel.getUserByUsername(username);
             const userId = user._id;
+            console.log(userId);
             const postData = {
                 userId: userId,
                 content: req.body.content,
@@ -135,7 +136,7 @@ class PostsController {
         } catch (error) {
             next(error)
             };
-            }        
+    }        
         
 
 }
