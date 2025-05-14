@@ -78,18 +78,29 @@ jwtController.register = async (req, res) => {
 jwtController.login = async (req, res) => {
   const username = req.body.username
   const password = req.body.password
-  let data
 
-  
-    data = await UsersModel.login(username, password)
-  
+  try {
+    const data = await UsersModel.login(username, password)
 
-  res.json({
-    type: 'success',
-    message: 'The user was authenticated.',
-    user: data.user,
-    token: data.token
-  })
+    res.cookie('accessToken', data.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax',
+      maxAge: 1000 * 60 * 15 // 15 min
+    })
+
+    res.status(200).json({
+      type: 'success',
+      message: 'The user was authenticated',
+      user: data.user
+    })
+
+  } catch (err) {
+    res.status(401).json({
+      type: 'error',
+      message: 'Invalid credentials'
+    })
+  }
 }
 
 /**
