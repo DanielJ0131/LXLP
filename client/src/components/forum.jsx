@@ -99,9 +99,13 @@ const Forum = () => {
 
     if (error) {
         return (
-            <div className="error-message" role="alert">
-                <strong className="error-strong">Error: </strong>
-                <span className="error-span">{error}</span>
+            <div className="forum-container">
+                <h2
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => window.location.href = '/login'}
+                >
+                    Please log in to view the forum
+                </h2>
             </div>
         );
     }

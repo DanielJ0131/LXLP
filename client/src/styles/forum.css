@@ -1,7 +1,22 @@
-/* Forum.css */
+/* forum.css */
 
-.forum-container {
-    margin: 16px 0;
+.forum-container h2 {
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    color: rgb(0, 255, 0);
+    background-clip: text;
+}
+
+.forum-container h2:hover {
+    color: #2ecc71;
+    text-decoration: underline;
+    transition: color 0.3s, text-decoration 0.3s;
+}
+
+.forum-container h2 {
+    font-size: 1.5rem;
+    margin: 40px;
 }
 
 .forum-title {

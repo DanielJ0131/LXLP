@@ -14,7 +14,6 @@
     padding: 0;
 }
 
-
 .courses-container li {
     background-color: rgb(45, 45, 45);
     margin-bottom: 15px;
@@ -29,14 +28,14 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.courses-container h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-.courses-container h2:hover {
-    color: #2ecc71;
-    text-decoration: underline;
-    transition: color 0.3s, text-decoration 0.3s;
+.courses-title {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    color: green;
+    background-clip: text;
+    margin: 0;
 }
 
 .courses-container p {
