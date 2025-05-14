@@ -13,9 +13,9 @@ const Forum = () => {
         const fetchData = async () => {
             try {
                 const [usersResponse, postsResponse, commentsResponse] = await Promise.all([
-                    fetchWithAuth('http://localhost:5000/api/users'),
-                    fetchWithAuth('http://localhost:5000/api/posts'),
-                    fetchWithAuth('http://localhost:5000/api/comments')
+                    fetchWithAuth('/api/users'),
+                    fetchWithAuth('/api/posts'),
+                    fetchWithAuth('/api/comments')
                 ]);
 
                 if (!usersResponse.ok) {

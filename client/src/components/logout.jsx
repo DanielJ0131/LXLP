@@ -7,7 +7,7 @@ const LogoutHandler = () => {
     useEffect(() => {
         const logout = async () => {
             try {
-                await fetchWithAuth('http://localhost:5000/api/jwt/logout', {
+                await fetchWithAuth('/api/jwt/logout', {
                     method: 'POST',
                 });
             } catch (error) {

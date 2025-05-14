@@ -12,7 +12,7 @@ const Courses = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await fetchWithAuth('http://localhost:5000/api/courses');
+                const response = await fetchWithAuth('/api/courses');
                 if (response.status === 401 || response.status === 403) {
                     setAuthFailed(true);
                     return;
