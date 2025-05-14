@@ -85,56 +85,20 @@ export default function Terminal2() {
     };
 
     return (
-        <div
-            style={{
-                background: "linear-gradient(135deg, #232526 0%, #414345 100%)",
-                color: "#39ff14",
-                fontFamily: "Fira Mono, monospace",
-                padding: 32,
-                borderRadius: 16,
-                overflow: "hidden",
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "column",
-                boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-                border: "2px solid #39ff14",
-            }}
-        >
-            <div
-                ref={scrollRef}
-                style={{
-                    flex: 1,
-                    overflowY: "auto",
-                    marginBottom: 16,
-                    whiteSpace: "pre-wrap",
-                    fontSize: 22,
-                    lineHeight: 1.7,
-                    letterSpacing: 0.5,
-                    paddingRight: 8,
-                }}
-            >
+        <div className="terminal-container">
+            <div className="terminal-history" ref={scrollRef}>
                 {history.map((line, i) => (
                     <div key={i}>{line}</div>
                 ))}
             </div>
-            <form onSubmit={onSubmit} style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "bold", fontSize: 24 }}>$&nbsp;</span>
+            <form className="terminal-form" onSubmit={onSubmit}>
+                <span className="terminal-prompt">$&nbsp;</span>
                 <input
+                    className="terminal-input"
                     ref={inputRef}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={onKeyDown}
-                    style={{
-                        background: "transparent",
-                        color: "#39ff14",
-                        border: "none",
-                        outline: "none",
-                        flex: 1,
-                        fontFamily: "Fira Mono, monospace",
-                        fontSize: 24,
-                        padding: "6px 0",
-                        caretColor: "#39ff14",
-                    }}
                     autoComplete="off"
                 />
             </form>

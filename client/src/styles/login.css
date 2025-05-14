@@ -63,3 +63,30 @@
   margin-left: 28px;
   margin-top: 15px;
 }
+
+@media (max-width: 700px) {
+  .login-fieldset {
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+
+  .login-input label {
+    width: 100px;
+    font-size: 1rem;
+    margin-right: 6px;
+  }
+
+  .login-input input {
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  #username{
+    margin-right: 35px;
+  }
+
+  .button-wrp {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
