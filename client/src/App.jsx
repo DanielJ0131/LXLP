@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState, useEffect } from 'react'
 import Home from './components/home.jsx';
 import About from './components/about.jsx';
@@ -78,20 +77,6 @@ function App() {
       </footer>
       </div>
     );
-
-    function switchStylesheet(theme) {
-      const link = document.querySelector('link[href="./App.css"]');
-      if (link) {
-        if (theme === 'dark-theme') {
-          link.href = 'App2.css';
-        } else if (theme === 'white-theme') {
-          link.href = 'App1.css';
-        } else {
-          link.href = 'App.css';
-        }
-      }
-      document.body.className = theme;
-    }
   }
   
   export default App
