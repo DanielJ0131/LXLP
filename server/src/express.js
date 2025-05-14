@@ -4,8 +4,10 @@ import logger from 'morgan'
 import {router} from './route/index.js'
 import {errorHandler} from './middleware/errorHandler.js'
 import cors from 'cors' // Import cors for cross-origin resource sharing
+import cookieParser from 'cookie-parser'
 
 export const app = express()
+
 
 // Use the morgan logger
 if (process.env.NODE_ENV !== 'test') {
@@ -29,6 +31,9 @@ const corsOptions = {
     credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.),
     
 };
+
+// Make sure that we have cookie parser to send via cookies 
+app.use(cookieParser())
 
 app.use(cors(corsOptions));
 
