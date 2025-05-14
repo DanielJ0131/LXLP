@@ -171,7 +171,18 @@ class UsersController {
             }
         }
 
-
+    async getUserFromToken() {
+        return (req, res, next) => {
+            try{
+                const username = res.locals.jwt.username;
+                const user = UserModel.getUserByUsername(username)
+                return user;
+            }
+            catch (error) {
+                next(error);
+            }
+        }
+    }
 }
 
 export default new UsersController();
