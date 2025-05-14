@@ -1,18 +1,36 @@
-.home-container {
-    padding: 20px;
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #1e1e1e;
-    color: #00ff00;
-    line-height: 1.6;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-    margin: 0 auto; /* center the container */
-    border: 1px solid #00ff00;
-    text-align: center;
-}
 .linux-logo {
     width: 40%;
     height: auto;
-    
     margin-bottom: 20px;
+
+    /* Round corners */
+    border-radius: 10px;
+
+    /* Start dark */
+    filter: brightness(0.3);
+
+    /* Initial shadow is subtle */
+    box-shadow: 0 0 5px rgba(46, 204, 113, 0.3);
+    transition: box-shadow 0.2s ease-in-out;
+
+    /* Add animations */
+    animation: shineEffect 3s ease-in-out forwards, shadowAppear 0.5s ease-in-out forwards;
+}
+
+@keyframes shadowAppear {
+    0% {
+        box-shadow: 0 0 5px rgba(46, 204, 113, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(46, 204, 113, 0.8);
+    }
+}
+
+@keyframes shineEffect {
+    0% {
+        filter: brightness(0.3);
+    }
+    100% {
+        filter: brightness(1);
+    }
 }

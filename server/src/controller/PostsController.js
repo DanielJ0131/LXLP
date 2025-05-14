@@ -136,9 +136,13 @@ class PostsController {
         } catch (error) {
             next(error)
             };
-    }        
-        
+    }  
 
+            res.status(201).json(newPost);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 

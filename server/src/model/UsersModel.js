@@ -211,7 +211,7 @@ class UsersModel{
       throw new Error('User and password dows not match')
     }
 
-    const token = jwt.createJwtToken(user.username, user.role, user.email)
+    const token = jwt.createJwtToken(user.username, user.role, user.email, user.firstname)
     return {
         token,
         user: {
