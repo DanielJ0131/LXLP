@@ -1,56 +1,96 @@
+/* ==================== Base Styles & Theme Variables ==================== */
+:root {
+  --bg-color: #1e1e1e;
+  --text-color: #d4d4d4;
+  --accent-color: #00ff00;
+  --hover-color: #232323;
+  --nav-bg: #252526;
+  --border-color: #3c3c3c;
+  --link-hover: #00ff00;
+}
+
+body.light {
+  --bg-color: #f0f0f0;
+  --text-color: #1e1e1e;
+  --accent-color: #007acc;
+  --hover-color: #ffffff;
+  --nav-bg: #ffffff;
+  --border-color: #ccc;
+  --link-hover: #007acc;
+}
+
+/* ==================== Global ==================== */
 body {
   margin: 0;
   font-family: 'Courier New', Courier, monospace;
-  background-color: #1e1e1e; /* Consistent dark background */
-  color: #d4d4d4; /* Default text color */
-  display: flex; /* Enable flexbox for body to control footer positioning */
-  flex-direction: column; /* Stack header, main content, and footer */
-  min-height: 100vh; /* Ensure body takes at least the full viewport height */
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 #root {
   width: 80%;
   max-width: 1200px;
-  margin: 2rem auto 0; /* Center content, remove bottom margin for footer */
+  margin: 2rem auto 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ==================== Header Styling ==================== */
-header {
-  background-color: #1e1e1e;
-  color: #00ff00;
+/* ==================== Theme Toggle Button ==================== */
+.theme-toggle {
+  background-color: transparent;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
   font-family: "Courier New", Courier, monospace;
-  position: sticky; /* Keep header at the top */
+  margin-left: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.theme-toggle:hover {
+  background-color: var(--accent-color);
+  color: var(--hover-color);
+}
+
+/* ==================== Header ==================== */
+header {
+  background-color: var(--bg-color);
+  color: var(--accent-color);
+  font-family: "Courier New", Courier, monospace;
+  position: sticky;
   top: 0;
   z-index: 10;
-  border-bottom: 1px solid #3c3c3c;
-  text-align: center; /* Center the header title */
-  justify-content: center;
-  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  text-align: center;
 }
 
-header h1 { /* Style the main title within the header if you have one */
-  margin: 0; /* Remove default margin for better centering */
+header h1 {
+  margin: 0;
 }
 
+/* ==================== Top Navigation ==================== */
 .top-navs {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #232323;
+  background-color: var(--hover-color);
   padding: 0.5rem 2rem;
-  border-bottom: 1px solid #3c3c3c;
+  border-bottom: 1px solid var(--border-color);
   font-size: 1.1rem;
 }
 
 .top-navs p {
   margin: 0;
-  color: #00ff00;
+  color: var(--accent-color);
   font-weight: bold;
-  font-family: "Courier New", Courier, monospace;
 }
 
+/* ==================== Auth Links ==================== */
 .auth-links {
   display: flex;
   gap: 1rem;
@@ -64,7 +104,7 @@ header h1 { /* Style the main title within the header if you have one */
 }
 
 .auth-links a {
-  color: #d4d4d4;
+  color: var(--text-color);
   text-decoration: none;
   padding: 0.3em 0.8em;
   border-radius: 3px;
@@ -72,15 +112,16 @@ header h1 { /* Style the main title within the header if you have one */
 }
 
 .auth-links a:hover {
-  background: #00ff00;
-  color: #232323;
+  background: var(--accent-color);
+  color: var(--hover-color);
 }
 
+/* ==================== Navigation ==================== */
 nav {
   display: flex;
   justify-content: center;
-  background-color: #252526;
-  border-bottom: 1px solid #3c3c3c;
+  background-color: var(--nav-bg);
+  border-bottom: 1px solid var(--border-color);
   padding: 0.5rem 0;
 }
 
@@ -95,53 +136,20 @@ nav ul {
 
 nav li {
   font-size: 1rem;
-  color: #d4d4d4;
+  color: var(--text-color);
 }
 
 nav a {
   text-decoration: none;
-  color: white;
+  color: var(--text-color);
   transition: color 200ms;
 }
 
 nav a:hover {
-  color: #00ff00;
+  color: var(--link-hover);
 }
 
-/* ==================== Footer Styling ==================== */
-footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: #252526;
-  color: #d4d4d4;
-  padding: 1rem 0;
-  text-align: center; /* Center the footer content */
-  border-top: 1px solid #3c3c3c;
-}
-/* style theme switcher */
-.theme-toggle {
-  background-color: #00ff00;
-  color: #232323;
-  border: none;
-  padding: 0.5em 1em;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.theme-toggle:focus {
-  outline: none; /* Remove default focus outline */
-}
-.theme-toggle:hover {
-  background-color: #232323;
-  color: #00ff00;
-  border: 1px solid #00ff00;
-}
-
-
-/* ==================== Specific Page Containers ==================== */
+/* ==================== Page Containers ==================== */
 .courses-container,
 .about-us-container,
 .home-container {
@@ -149,44 +157,51 @@ footer {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-  background-color: #1e1e1e;
-  color: #00ff00;
-  text-align: center; /* Default text alignment for page content */
+  background-color: var(--bg-color);
+  color: var(--accent-color);
+  text-align: center;
   box-sizing: border-box;
-  opacity: 1; /* Initially visible */
-  transition: opacity 0.3s ease-in-out; /* Add transition to page containers as well */
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .about-us-container {
-  text-align: left; /* Override center alignment for about us content */
+  text-align: left;
 }
 
-/* ==================== Reused Components ==================== */
+/* ==================== Card & Footer ==================== */
 .card {
   padding: 2em;
-  background-color: #252526;
-  border: 1px solid #3c3c3c;
+  background-color: var(--nav-bg);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  color: #d4d4d4;
+  color: var(--text-color);
   margin-bottom: 1rem;
 }
 
-.read-the-docs {
-  color: #888;
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--nav-bg);
+  color: var(--text-color);
+  padding: 1rem 0;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
 }
 
-/* ==================== Utility Classes ==================== */
+/* ==================== Utility ==================== */
 .center-text {
   text-align: center;
 }
 
 .page-exiting {
-  opacity: 0; /* Class to trigger fade out */
+  opacity: 0;
 }
 
-/* ==================== Responsive Styling ==================== */
+/* ==================== Responsive ==================== */
 @media (max-width: 700px) {
-  footer a{
+  footer a {
     font-size: 20px;
     word-wrap: break-word;
   }
@@ -212,4 +227,21 @@ footer {
     width: 100%;
   }
 }
+@media (max-width: 500px) {
+  .top-navs {
+    padding: 5px;
+  }
 
+  .auth-links {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  nav ul {
+    text-align: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+}
