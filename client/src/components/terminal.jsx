@@ -2,8 +2,6 @@ import {Terminal} from '@xterm/xterm'
 import {FitAddon} from 'xterm-addon-fit'
 import {useEffect, useRef} from "react"
 import "@xterm/xterm/css/xterm.css"
-import '../styles/terminal.css'
-// @ts-ignore
 import React from 'react'
 
 
