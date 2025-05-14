@@ -1,4 +1,5 @@
 import DatabaseService from '../service/DatabaseService.js';
+import mongoose from 'mongoose';
 
 
 /**
@@ -34,7 +35,31 @@ class PostsModel{
      */
     async getAllPosts() {
         try {
-            const posts = await DatabaseService.posts.find();
+            const posts = await DatabaseService.posts.aggregate([
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "user"
+                    }
+                },
+                {
+                    $unwind: "$user"
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        content: 1,
+                        status: 1,
+                        likes: 1,
+                        dislikes: 1,
+                        userId: "$user._id",
+                        userFullName: { $concat: ["$user.firstname", " ", "$user.lastname"] },
+                        userEmail: "$user.email"
+                    }
+                }
+            ]);
             return posts
         } catch (error) {
             console.log(error)
@@ -50,7 +75,7 @@ class PostsModel{
      */
     async getPostsByUserId(userId) {
         try {
-            const posts = await DatabaseService.posts.find({ "userId.$oid": userId });
+            const posts = await DatabaseService.posts.find({ userId: new mongoose.Types.ObjectId(userId) });
             return posts;
         } catch (error) {
             console.log(error);

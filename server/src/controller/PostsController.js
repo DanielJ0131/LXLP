@@ -120,16 +120,23 @@ class PostsController {
      */
     async createPost(req, res, next) {
         try {
-            const { userId, content } = req.body;            
-
-            if (!userId) {
-            return res.status(401).json({ message: "Unauthorized" });
-            }
-
-            const newPost = await PostsModel.createPost({
-            userId,
-            content
+            const username = res.locals.jwt.username;
+            const user = await UsersModel.getUserByUsername(username);
+            const userId = user._id;
+            console.log(userId);
+            const postData = {
+                userId: userId,
+                content: req.body.content,
+            };
+            const newPost = await PostsModel.createPost(postData);
+            res.status(201).json({
+                message: 'User added successfully',
+                newPost: newPost
             });
+        } catch (error) {
+            next(error)
+            };
+    }  
 
             res.status(201).json(newPost);
         } catch (error) {

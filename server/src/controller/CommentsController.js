@@ -1,4 +1,5 @@
 import CommentsModel from "../model/CommentsModel.js";
+import UsersModel from "../model/UsersModel.js";
 
 
 /**
@@ -117,6 +118,33 @@ class CommentsController {
             next(error);
         }
     }
+
+
+    /**
+     * Create new comment.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async createComment(req, res, next) {
+        try {
+            const username = res.locals.jwt.username;
+            const user = await UsersModel.getUserByUsername(username);
+            const userId = user._id;
+            const commentData = {
+                userId: userId,
+                postId: req.body.postId,            
+                content: req.body.content
+            };
+            const newComment = await CommentsModel.createComment(commentData);
+            res.status(201).json({
+                message: 'Comment added successfully',
+                newComment: newComment
+            });
+        } catch (error) {
+            next(error)
+            };
+    }  
 }
 
 
