@@ -306,6 +306,8 @@ const Forum = ({ user }) => {
                                     Comment
                                 </button>
                             </form>
+
+                            {user?.role === 'admin' && (
                             <div className="post-actions-extra">
                                 <button
                                     className="delete-post-button"
@@ -347,6 +349,8 @@ const Forum = ({ user }) => {
                                     Delete
                                 </button>
                             </div>
+                            )}
+
                         </div>
                     ))
                 ) : (
