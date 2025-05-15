@@ -68,7 +68,6 @@ function App() {
 
     fetchUser();
   }, []);
-
   return (
     <div className="app-container">
       <header>
@@ -119,7 +118,7 @@ function App() {
         {currentUrl.includes('logout') && <Logout />}
       </main>
 
-      
+
       <footer>
         <p>© LXLP. All Rights Reserved</p>
         <a href="mailto:linuxlearningplatform@gmail.com">linuxlearningplatform@gmail.com</a>
