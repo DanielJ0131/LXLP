@@ -51,7 +51,7 @@ const Forum = ({ user }) => {
 
                 // Combine post data with user details and comment counts
                 const enrichedPosts = postsData.map(post => {
-                    const postUser = usersMap.get(post.userId) || { firstname: 'Unknown', lastname: 'User', Image: '', username: 'Unknown' };
+                    const postUser = usersMap.get(post.userId) || { firstname: 'Unknown', lastname: 'User', image: '', username: 'Unknown' };
                     const commentCount = commentsMap[post._id]?.length || 0;
                     return { ...post, user: postUser, commentCount };
                 });
@@ -145,7 +145,7 @@ const Forum = ({ user }) => {
                 user: {
                     firstname: user.firstname,
                     lastname: user.lastname,
-                    Image: user.Image,
+                    image: user.image,
                     username: user.username
                 },
                 commentCount: 0
@@ -203,8 +203,8 @@ const Forum = ({ user }) => {
                         <div key={post._id} className="post-card">
                             <div className="post-header">
                                 <div className="avatar-container">
-                                    {post.user.Image ? (
-                                        <img src={post.user.Image} alt={`${post.user.firstname} ${post.user.lastname}`} className="avatar-image"/>
+                                    {post.user.image ? (
+                                        <img src={post.user.image} alt={`${post.user.firstname} ${post.user.lastname}`} className="avatar-image"/>
                                     ) : (
                                         <div className="avatar-placeholder">
                                             {`${post.user.firstname?.[0] || ''}${post.user.lastname?.[0] || ''}`}
