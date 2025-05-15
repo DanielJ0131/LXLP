@@ -92,6 +92,7 @@ jwtController.login = async (req, res) => {
     res.status(200).json({
       type: 'success',
       message: 'The user was authenticated',
+      token: data.token,
       user: data.user
     })
 
