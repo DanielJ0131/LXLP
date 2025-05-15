@@ -12,9 +12,6 @@ const LogoutHandler = () => {
                 });
             } catch (error) {
                 console.error('Error blacklisting token:', error);
-            } finally {
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
             }
         };
         logout();
