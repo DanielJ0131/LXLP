@@ -12,8 +12,6 @@ const LogoutHandler = () => {
                 });
             } catch (error) {
                 console.error('Error blacklisting token:', error);
-            } finally {
-                //we used to have clear localStorage here but we dont need no more i think
             }
         };
         logout();
