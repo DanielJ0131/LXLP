@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Home from './components/home.jsx';
 import About from './components/about.jsx';
-import XTerminal from "./components/terminal.js";
+import XTerminal from "./components/terminal.jsx";
 import Forum from './components/forum.jsx';
 import Login from './components/login.jsx';
 import Logout from './components/logout.jsx';
