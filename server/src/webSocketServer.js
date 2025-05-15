@@ -17,7 +17,7 @@ class WSS_Server {
                 'http://192.168.0.103:5000', // Server IP
                 'http://192.168.0.101:5000',
                 'http://194.47.45.182:5000/', // Server IP
-
+                process.env.IP
             ];
             return allowedOrigins.includes(origin);
         };
