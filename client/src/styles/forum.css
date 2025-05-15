@@ -1,5 +1,12 @@
 /* forum.css */
 
+.new-post-form {
+    display: flex;
+    margin: 1rem 0;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
 .forum-container h2 {
     font-weight: bold;
     text-align: center;
@@ -138,10 +145,10 @@
 }
 
 .post-status {
-    padding: 4px 8px;
-    border-radius: 16px;
+    padding: 5px;
+    border-radius: 10px;
     font-size: 12px;
-    font-weight: semibold;
+    font-weight: bold;
     white-space: nowrap;
 }
 
