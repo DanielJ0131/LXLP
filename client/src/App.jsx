@@ -73,6 +73,10 @@ function App() {
     <div className="app-container">
       <header>
         <h1>Linux Learning Platform</h1>
+            {/* Theme Toggle Button */}
+          <button onClick={toggleTheme} className="theme-toggle">
+            Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
+          </button>
       </header>
 
       <main>
@@ -93,11 +97,6 @@ function App() {
               </section>
             </>
           )}
-
-          {/* Theme Toggle Button */}
-          <button onClick={toggleTheme} className="theme-toggle">
-            Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
-          </button>
         </section>
 
         <nav>
