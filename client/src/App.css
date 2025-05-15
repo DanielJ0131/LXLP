@@ -48,7 +48,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-family: "Courier New", Courier, monospace;
-  margin-left: 10rem;
+  margin-left: 1rem;
   transition: all 0.3s ease-in-out;
 }
 
