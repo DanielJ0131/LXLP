@@ -5,7 +5,7 @@
     font-weight: bold;
     text-align: center;
     align-items: center;
-    color: green;
+    color: var(--accent-color);
     background-clip: text;
 }
 
