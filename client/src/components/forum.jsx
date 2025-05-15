@@ -246,11 +246,13 @@ const Forum = ({ user }) => {
                                     ))}
                                 </div>
                             )}
-                            <div className="comments-toggle">
-                                <button className="toggle-comments-button" onClick={() => toggleComments(post._id)}>
-                                    {visibleComments[post._id] ? 'Hide Comments' : 'Show Comments'}
-                                </button>
-                            </div>
+                            {post.commentCount > 0 && (
+                                <div className="comments-toggle">
+                                    <button className="toggle-comments-button" onClick={() => toggleComments(post._id)}>
+                                        {visibleComments[post._id] ? 'Hide Comments' : 'Show Comments'}
+                                    </button>
+                                </div>
+                            )}
                             <form
                                 className="new-comment-form"
                                 onSubmit={async (e) => {
@@ -306,6 +308,8 @@ const Forum = ({ user }) => {
                                     Comment
                                 </button>
                             </form>
+
+                            {user?.role === 'admin' && (
                             <div className="post-actions-extra">
                                 <button
                                     className="delete-post-button"
@@ -347,6 +351,8 @@ const Forum = ({ user }) => {
                                     Delete
                                 </button>
                             </div>
+                            )}
+
                         </div>
                     ))
                 ) : (
