@@ -62,6 +62,10 @@
   text-align: center;
   margin-left: 28px;
   margin-top: 15px;
+  gap: 1rem;
+}
+.btn btn-primary .btn btn-secondary {
+  padding: 5px;
 }
 
 @media (max-width: 700px) {
