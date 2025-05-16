@@ -44,11 +44,6 @@ middleware.jwtTokenIsValid = async (req, res, next) => {
       })
     }
 
-    req.user = {
-    id: payload.userId,
-    role: payload.role     
-    };
-
     next()
 
   } catch (err) {
