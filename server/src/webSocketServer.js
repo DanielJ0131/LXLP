@@ -33,14 +33,14 @@ class WSS_Server {
             // If the origin is allowed, proceed with the connection
             console.log((new Date()) + ' Connection accepted from origin: ' + request.headers.origin);
 
-            // 3. Spawn a terminal
+            // Spawn a terminal
             const shell = os.platform() === 'win32' ? 'cmd.exe' : 'bash';
             const ptyProcess = pty.spawn(shell, [], {
                 name: 'xterm-color',
                 env: process.env,
             });
 
-            // 4. Handle messages from the client
+            // Handle messages from the client
             ws.on('message', (message) => {
                 console.log((new Date()) + ' Received Message: ', message);
                 try {
@@ -55,13 +55,13 @@ class WSS_Server {
                 }
             });
 
-            // 5. Handle client disconnects
+            // Handle client disconnects
             ws.on('close', (code, reason) => {
                 console.log((new Date()) + ' Peer ' + request.socket.remoteAddress + ' disconnected with code ' + code + ' and reason: ' + reason);
                 ptyProcess.kill();
             });
 
-            // 6. Send data from the terminal to the client
+            // Send data from the terminal to the client
             ptyProcess.onData((data) => {
                 const message = JSON.stringify({
                     type: 'data',
@@ -71,12 +71,12 @@ class WSS_Server {
             });
         });
 
-        // 8.  Listen on the specified port
+        // Listen on the specified port
         server.listen(port, () => {
             console.log(`WebSocket Server listening on port ${port}`);
         });
 
-        // 9.  Graceful shutdown
+        // Graceful shutdown
         async function shutdown() {
             console.log('Shutting down WebSocket server...');
             server.close();
