@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [About](#about)![alt text](image.png)
+- [About](#about)
 - [Features](#features)
 - [Usage](#usage)
 - [Contributing](#contributing)
