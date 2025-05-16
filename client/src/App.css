@@ -154,6 +154,7 @@ nav a {
   color: var(--text-color);
   transition: color 200ms;
   box-shadow: 0 2px 8px rgba(68, 255, 0, 0.15);
+  font-weight: bold;
 }
 
 nav a:hover {
