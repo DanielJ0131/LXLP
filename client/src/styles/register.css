@@ -4,7 +4,7 @@
     border-radius: 8px;
     max-width: 400px;
     margin: 2rem auto;
-    background-color: #1e1e1e;
+    color: var(--text-color);
     color: 00ff00;
   }
   
