@@ -8,16 +8,16 @@ class WSS_Server {
         const port = process.env.PORT_WSS || 8080;
         const server = http.createServer(app);
         const wss = new WebSocketServer({ server });
+        const allowedIP = "http://" + process.env.IP + ":" + process.env.PORT;
+        const allowedSecureIP = "https://" + process.env.IP + ":" + process.env.PORT;
 
         // Function to check if the origin is allowed
         const originIsAllowed = (origin) => {
             const allowedOrigins = [
                 'https://lxlp.onrender.com',
                 'http://localhost:5000',
-                'http://192.168.0.103:5000', // Server IP
-                'http://192.168.0.101:5000',
-                'http://194.47.45.182:5000/', // Server IP
-                process.env.IP
+                allowedIP,
+                allowedSecureIP,
             ];
             return allowedOrigins.includes(origin);
         };
