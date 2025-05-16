@@ -7,6 +7,8 @@
   --nav-bg: #252526;
   --border-color: #3c3c3c;
   --link-hover: #00ff00;
+  --status-fixed-color: #22c55e;
+  --status-pending-color: #f59e0b;
 }
 
 body.light {
@@ -17,6 +19,8 @@ body.light {
   --nav-bg: #ffffff;
   --border-color: #ccc;
   --link-hover: #007acc;
+  --status-fixed-color: #1e1e1e;
+  --status-pending-color: #1e1e1e;
 }
 
 /* ==================== Global ==================== */
