@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [About](#about)![alt text](image.png)
+- [About](#about)
 - [Features](#features)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -24,7 +24,7 @@ Linux Learning Platform (LXLP) is an open-source web application designed to hel
 
 ## Usage
 
-- Access the platform at `www.linuxlearningplatform.me`
+- Access the platform at [www.linuxlearningplatform.me](https://www.linuxlearningplatform.me)
 - Register for an account and start learning Linux!
 
 ## License
