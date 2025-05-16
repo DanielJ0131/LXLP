@@ -126,6 +126,7 @@ nav {
   background-color: var(--nav-bg);
   border-bottom: 1px solid var(--border-color);
   padding: 0.5rem 0;
+  margin-bottom: 1rem;
 }
 
 nav ul {
