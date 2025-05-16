@@ -152,6 +152,8 @@
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 
 }
 
