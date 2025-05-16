@@ -31,6 +31,9 @@ class PostsModel {
     try {
       const posts = await DatabaseService.posts.aggregate([
         {
+          $sort: { createdAt: -1 },
+        },
+        {
           $lookup: {
             from: "users",
             localField: "userId",
