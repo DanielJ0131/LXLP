@@ -86,6 +86,11 @@ header h1 {
   gap: 0.5rem; /* Add spacing between elements */
 }
 
+
+.auth-links a {
+  box-shadow: 0 2px 8px rgba(68, 255, 0, 0.15);
+}
+
 .top-navs p {
   margin: 0;
   color: var(--accent-color);
@@ -97,6 +102,7 @@ header h1 {
 .auth-links {
   display: flex;
   gap: 1rem;
+  font-size: 16px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -146,6 +152,7 @@ nav a {
   text-decoration: none;
   color: var(--text-color);
   transition: color 200ms;
+  box-shadow: 0 2px 8px rgba(68, 255, 0, 0.15);
 }
 
 nav a:hover {
@@ -216,28 +223,16 @@ footer {
     padding: 10px;
   }
 
+  .top-navs p{
+    align-self: center;
+    text-align: center;
+    padding: 10px;
+  }
+
   .auth-links {
     white-space: nowrap;
     flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-  }
-
-  nav ul {
-    text-align: center;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-  }
-}
-@media (max-width: 500px) {
-  .top-navs {
-    padding: 5px;
-  }
-
-  .auth-links {
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
     width: 100%;
   }
 

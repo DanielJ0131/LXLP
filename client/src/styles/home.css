@@ -1,7 +1,6 @@
 .linux-logo {
     width: 40%;
     height: auto;
-    margin-bottom: 20px;
 
     /* Round corners */
     border-radius: 10px;
@@ -32,5 +31,12 @@
     }
     100% {
         filter: brightness(1);
+    }
+}
+
+
+@media (max-width:700px) {
+    .linux-logo{
+        width: 100%;
     }
 }
