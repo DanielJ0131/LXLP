@@ -54,6 +54,8 @@ class PostsModel{
                         status: 1,
                         likes: 1,
                         dislikes: 1,
+                        image: "$user.image",
+                        username: "$user.username",
                         userId: "$user._id",
                         userFullName: { $concat: ["$user.firstname", " ", "$user.lastname"] },
                         userEmail: "$user.email"
