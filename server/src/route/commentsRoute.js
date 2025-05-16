@@ -1,14 +1,15 @@
 import express from 'express'
 import CommentsController from '../controller/CommentsController.js'
 import { jwtMiddleware } from '../middleware/jwtMiddlewere.js'
+import {checkRole} from '../middleware/roleMiddelwere.js'
 
 export const router = express.Router()
 
 router.use(jwtMiddleware.jwtTokenIsValid)
 
-router.get('/', (req, res, next) => CommentsController.getAllComments(req, res, next))
-router.get('/:id', (req, res, next) => CommentsController.getCommentById(req, res, next))
-router.get('/by-post-id/:postId', CommentsController.getCommentsByPostId);
-router.put('/:id', (req, res, next) => CommentsController.updateComment(req, res, next))
-router.delete('/:id', (req, res, next) => CommentsController.deleteComment(req, res, next))
-router.post('/', (req, res, next) => CommentsController.createComment(req, res, next))
+router.get('/', checkRole(["admin"]),CommentsController.getAllComments)
+router.get('/:id', checkRole(["admin", "user"]), CommentsController.getCommentById)
+router.get('/by-post-id/:postId', checkRole(["admin", "user"]),CommentsController.getCommentsByPostId);
+router.put('/:id', checkRole(["admin", "user"]), CommentsController.updateComment)
+router.delete('/:id', checkRole(["admin", "user"]),CommentsController.deleteComment)
+router.post('/',  checkRole(["admin", "user"]),CommentsController.createComment)
