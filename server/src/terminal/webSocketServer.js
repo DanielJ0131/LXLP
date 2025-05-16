@@ -33,9 +33,14 @@ class WSS_Server {
             // If the origin is allowed, proceed with the connection
             console.log((new Date()) + ' Connection accepted from origin: ' + request.headers.origin);
 
+
+            const dockerImage = 'alpine:latest' // Chose image... can be dynamic
+            const dockerCommand = ['/bin/sh'] // Bin bash makes docker run in interactive mode
+
             // Spawn a terminal
-            const shell = os.platform() === 'win32' ? 'cmd.exe' : 'bash';
-            const ptyProcess = pty.spawn(shell, [], {
+            // Spawning a docker, do docker commands, run -it (interactive mode), --rm (remove container when exited)
+            // docker Image specifies which linux distro, dockerCommand makes docker work
+            const ptyProcess = pty.spawn('docker', ['run', '-it', '--rm', dockerImage, ...dockerCommand], {
                 name: 'xterm-color',
                 env: process.env,
             });
