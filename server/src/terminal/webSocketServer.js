@@ -18,7 +18,6 @@ class WSS_Server {
                 'http://localhost:5000',
                 allowedIP,
                 allowedSecureIP,
-                'http://192.168.0.103:5000',
             ];
             return allowedOrigins.includes(origin);
         };
