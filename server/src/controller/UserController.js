@@ -229,6 +229,7 @@ class UsersController {
             }
         }
 
+        //this will not be hardcoded in the final production
         async testMail(req, res) {
         console.log("route called")
         try {

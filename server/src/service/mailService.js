@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
   host: 'sandbox.smtp.mailtrap.io',
   port: 2525,
   auth: {
-    user: process.env.MAILTRAP_USER,
+    user: process.env.MAILTRAP_USER, //add this into .env - perhaps in the script aswell.
     pass: process.env.MAILTRAP_PASS
   }
 })
@@ -18,7 +18,7 @@ transporter.verify((error, success) =>{
     }
 })
 
-
+//will probably need to refactor this later but we will see
 const sendResetEmail = async (to, token) => {
   const resetLink = `http://localhost:5000/reset-password?token=${token}`
 
