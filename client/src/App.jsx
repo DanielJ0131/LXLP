@@ -8,6 +8,7 @@ import Logout from './components/logout.jsx';
 import Register from './components/register.jsx';
 import Courses from './components/courses.jsx';
 import Info from './components/info.jsx';
+import Profile from './components/profile.jsx';
 import './App.css';
 
 
@@ -89,6 +90,7 @@ function App() {
             <>
               <p>👋 Welcome back, {user.firstname}!</p>
               <section className="auth-links">
+                <li><a href='/profile'>Profile</a></li>
                 <li><a href="/logout">Logout</a></li>
               </section>
             </>
@@ -123,6 +125,7 @@ function App() {
         {currentUrl.includes('register') && <Register />}
         {currentUrl.includes('logout') && <Logout />}
         {currentUrl.includes('info') && <Info />}
+        {currentUrl.includes('profile') && <Profile user={user} />}
       </main>
 
 
