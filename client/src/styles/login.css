@@ -1,5 +1,5 @@
 .login-fieldset {
-  border: 2px solid #ccc;
+  border: 2px solid var(--text-color);
   padding: 1.5rem;
   border-radius: 8px;
   max-width: 400px;

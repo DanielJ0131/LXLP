@@ -7,6 +7,7 @@ import { router as commentsRoute } from './commentsRoute.js'
 import { router as jwtRoute } from './jwtRoute.js'
 //import { jwtMiddleware } from '../middleware/jwtMiddlewere.js'
 import { router as courseRoute } from './coursesRoute.js'
+import { router as profileRoute } from './profileRoute.js'
 
 // This will be the main route connecting all the other routes
 // once we have jwt, api and user database routes.
@@ -19,3 +20,4 @@ router.use('/api/users', usersRoute)
 router.use('/api/posts', postsRoute)
 router.use('/api/comments', commentsRoute)
 router.use('/api/courses', courseRoute)
+router.use('/api/profile', profileRoute)
