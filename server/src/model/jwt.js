@@ -12,7 +12,7 @@ export default model
  * @param email
  * @returns {object} Details on the user.
  */
-model.createJwtToken = (username, role, email, firstname) => {
+model.createJwtToken = (username, role, email, firstname, lastname) => {
   const currentDate = new Date()
   const payload = {
     iss: 'Issuer id',
@@ -20,6 +20,7 @@ model.createJwtToken = (username, role, email, firstname) => {
     username,
     email,
     firstname,
+    lastname,
     role,
     permissions: ['read', 'write'],
     iat: Date.now(),
