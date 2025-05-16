@@ -7,7 +7,7 @@ export const router = express.Router()
 
 router.use(jwtMiddleware.jwtTokenIsValid)
 
-router.get('/:id', UsersController.getUserById)
+router.get('/:id', checkRole(["admin", "users"]), UsersController.getUserById)
 router.get('/', checkRole(["admin"]),UsersController.getAllUsers)
 router.get('/name/:name', checkRole(["admin","user"]), UsersController.getUserByName)
 router.get('/email/:email',checkRole(["admin", "user"]), UsersController.getUserByEmail)
