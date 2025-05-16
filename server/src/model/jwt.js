@@ -110,3 +110,15 @@ model.blacklist = async (token) => {
     throw new Error(`Failed to blacklist token: ${error.message}`);
   }
 }
+
+// token for resetting password
+model.createResetToken = (email) => {
+  const payload = {
+    sub: email,
+    type: 'reset-password',
+    iat: Date.now(),
+    exp: Math.floor(Date.now() / 1000) + 60 * 15  // expires after 15 min
+  }
+  const token = jwt.sign(payload, process.env.JWT_SECRET)
+  return token
+}
