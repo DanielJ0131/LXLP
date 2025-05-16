@@ -280,6 +280,30 @@ class UsersController {
         }
         }
 
+        async requestPasswordReset(req, res, next) {
+            const { email } = req.body
+
+            if (!email) {
+                return res.status(400).json({ message: "Email is required" })
+            }
+
+            try {
+                const user = await UserModel.getUserByEmail(email)
+                if (!user) {
+                // should probably not tell if there is a user or not tbh 
+                return res.status(200).json({ message: "If this email is registered, a reset link has been sent." })
+                }
+
+                const token = jwt.createResetToken(email)
+                await sendResetEmail(email, token)
+
+                res.status(200).json({ message: "If this email is registered, a reset link has been sent." })
+
+            } catch (error) {
+                next(error)
+            }
+            }
+
 }
 
 export default new UsersController();
