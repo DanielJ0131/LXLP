@@ -1,11 +1,11 @@
 .register-fieldset {
-    border: 2px solid #ccc;
+    border: 2px solid var(--text-color);
     padding: 1.5rem;
     border-radius: 8px;
     max-width: 400px;
     margin: 2rem auto;
     color: var(--text-color);
-    color: 00ff00;
+    background-color: var(--bg-color);;
   }
   
   .register-fieldset legend {
@@ -45,44 +45,26 @@
     font-size: 1.2rem;
     color: #555;
   }
-
-  .password-input {
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
   
- @media (max-width: 500px) {
-  .register-fieldset {
-    max-width: 95vw;
-    padding: 2rem;
+  @media (max-width: 500px) {
+    .register-fieldset {
+      max-width: 95vw;
+      padding: 2rem;
+    }
+    .create-acc-input {
+      flex-direction: column;
+      align-items: stretch;
+      font-size: 16px;
+    }
+    .create-acc-input label {
+      width: auto;
+      margin-bottom: 4px;
+      margin-right: 0;
+    }
+    .create-acc-input input {
+      margin-left: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
   }
-  .create-acc-input {
-    flex-direction: column;
-    align-items: stretch;
-    font-size: 16px;
-    width: 90%;
-  }
-
-  .create-acc-input label {
-    width: auto;
-    margin-bottom: 4px;
-    margin-right: 10px; /* Add some space between label and input */
-  }
-  .create-acc-input input {
-    margin-left: 0;
-    box-sizing: border-box;
-    flex-grow: 1; /* Still let it grow */
-    width: 88%; /* Make it take full width */
-  }
-  .toggle-password {
-    font-size: 1.5rem;
-    margin-left: auto; /* Push it to the right in the row */
-  }
-  .password-input {
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
-}
   
