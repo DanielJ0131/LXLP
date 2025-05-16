@@ -34,8 +34,7 @@ export default function ResetPassword() {
         required
       />
       <button type="submit">Change password</button>
-      {message && <p>{message}</p>}
-      {message }
+      {message && <p>{message}. Redirecting to login.</p>}
     </form>
   )
 }
