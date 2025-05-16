@@ -242,6 +242,38 @@ async logout(token) {
     }
 }
 
+
+    /**
+     * Updates an password for user in the database by its ID.
+     * 
+     * @param {string} id - The Id of the user to update.
+     * @param {Object} newPassword - The new Password for the user.
+     * @returns {Promise<Object|null>} A promise that resolves to the updated user object if successful, or null if not found.
+     */
+    async updatePassword(id, newPassword) {
+        try {
+            const hashedPassword = await this.#hasPassword(newPassword);
+            newPassword = hashedPassword;
+            const updatedUser = await DatabaseService.users.findByIdAndUpdate(
+              id,  
+              { 
+                $set: {
+                    password: newPassword
+                }
+              },
+              { 
+                new: true,         // Return the updated document
+                runValidators: true // Run schema validators
+              }
+            );
+            return updatedUser;
+          } catch(error) {
+            console.log(error);
+            throw error; 
+          }
+    }
+
+
 }
 
 export default new UsersModel();
