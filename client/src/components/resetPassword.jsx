@@ -16,6 +16,11 @@ export default function ResetPassword() {
     })
     const data = await res.json()
     setMessage(data.message || data.error)
+    if(res.ok){
+        setTimeout(() =>{
+            window.location.href = "/login"
+        }, 2000)
+    }
   }
 
   return (
@@ -30,6 +35,7 @@ export default function ResetPassword() {
       />
       <button type="submit">Change password</button>
       {message && <p>{message}</p>}
+      {message }
     </form>
   )
 }
