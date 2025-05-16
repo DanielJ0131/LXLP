@@ -172,6 +172,28 @@ class UsersController {
         }
 
 
+        /**
+     * Update Password.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    async updatePassword(req, res, next) {
+        const oldPassword = req.body.oldPassword;
+        const newPassword = req.body.newPassword;
+        const username = req.params.username;
+        try{
+          const updatedPassword = await UserModel.updatePassword(username, oldPassword, newPassword);
+          if (!updatedPassword) {
+            return res.status(404).json({ message: "User not found" });
+          }
+          res.status(200).json({ message: "Password updated successfully" });
+        } catch (error) {
+          next(error);
+        }
+    }
+
+
 }
 
 export default new UsersController();
