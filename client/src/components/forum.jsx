@@ -93,7 +93,6 @@ const Forum = ({ user }) => {
 
     return (
         <div className="forum-container">
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete" />
             <h1 className="forum-title">Community Forum</h1>
             <div className="new-post-container">
                 <form onSubmit={handleNewPostSubmit} className="new-post-form">
@@ -135,6 +134,7 @@ const Forum = ({ user }) => {
                             </div>
                             <div className="post-footer">
                                 <span className="action-item">
+                                    {/* You can add comment count if your API returns it */}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{verticalAlign: 'middle'}}><path d="m21.73 18-8-8a2 2 0 0 0-3.48 0l-8 8A2 2 0 0 0 3 20h18a2 2 0 0 0 1.73-2Z"/><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
                                      {post.commentsCount || 0} Comments 
                                 </span>
@@ -208,9 +208,8 @@ const Forum = ({ user }) => {
                             </form>
                             {user?.role === 'admin' && (
                                 <div className="post-actions">
-                                    <span
-                                        className="material-symbols-outlined delete-post-icon"
-                                        title="Delete"
+                                    <button
+                                        className="delete-post-button"
                                         onClick={async () => {
                                             if (!window.confirm('Are you sure you want to delete this post?')) return;
                                             try {
@@ -224,21 +223,19 @@ const Forum = ({ user }) => {
                                                 alert(err.message || 'Failed to delete post.');
                                             }
                                         }}
+                                        disabled={submitting}
                                         style={{
-                                            background: 'none',
-                                            color: '#ff4d4f',
+                                            background: '#ff4d4f',
+                                            color: '#fff',
                                             border: 'none',
                                             borderRadius: '4px',
                                             padding: '4px 10px',
                                             marginTop: '10px',
-                                            cursor: 'pointer',
-                                            fontSize: '28px',
-                                            verticalAlign: 'middle',
-                                            display: 'inline-block'
+                                            cursor: 'pointer'
                                         }}
                                     >
-                                        delete
-                                    </span>
+                                        Delete
+                                    </button>
                                 </div>
                             )}
                         </div>
