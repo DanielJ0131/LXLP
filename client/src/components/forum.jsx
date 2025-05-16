@@ -12,7 +12,7 @@ const Forum = ({ user }) => {
     const [submitting, setSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
 
-    useEffect(() => {
+    useEffect(() => { // Fetch posts on component mount
         const fetchPosts = async () => {
             try {
                 const postsResponse = await fetchWithAuth('/api/posts');
@@ -25,10 +25,10 @@ const Forum = ({ user }) => {
                 setLoading(false);
             }
         };
-        fetchPosts();
+        fetchPosts(); // Call the fetch function
     }, []);
 
-    const fetchComments = async (postId) => {
+    const fetchComments = async (postId) => { // Fetch comments for a specific post
         try {
             const res = await fetchWithAuth(`/api/comments/by-post-id/${postId}`);
             if (!res.ok) throw new Error('Failed to fetch comments');
@@ -39,13 +39,13 @@ const Forum = ({ user }) => {
         }
     };
 
-    const toggleComments = (postId) => {
+    const toggleComments = (postId) => { // Toggle visibility of comments for a specific post
         setVisibleComments((prev) => ({
             ...prev,
             [postId]: !prev[postId]
         }));
         if (!commentsByPostId[postId]) {
-            fetchComments(postId);
+            fetchComments(postId); 
         }
     };
 
@@ -66,7 +66,7 @@ const Forum = ({ user }) => {
         );
     }
 
-    const handleNewPostSubmit = async (e) => {
+    const handleNewPostSubmit = async (e) => { // Handle new post submission
         e.preventDefault();
         setSubmitting(true);
         setSubmitError(null);
@@ -136,7 +136,7 @@ const Forum = ({ user }) => {
                                 <span className="action-item">
                                     {/* You can add comment count if your API returns it */}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{verticalAlign: 'middle'}}><path d="m21.73 18-8-8a2 2 0 0 0-3.48 0l-8 8A2 2 0 0 0 3 20h18a2 2 0 0 0 1.73-2Z"/><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
-                                     {post.commentsCount || 0} Comments 
+                                    {post.commentsCount || 0} Comments 
                                 </span>
                                 <span className={`post-status ${post.status === "fixed" ? 'status-fixed' : 'status-pending'}`}>
                                     {post.status}
