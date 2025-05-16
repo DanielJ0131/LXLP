@@ -1,5 +1,7 @@
 import UserModel from "../model/UsersModel.js";
 import sendResetEmail from '../service/mailService.js'
+import jwt from '../model/jwt.js'
+
 
 
 /**
@@ -227,17 +229,55 @@ class UsersController {
             }
         }
 
-async testMail(req, res) {
-  console.log("route called")
-  try {
-    const fakeToken = 'abc.123.fake'
-    await sendResetEmail('demo@example.com', fakeToken)
-    res.status(200).send(" testMail ready")
-  } catch (err) {
-    console.error(" err in testMail:", err.message)
-    res.status(500).send("function failed")
-  }
-}
+        async testMail(req, res) {
+        console.log("route called")
+        try {
+            const token = jwt.createResetToken('patrick.nordahl0033@stud.hkr.se')
+            await sendResetEmail('patrick.nordahl0033@stud.hkr.se', token)
+            res.status(200).send(" testMail ready")
+        } catch (err) {
+            console.error(" err in testMail:", err.message)
+            res.status(500).send("function failed")
+        }
+        }
+
+        async resetPassword(req, res, next) {
+        const { token, newPassword } = req.body
+
+        // no token no password, big problem
+        if (!token || !newPassword) {
+            return res.status(400).json({ message: "Token and new password are required" })
+        }
+
+        // literally copy and paste from ryad, ty
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
+        if (!passwordRegex.test(newPassword)) {
+            return res.status(400).json({
+            message: 'Password must be at least 10 characters and include upper/lowercase, number and special char'
+            })
+        }
+
+        try {
+            const payload = jwt.verify(token, process.env.JWT_SECRET)
+
+            if (payload.type !== 'reset-password') {
+            return res.status(403).json({ message: 'Invalid token type' })
+            }
+
+            const user = await UserModel.getUserByEmail(payload.sub)
+            if (!user) {
+            return res.status(404).json({ message: "User not found" })
+            }
+
+            await UserModel.forceUpdatePassword(user.username, newPassword)
+
+            res.status(200).json({ message: "Password reset successful" })
+
+        } catch (err) {
+            console.error("Reset error:", err.message)
+            res.status(401).json({ message: "Invalid or expired token" })
+        }
+        }
 
 }
 
