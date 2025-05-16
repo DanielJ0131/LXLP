@@ -73,6 +73,7 @@
     margin-left: 0;
     box-sizing: border-box;
     flex-grow: 1; /* Still let it grow */
+    width: 88%; /* Make it take full width */
   }
   .toggle-password {
     font-size: 1.5rem;
