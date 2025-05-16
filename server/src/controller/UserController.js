@@ -1,4 +1,6 @@
 import UserModel from "../model/UsersModel.js";
+import sendResetEmail from '../service/mailService.js'
+
 
 /**
  * Controller to perform CRUD for the users collection.
@@ -224,6 +226,18 @@ class UsersController {
                 next(error);
             }
         }
+
+async testMail(req, res) {
+  console.log("route called")
+  try {
+    const fakeToken = 'abc.123.fake'
+    await sendResetEmail('demo@example.com', fakeToken)
+    res.status(200).send(" testMail ready")
+  } catch (err) {
+    console.error(" err in testMail:", err.message)
+    res.status(500).send("function failed")
+  }
+}
 
 }
 
