@@ -71,7 +71,6 @@
   }
   .create-acc-input input {
     margin-left: 0;
-    width: 100%;
     box-sizing: border-box;
     flex-grow: 1; /* Still let it grow */
   }
