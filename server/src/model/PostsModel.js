@@ -134,6 +134,7 @@ class PostsModel {
   async deletePost(id) {
     try {
       const deletedPost = await DatabaseService.posts.findByIdAndDelete(id);
+      await DatabaseService.comments.deleteMany({ postId: new mongoose.Types.ObjectId(id) });
       return deletedPost;
     } catch (error) {
       error.message = "Error deleting post";
