@@ -1,7 +1,7 @@
 /* terminal.css */
 
 .terminal-container {
-    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    color: var(--text-color);
     color: #39ff14;
     font-family: Fira Mono, monospace;
     padding: 32px;
