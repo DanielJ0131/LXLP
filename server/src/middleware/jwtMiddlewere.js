@@ -16,6 +16,7 @@ export { middleware as jwtMiddleware }
  */
 middleware.jwtTokenIsValid = async (req, res, next) => {
   const token = req.cookies.accessToken //changed from auth header to cookie
+  console.log("is this breaking my POST from mail?")
 
   if (!token) {
     return res.status(401).json({
