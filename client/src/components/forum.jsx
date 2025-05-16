@@ -135,7 +135,8 @@ const Forum = ({ user }) => {
                             <div className="post-footer">
                                 <span className="action-item">
                                     {/* You can add comment count if your API returns it */}
-                                    Comments {post.commentsCount || 0}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{verticalAlign: 'middle'}}><path d="m21.73 18-8-8a2 2 0 0 0-3.48 0l-8 8A2 2 0 0 0 3 20h18a2 2 0 0 0 1.73-2Z"/><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
+                                     {post.commentsCount || 0} Comments 
                                 </span>
                                 <span className={`post-status ${post.status === "fixed" ? 'status-fixed' : 'status-pending'}`}>
                                     {post.status}
@@ -150,11 +151,13 @@ const Forum = ({ user }) => {
                                     ))}
                                 </div>
                             )}
-                            <div className="comments-toggle">
-                                <button className="toggle-comments-button" onClick={() => toggleComments(post._id)}>
-                                    {visibleComments[post._id] ? 'Hide Comments' : 'Show Comments'}
-                                </button>
-                            </div>
+                            {post.commentsCount > 0 && (
+                                <div className="comments-toggle">
+                                    <button className="toggle-comments-button" onClick={() => toggleComments(post._id)}>
+                                        {visibleComments[post._id] ? 'Hide Comments' : 'Show Comments'}
+                                    </button>
+                                </div>
+                            )}
                             <form
                                 className="new-comment-form"
                                 onSubmit={async (e) => {
@@ -204,7 +207,15 @@ const Forum = ({ user }) => {
                                 </button>
                             </form>
                             {user?.role === 'admin' && (
-                                <div className="post-actions-extra">
+                                <div className="post-actions">
+                                    {/* <span className="action-item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{verticalAlign: 'middle'}}><path d="M9 14V5H7v9"/><path d="M3 9h4"/><path d="M15 9v-4a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h7l5 5v-9z"/></svg>
+                                        {post.likes}
+                                    </span>
+                                    <span className="action-item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{verticalAlign: 'middle'}}><path d="M15 10v9h-2V10"/><path d="M21 15h-4"/><path d="M7 15v4a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2H12l-5-5H2a2 2 0 0 0-2 2z"/></svg>
+                                        {post.dislikes}
+                                    </span> */}
                                     <button
                                         className="delete-post-button"
                                         onClick={async () => {
