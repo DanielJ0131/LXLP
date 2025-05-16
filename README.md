@@ -12,14 +12,12 @@
 
 ## About
 
-Linux Learning Platform (LXLP) is an open-source web application designed to help users learn Linux concepts and commands through interactive tutorials, quizzes, and hands-on labs.
+Linux Learning Platform (LXLP) is a web application designed to help users learn Linux concepts and commands through video tutorials, forum and in-browser terminal.
 
 ## Features
 
-- Interactive Linux tutorials
+- Linux Tutorial Videos
 - Command-line practice environment
-- Progress tracking and achievements
-- Quizzes and assessments
 - Community discussion forums
 
 ## Usage
