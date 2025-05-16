@@ -135,7 +135,7 @@ const Forum = ({ user }) => {
                             <div className="post-footer">
                                 <span className="action-item">
                                     {/* You can add comment count if your API returns it */}
-                                    Comments
+                                    Comments {post.commentsCount || 0}
                                 </span>
                                 <span className={`post-status ${post.status === "fixed" ? 'status-fixed' : 'status-pending'}`}>
                                     {post.status}
