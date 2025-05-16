@@ -288,12 +288,11 @@ const Forum = ({ user }) => {
                                                     : p
                                             )
                                         );
+                                        setVisibleComments(prev => ({
+                                            ...prev,
+                                            [post._id]: true
+                                        }));
                                         form.reset();
-                                        setTimeout(() => {
-                                            // Re-fetch posts/comments to ensure latest data (simulate useEffect)
-                                            // You can extract fetchData to top-level and call here if needed
-                                            window.location.reload();
-                                        }, 500);
                                     } catch (err) {
                                         alert(err.message || 'Failed to add comment.');
                                     }
