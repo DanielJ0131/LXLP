@@ -59,7 +59,7 @@ class PostsModel {
             image: "$user.image",
             username: "$user.username",
             userId: "$user._id",
-            commentsCount: {$size: "$comments"},
+            commentsCount: { $size: "$comments" },
             userFullName: {
               $concat: ["$user.firstname", " ", "$user.lastname"],
             },
@@ -150,7 +150,42 @@ class PostsModel {
     try {
       const newPost = new DatabaseService.posts(postData);
       await newPost.save();
-      return newPost;
+      const postFromDb = await DatabaseService.posts.aggregate([
+        {
+          $match: {
+            _id: new mongoose.Types.ObjectId(newPost._id),
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: "$user",
+        },
+        {
+          $project: {
+            _id: 1,
+            content: 1,
+            status: 1,
+            likes: 1,
+            dislikes: 1,
+            image: "$user.image",
+            username: "$user.username",
+            userId: "$user._id",
+            commentsCount: { $literal: 0 },
+            userFullName: {
+              $concat: ["$user.firstname", " ", "$user.lastname"],
+            },
+            userEmail: "$user.email",
+          },
+        },
+      ]);
+      return postFromDb[0];
     } catch (error) {
       console.log(error);
       throw error;

@@ -83,7 +83,7 @@ const Forum = ({ user }) => {
 
             if (!res.ok) throw new Error('Failed to create post');
             const createdPost = await res.json();
-            setPosts(prev => [createdPost, ...prev]);
+            setPosts(prev => [createdPost.newPost, ...prev]);
             setNewPostContent('');
         } catch (err) {
             setSubmitError(err.message || 'Failed to create post.');
@@ -174,10 +174,15 @@ const Forum = ({ user }) => {
                                         });
                                         if (!res.ok) throw new Error('Failed to add comment');
                                         const createdComment = await res.json();
-                                        setCommentsByPostId(prev => ({
+                                        if(!commentsByPostId[post._id]) {
+                                            fetchComments(post._id);
+                                        } else {
+                                            setCommentsByPostId(prev => ({
                                             ...prev,
-                                            [post._id]: [...(prev[post._id] || []), createdComment]
+                                            [post._id]: [...(prev[post._id] || []), createdComment.newComment]
                                         }));
+                                        }
+                                        setPosts(posts.map(p => p._id === post._id ? { ...p, commentsCount: (p.commentsCount || 0) + 1 } : p));
                                         form.reset();
                                     } catch (err) {
                                         alert(err.message || 'Failed to add comment.');
