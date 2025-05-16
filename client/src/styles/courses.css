@@ -5,7 +5,7 @@
     font-weight: bold;
     text-align: center;
     align-items: center;
-    color: green;
+    color: var(--accent-color);
     background-clip: text;
 }
 
@@ -111,17 +111,24 @@
 
 /* Animation for jumping and scaling the iframe video */
 .video-animate {
-    animation: jumpAndScale 0.4s ease;
-    transform: scale(1.1);
-    z-index: 10;
-}
-
-/* Larger scale animation for iframe */
-.video-animate {
     animation: jumpAndScaleBig 0.4s ease;
-    transform: scale(1); /* Make it larger */
+    transform: scale(1);
     z-index: 10;
     transition: transform 0.3s ease;
+}
+
+/* Make iframe responsive on mobile */
+@media (max-width: 600px) {
+    .courses-container iframe {
+        width: 100vw;
+        height: 56vw; /* 16:9 aspect ratio */
+        max-width: 100%;
+        max-height: 60vw;
+        border-radius: 0;
+        border-width: 0;
+        margin: 0;
+        display: block;
+    }
 }
 
 /* Jump and grow keyframes */

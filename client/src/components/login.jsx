@@ -38,8 +38,6 @@ export default function Login(){
             }
     
             setSuccess('Login Successful')
-            localStorage.setItem('user', JSON.stringify(data.user))
-            localStorage.setItem('token', data.token)
     
             window.location.href = "/forum"  
         } catch (err) {
@@ -85,8 +83,8 @@ export default function Login(){
                 </div>
 
                 <div className ="button-wrp">
-                    <button type="submit">Log in</button>
-                    <button type ="button">Forgot password?</button>
+                    <button className ="btn btn-primary" type="submit">Log in</button>
+                    <button classNAme ="btn btn-secondary" type ="button">Forgot password?</button>
                 </div>
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}

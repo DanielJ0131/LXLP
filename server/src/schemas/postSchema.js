@@ -12,7 +12,7 @@ const postSchema = new Schema({
     },
     status: {
         type: String,
-        default: 'draft',
+        default: 'published',
         enum: ['draft', 'published', 'archived']
     },
     likes: {
@@ -22,6 +22,10 @@ const postSchema = new Schema({
     dislikes: {
         type: Number,
         default: 0
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
   });
 

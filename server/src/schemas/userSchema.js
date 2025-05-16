@@ -26,7 +26,7 @@ const userSchema = new Schema({
             required: true,
             type: String,
         },
-        Image: {
+        image: {
             type: String,
             default: 'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
         },

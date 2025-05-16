@@ -211,7 +211,7 @@ class UsersModel{
       throw new Error('User and password dows not match')
     }
 
-    const token = jwt.createJwtToken(user.username, user.role, user.email)
+    const token = jwt.createJwtToken(user.username, user.role, user.email, user.firstname)
     return {
         token,
         user: {
@@ -241,6 +241,47 @@ async logout(token) {
         throw new Error('Error logging out');
     }
 }
+
+
+    /**
+     * Updates an password for user in the database by its ID.
+     * 
+     * @param {string} username - The Id of the user to update.
+     * @param {string} oldPassword - The old Password for the user.
+     * @param {Object} newPassword - The new Password for the user.
+     * @returns {Promise<Object|null>} A promise that resolves to the updated user object if successful, or null if not found.
+     */
+    async updatePassword(username, oldPassword, newPassword) {
+        try {
+            const hashedPassword = await this.#hasPassword(newPassword);
+            newPassword = hashedPassword;
+            const user = await this.getUserByUsername(username);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            const success = await bcrypt.compare(oldPassword, user.password);
+            if (!success) {
+                throw new Error('Old password is incorrect');
+            }
+            const updatedUser = await DatabaseService.users.findOneAndUpdate(
+              { username: username },  // Find user by username
+              { 
+                $set: {
+                    password: newPassword
+                }
+              },
+              { 
+                new: true,         // Return the updated document
+                runValidators: true // Run schema validators
+              }
+            );
+            return updatedUser;
+          } catch(error) {
+            console.log(error);
+            throw error; 
+          }
+    }
+
 
 }
 

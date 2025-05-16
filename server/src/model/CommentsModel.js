@@ -1,6 +1,6 @@
 import DatabaseService from '../service/DatabaseService.js';
-
-/**
+import mongoose from 'mongoose';
+ /**
  * The CommentsModel class provides methods to interact with the comment data in the database.
  */
 class CommentsModel{
@@ -50,8 +50,9 @@ class CommentsModel{
      */
     async getCommentsByPostId(postId) {
         try {
-            const comments = await DatabaseService.comments.find({ "postId.$oid": postId });
-            return comments;
+            return await DatabaseService.comments.find({
+                postId: new mongoose.Types.ObjectId(postId)
+            });
         } catch (error) {
             console.log(error);
             throw error;
@@ -106,6 +107,23 @@ class CommentsModel{
             console.log(error);
             throw error; 
           }
+    }
+
+    /**
+     * Creates a new comment in the database.
+     * 
+     * @param {Object} commentData - The data for the new comment.
+     * @returns {Promise<Object>} A promise that resolves to the created comment object.
+     */
+    async createComment(commentData) {
+        try {
+            const newComment = new DatabaseService.comments(commentData);
+            await newComment.save();
+            return newComment;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 
 
