@@ -255,7 +255,7 @@ async logout(token) {
         try {
             const hashedPassword = await this.#hasPassword(newPassword);
             newPassword = hashedPassword;
-            user = await this.getUserByUsername(username);
+            const user = await this.getUserByUsername(username);
             if (!user) {
                 throw new Error('User not found');
             }

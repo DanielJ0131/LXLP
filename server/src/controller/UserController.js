@@ -181,8 +181,18 @@ class UsersController {
     async updatePassword(req, res, next) {
         const oldPassword = req.body.oldPassword;
         const newPassword = req.body.newPassword;
-        const username = req.params.username;
+        const username = req.body.username;
+
+        // Validate the password
+           const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
+             if (!passwordRegex.test(newPassword)) {
+             return res.status(400).json({
+             type: 'failed',
+             message: 'The new password must be at least 10 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (e.g., -, _, or a number).'
+            })
+        }
         try{
+           
           const updatedPassword = await UserModel.updatePassword(username, oldPassword, newPassword);
           if (!updatedPassword) {
             return res.status(404).json({ message: "User not found" });
