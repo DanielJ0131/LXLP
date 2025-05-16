@@ -7,7 +7,9 @@ import Login from './components/login.jsx';
 import Logout from './components/logout.jsx';
 import Register from './components/register.jsx';
 import Courses from './components/courses.jsx';
+import Info from './components/info.jsx';
 import './App.css';
+
 
 function App() {
   const [currentUrl, setCurrentUrl] = useState(window.location.href);
@@ -77,6 +79,9 @@ function App() {
             Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
           </button>
       </header>
+      <aside className="sidebar">
+      </aside>
+      
 
       <main>
         <section className="top-navs">
@@ -101,6 +106,7 @@ function App() {
         <nav>
           <ul>
             <li><a href="/home">Home</a></li>
+            <li><a href="/info">Linux?</a></li>
             <li><a href="/courses">Courses</a></li>
             <li><a href="/forum">Forum</a></li>
             <li><a href="/terminal">Terminal</a></li>
@@ -116,6 +122,7 @@ function App() {
         {currentUrl.includes('login') && <Login />}
         {currentUrl.includes('register') && <Register />}
         {currentUrl.includes('logout') && <Logout />}
+        {currentUrl.includes('info') && <Info />}
       </main>
 
 
