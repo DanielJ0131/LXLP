@@ -19,10 +19,10 @@
 
 @keyframes shadowAppear {
     0% {
-        box-shadow: 0 0 5px rgba(46, 204, 113, 0.3);
+        box-shadow: 0 0 5px var(--accent-color);
     }
     100% {
-        box-shadow: 0 0 20px rgba(46, 204, 113, 0.8);
+        box-shadow: 0 0 20px var(--accent-color);
     }
 }
 
