@@ -28,7 +28,8 @@
     "mongoose": "^8.14.1",
     "morgan": "^1.10.0",
     "node-pty": "^1.1.0-beta34",
-    "ws": "^8.18.2"
+    "ws": "^8.18.2",
+    "nodemailer": "^7.0.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

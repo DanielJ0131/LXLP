@@ -43,16 +43,45 @@ class CommentsModel{
 
 
     /**
-     * Retrieves comments by post ID.
+     * Retrieves comments by post ID with user information.
      * 
-     * @param {string} postId - The ID of the post whose contain the comments to retrieve.
-     * @returns {Promise<Array<Object>>} A promise that resolves to an array of comment objects.
+     * @param {string} postId - The ID of the post whose comments to retrieve.
+     * @returns {Promise<Array<Object>>} A promise that resolves to an array of comment objects with user info.
      */
     async getCommentsByPostId(postId) {
         try {
-            return await DatabaseService.comments.find({
-                postId: new mongoose.Types.ObjectId(postId)
-            });
+            return await DatabaseService.comments.aggregate([
+                {
+                    $match: {
+                        postId: new mongoose.Types.ObjectId(postId)
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "user"
+                    }
+                },
+                {
+                    $unwind: "$user"
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        content: 1,
+                        status: 1,
+                        likes: 1,
+                        dislikes: 1,
+                        image: "$user.image",
+                        username: "$user.username",
+                        userId: "$user._id",
+                        userFullName: { $concat: ["$user.firstname", " ", "$user.lastname"] },
+                        userEmail: "$user.email"
+                    }
+                }
+            ]);
         } catch (error) {
             console.log(error);
             throw error;
@@ -119,7 +148,39 @@ class CommentsModel{
         try {
             const newComment = new DatabaseService.comments(commentData);
             await newComment.save();
-            return newComment;
+            const commentFromDb = await DatabaseService.comments.aggregate([
+                {
+                    $match: {
+                        _id: new mongoose.Types.ObjectId(newComment._id)
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "user"
+                    }
+                },
+                {
+                    $unwind: "$user"
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        content: 1,
+                        status: 1,
+                        likes: 1,
+                        dislikes: 1,
+                        image: "$user.image",
+                        username: "$user.username",
+                        userId: "$user._id",
+                        userFullName: { $concat: ["$user.firstname", " ", "$user.lastname"] },
+                        userEmail: "$user.email"
+                    }
+                }
+            ]);
+            return commentFromDb[0];
         } catch (error) {
             console.log(error);
             throw error;

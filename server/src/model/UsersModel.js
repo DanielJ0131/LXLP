@@ -282,6 +282,32 @@ async logout(token) {
           }
     }
 
+        
+        /**
+     * Forcefully updates a user's password without requiring the old password.
+     * 
+     * This method is used specifically for password reset scenarios where the user
+     * has received a valid JWT token (e.g., via email) and needs to set a new password.
+     * 
+     *  Do NOT use this in authenticated sessions where the old password should be verified.
+     * In such cases, use `updatePassword()` instead.
+     * 
+     * @param {string} username - The username of the user to update.
+     * @param {string} newPassword - The new password to be hashed and stored.
+     * @returns {Promise<Object>} - The updated user object.
+     */
+        async forceUpdatePassword(username, newPassword) {
+            const hashed = await bcrypt.hash(newPassword, 10)
+
+            const updatedUser = await DatabaseService.users.findOneAndUpdate(
+                { username },
+                { $set: { password: hashed } },
+                { new: true, runValidators: true }
+            )
+
+            return updatedUser
+    }
+
 
 }
 

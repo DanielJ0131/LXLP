@@ -3,13 +3,13 @@ import { fetchWithAuth } from '../utils/http.js';
 import '../styles/courses.css';
 
 const Courses = () => {
-    const [courses, setCourses] = useState([]);
-    const [visibleVideos, setVisibleVideos] = useState({});
-    const [visibleSteps, setVisibleSteps] = useState({});
-    const [animationKeys, setAnimationKeys] = useState({});
-    const [authFailed, setAuthFailed] = useState(false);
+    const [courses, setCourses] = useState([]);// State to store courses
+    const [visibleVideos, setVisibleVideos] = useState({});// State to track visibility of videos
+    const [visibleSteps, setVisibleSteps] = useState({}); // State to track visibility of steps
+    const [animationKeys, setAnimationKeys] = useState({}); // State to force re-render of video iframe
+    const [authFailed, setAuthFailed] = useState(false); // State to track authentication failure
 
-    useEffect(() => {
+    useEffect(() => { // Fetch courses on component mount
         const fetchCourses = async () => {
             try {
                 const response = await fetchWithAuth('/api/courses');
@@ -25,20 +25,24 @@ const Courses = () => {
             }
         };
 
-        fetchCourses();
+        fetchCourses(); // Call the fetch function
     }, []);
 
-    if (authFailed) {
+    function renderAuthFailed() { // Function to render authentication failure message
         return (
             <div className="courses-container">
-            <h2
-                style={{ cursor: 'pointer' }}
-                onClick={() => window.location.href = '/login'}
-            >
-                Please log in to view courses
-            </h2>
+                <h2
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => window.location.href = '/login'}
+                >
+                    Please log in to view courses
+                </h2>
             </div>
         );
+    }
+
+    if (authFailed) { 
+        return renderAuthFailed();
     }
 
     return (

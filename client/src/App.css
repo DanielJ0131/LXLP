@@ -77,25 +77,21 @@ header h1 {
 /* Adjusting the layout for the top-navs */
 .top-navs {
   display: flex;
-  flex-direction: column; /* Change to column layout */
-  align-items: flex-end; /* Align items to the right */
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; /* Separate left and right */
   background-color: var(--hover-color);
   padding: 0.5rem 2rem;
   border-bottom: 1px solid var(--border-color);
   font-size: 1.1rem;
-  gap: 0.5rem; /* Add spacing between elements */
-}
-
-
-.auth-links a {
-  box-shadow: 0 2px 8px rgba(68, 255, 0, 0.15);
+  gap: 0.5rem;
 }
 
 .top-navs p {
   margin: 0;
   color: var(--accent-color);
   font-weight: bold;
-  align-self: flex-start; /* Align welcome message to the left */
+  align-self: flex-start; /* Keep left alignment */
 }
 
 /* ==================== Auth Links ==================== */
@@ -115,7 +111,6 @@ header h1 {
 .auth-links a {
   color: var(--text-color);
   text-decoration: none;
-  padding: 0.3em 0.8em;
   border-radius: 3px;
   transition: background 0.2s, color 0.2s;
 }
@@ -153,7 +148,7 @@ nav a {
   text-decoration: none;
   color: var(--text-color);
   transition: color 200ms;
-  box-shadow: 0 2px 8px rgba(68, 255, 0, 0.15);
+  font-weight: bold;
 }
 
 nav a:hover {
@@ -163,11 +158,14 @@ nav a:hover {
 /* ==================== Page Containers ==================== */
 .courses-container,
 .about-us-container,
-.home-container {
+.home-container,
+.forum-container,
+.terminal-container,
+.info-container {
   width: 100%;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 6px 2px rgba(0, 0, 0, 0.5);
   background-color: var(--bg-color);
   color: var(--accent-color);
   text-align: center;

@@ -23,7 +23,7 @@
 
 .forum-container h2 {
     font-size: 1.5rem;
-    margin: 40px;
+    margin: 20px;
 }
 
 .forum-title {
@@ -39,6 +39,21 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+}
+
+.post-card {
+    background-color: rgba(255, 255, 255, 0.05); /* Default for dark mode */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--accent-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease; /* Added background-color to transition */
+    padding: 16px;
+}
+
+/* Apply white background specifically for light mode */
+body.light .post-card {
+    background-color: white;
 }
 
 @media (max-width: 1524px) {
@@ -152,6 +167,8 @@
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 
 }
 
@@ -193,7 +210,7 @@
 }
 
 .status-pending {
-    color: #f59e0b;
+    color: rgb(255, 0, 17);
     background-color: rgba(245, 158, 11, 0.2);
     border: 1px solid rgba(245, 158, 11, 0.3);
 }

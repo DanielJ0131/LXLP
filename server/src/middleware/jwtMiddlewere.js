@@ -15,7 +15,7 @@ export { middleware as jwtMiddleware }
  * @param {object} next Express next object.
  */
 middleware.jwtTokenIsValid = async (req, res, next) => {
-  const token = req.cookies.accessToken //changed from auth header to cookie
+  const token = req.cookies.accessToken //Changed from auth header to cookie
 
   if (!token) {
     return res.status(401).json({
