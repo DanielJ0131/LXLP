@@ -1,7 +1,6 @@
 import { WebSocketServer } from 'ws';
 import http from 'http';
 import * as pty from 'node-pty';
-import os from 'os';
 
 class WSS_Server {
     static startServer = (app) => {
@@ -36,11 +35,11 @@ class WSS_Server {
 
             const dockerImage = 'alpine:latest' // Chose image... can be dynamic
             const dockerCommand = ['/bin/sh'] // Bin bash makes docker run in interactive mode
-
+            const dockerArgs = ['run', '-it', '--rm', dockerImage, ...dockerCommand] //  run -it (interactive mode), --rm (remove container when exited)
             // Spawn a terminal
-            // Spawning a docker, do docker commands, run -it (interactive mode), --rm (remove container when exited)
+            // Spawning a docker, do docker commands,
             // docker Image specifies which linux distro, dockerCommand makes docker work
-            const ptyProcess = pty.spawn('docker', ['run', '-it', '--rm', dockerImage, ...dockerCommand], {
+            const ptyProcess = pty.spawn('docker', dockerArgs, {
                 name: 'xterm-color',
                 env: process.env,
             });
