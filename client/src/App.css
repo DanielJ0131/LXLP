@@ -160,7 +160,6 @@ nav a:hover {
 .about-us-container,
 .home-container,
 .forum-container,
-.terminal-container,
 .info-container {
   width: 100%;
   padding: 20px;
@@ -173,6 +172,10 @@ nav a:hover {
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
 }
+.terminal-container{
+  color:#00ff00
+}
+.
 
 .about-us-container {
   text-align: left;
