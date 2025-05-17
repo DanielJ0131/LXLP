@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
   host: 'sandbox.smtp.mailtrap.io',
   port: 2525,
   auth: {
-    user: process.env.MAILTRAP_USER, //add this into .env - perhaps in the script aswell.
+    user: process.env.MAILTRAP_USER,
     pass: process.env.MAILTRAP_PASS
   }
 })
@@ -14,6 +14,7 @@ transporter.verify((error, success) =>{
     if(error){
         console.log("smtp error", error)
     } else {
+      console.log(process.env.MAILTRAP_USER)
         console.log("smtp up and running, redy to send mail")
     }
 })
@@ -22,7 +23,7 @@ transporter.verify((error, success) =>{
 const sendResetEmail = async (to, token) => {
   const resetLink = `https://linuxlearningplatform.me/reset-password?token=${token}`
 
-  const mailOptions = {
+  const mailOptions = { 
     from: '"LXLP Support" <linuxlearningplatform@gmail.com>',
     to,
     subject: 'Reset password',
