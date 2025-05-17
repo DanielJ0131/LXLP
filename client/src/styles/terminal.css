@@ -1,7 +1,7 @@
 /* terminal.css */
 
 .terminal-container {
-    color: var(--accent-color);
+    background: white;
     font-family: Fira Mono, monospace;
     padding: 32px;
     border-radius: 16px;
@@ -14,6 +14,7 @@
 }
 
 .terminal-history {
+    color: #39ff14;
     flex: 1;
     overflow-y: auto;
     margin-bottom: 16px;
@@ -36,7 +37,8 @@
 
 .terminal-input {
     background: transparent;
-    color: var(--accent-color);
+    color: #39ff14;
+    text-align: left;
     border: none;
     outline: none;
     flex: 1;
