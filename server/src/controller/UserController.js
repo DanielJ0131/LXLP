@@ -229,18 +229,6 @@ class UsersController {
             }
         }
 
-        //this will not be hardcoded in the final production
-        async testMail(req, res) {
-        console.log("route called")
-        try {
-            const token = jwt.createResetToken('patrick.nordahl0033@stud.hkr.se')
-            await sendResetEmail('patrick.nordahl0033@stud.hkr.se', token)
-            res.status(200).send(" testMail ready")
-        } catch (err) {
-            console.error(" err in testMail:", err.message)
-            res.status(500).send("function failed")
-        }
-        }
 
         async resetPassword(req, res, next) {
         const { token, newPassword } = req.body
