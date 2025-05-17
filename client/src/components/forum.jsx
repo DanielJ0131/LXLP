@@ -12,23 +12,25 @@ const Forum = ({ user }) => {
     const [submitting, setSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
 
-    useEffect(() => { // Fetch posts on component mount
+    useEffect(() => {
+        let timeoutId;
         const fetchPosts = async () => {
             try {
                 const postsResponse = await fetchWithAuth('/api/posts');
                 if (!postsResponse.ok) throw new Error(`Failed to fetch posts: ${postsResponse.status}`);
                 const postsData = await postsResponse.json();
                 setPosts(postsData);
-                setLoading(false);
             } catch (err) {
                 setError(err.message || 'An error occurred while fetching posts.');
-                setLoading(false);
+            } finally {
+                timeoutId = setTimeout(() => setLoading(false), 1000);
             }
         };
-        fetchPosts(); // Call the fetch function
+        fetchPosts();
+        return () => clearTimeout(timeoutId);
     }, []);
 
-    const fetchComments = async (postId) => { // Fetch comments for a specific post
+    const fetchComments = async (postId) => {
         try {
             const res = await fetchWithAuth(`/api/comments/by-post-id/${postId}`);
             if (!res.ok) throw new Error('Failed to fetch comments');
@@ -39,7 +41,7 @@ const Forum = ({ user }) => {
         }
     };
 
-    const toggleComments = (postId) => { // Toggle visibility of comments for a specific post
+    const toggleComments = (postId) => {
         setVisibleComments((prev) => ({
             ...prev,
             [postId]: !prev[postId]
@@ -50,7 +52,28 @@ const Forum = ({ user }) => {
     };
 
     if (loading) {
-        return <div>Loading Forum...</div>;
+        return (
+            <div className="loading-container">
+                <h2 className="loading-title">Loading Forum...</h2>
+                <div className="loading-grid">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className="loading-card">
+                            <div className="loading-card-header">
+                                <div className="loading-avatar"></div>
+                                <div>
+                                    <div className="loading-text-short"></div>
+                                    <div className="loading-text-long"></div>
+                                </div>
+                            </div>
+                            <div className="loading-card-content">
+                                <div className="loading-text-full"></div>
+                                <div className="loading-text-medium"></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
     }
 
     if (error) {
@@ -66,7 +89,7 @@ const Forum = ({ user }) => {
         );
     }
 
-    const handleNewPostSubmit = async (e) => { // Handle new post submission
+    const handleNewPostSubmit = async (e) => {
         e.preventDefault();
         setSubmitting(true);
         setSubmitError(null);
@@ -134,7 +157,6 @@ const Forum = ({ user }) => {
                             </div>
                             <div className="post-footer">
                                 <span className="action-item">
-                                    {/* You can add comment count if your API returns it */}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{verticalAlign: 'middle'}}><path d="m21.73 18-8-8a2 2 0 0 0-3.48 0l-8 8A2 2 0 0 0 3 20h18a2 2 0 0 0 1.73-2Z"/><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
                                     {post.commentsCount || 0} Comments 
                                 </span>
