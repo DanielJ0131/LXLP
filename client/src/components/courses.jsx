@@ -84,7 +84,7 @@ const Courses = () => {
                             </button>
 
                             {visibleSteps[courseId] && (
-                                <div>
+                                <div className="steps-container">
                                     {course.content.split('|').map((section, idx) => (
                                         <p key={idx}>
                                             {section.split('. ').map((sentence, sentenceIdx) => (
