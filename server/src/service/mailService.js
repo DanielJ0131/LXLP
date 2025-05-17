@@ -20,10 +20,10 @@ transporter.verify((error, success) =>{
 
 //will probably need to refactor this later but we will see
 const sendResetEmail = async (to, token) => {
-  const resetLink = `http://localhost:5000/reset-password?token=${token}`
+  const resetLink = `https://linuxlearningplatform.me/reset-password?token=${token}`
 
   const mailOptions = {
-    from: '"LXLP Support" <support@lxlp.com>',
+    from: '"LXLP Support" <linuxlearningplatform@gmail.com>',
     to,
     subject: 'Reset password',
     html: `
