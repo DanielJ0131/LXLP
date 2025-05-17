@@ -10,6 +10,8 @@ import Courses from './components/courses.jsx';
 import Info from './components/info.jsx';
 import Profile from './components/profile.jsx';
 import './App.css';
+import ResetPassword from './components/resetPassword.jsx';
+import ResetPasswordRequest from './components/requestPasswordReset.jsx';
 
 
 function App() {
@@ -126,6 +128,8 @@ function App() {
         {currentUrl.includes('logout') && <Logout />}
         {currentUrl.includes('info') && <Info />}
         {currentUrl.includes('profile') && <Profile user={user} />}
+        {currentUrl.includes('request-password-reset') && <ResetPasswordRequest />}
+        {currentUrl.includes('reset-password') && <ResetPassword />}
       </main>
 
 

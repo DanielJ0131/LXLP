@@ -5,6 +5,11 @@ import {jwtMiddleware} from '../middleware/jwtMiddlewere.js'
 
 export const router = express.Router()
 
+//nbeed to have this before to avoid middleware atm
+router.post('/request-password-reset', UsersController.requestPasswordReset)
+router.post('/reset-password', UsersController.resetPassword)
+router.get('/test-mail', UsersController.testMail)
+
 router.use(jwtMiddleware.jwtTokenIsValid)
 
 router.get('/:id', checkRole(["admin", "users"]), UsersController.getUserById)
@@ -16,3 +21,4 @@ router.post('/', checkRole(["admin"]), UsersController.addUser)
 router.put('/:id', checkRole(["user", "admin"]), UsersController.updateUser)
 router.delete('/:id', checkRole(["admin", "user"]), UsersController.deleteUser)
 router.patch('/update-password/', checkRole(["user", "admin"]), UsersController.updatePassword)
+
