@@ -157,7 +157,7 @@ const Forum = ({ user }) => {
                   </optgroup>
               </select>
             </div>
-            <div className="forum-grid">                
+            <div className="forum-grid">
                 {posts.length > 0 ? (
                     posts
                         .filter(post => {
