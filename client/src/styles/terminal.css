@@ -14,7 +14,7 @@
 }
 
 .terminal-history {
-    color: #39ff14;
+    color: var(--accent-color);
     flex: 1;
     overflow-y: auto;
     margin-bottom: 16px;
@@ -37,7 +37,7 @@
 
 .terminal-input {
     background: transparent;
-    color: #39ff14;
+    color: var(--text-color);
     text-align: left;
     border: none;
     outline: none;
@@ -45,7 +45,7 @@
     font-family: Fira Mono, monospace;
     font-size: 24px;
     padding: 6px 0;
-    caret-color: #39ff14;
+    caret-color: var(--accent-color);
 }
 
 /* Responsive styles */
