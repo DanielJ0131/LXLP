@@ -14,8 +14,7 @@ transporter.verify((error, success) =>{
     if(error){
         console.log("smtp error", error)
     } else {
-      console.log(process.env.MAILTRAP_USER)
-        console.log("smtp up and running, redy to send mail")
+      console.log("smtp up and running, ready to send mail!")
     }
 })
 

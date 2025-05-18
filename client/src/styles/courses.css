@@ -13,13 +13,16 @@
     list-style: none;
     padding: 0;
 }
-
-.courses-container li {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
-    animation: courseFadeIn 4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-    animation-delay: var(--course-delay, 0s);
+.steps-container {
+    background-color: var(--nav-bg); /* Black for Dark Mode */
+    color: var(--accent-color);
+    padding: 24px;
+    border-radius: 10px;
+    margin: 24px 0;
+    transition: background 0.3s, color 0.3s;
 }
+
+
 
 @keyframes courseFadeIn {
     to {
@@ -27,19 +30,26 @@
         transform: translateY(0) scale(1);
     }
 }
-
 .courses-container li {
-    background-color: rgb(45, 45, 45);
+    background-color: var(--nav-bg, rgba(255, 255, 255, 0.05)); /* Default for dark mode */
     margin-bottom: 15px;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+    transform: translateY(30px) scale(0.95);
+    animation: courseFadeIn 4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation-delay: var(--course-delay, 0s);
 }
 
 .courses-container li:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Add separation between each li */
+.courses-container li:not(:last-child) {
+    margin-bottom: 30px;
 }
 
 .courses-title {
@@ -57,18 +67,13 @@
     color: #2ecc71;
     margin-bottom: 10px;
     white-space: normal; /* Allow text to wrap */
-    border-right: 2px solid #2ecc71; /* Add the blinking cursor */
-    animation: typing 4s steps(40, end), blink 0.7s step-end infinite; /* Typing and blinking animations */
     width: 100%; /* Ensure full width for text to be shown */
-
     font-family: 'Courier New', Courier, monospace; /* Monospace font for typing effect */
     font-size: 1.2rem; /* Increase font size */
-    color: #2ecc71; /* Change text color */
-    text-shadow: 0 0 5px rgba(46, 204, 113, 0.5); /* Add a subtle glow effect */
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    color: var(--accent-color); /* Change text color */
+    background-color: var(--nav-bg); /* Semi-transparent background */
     padding: 5px; /* Add some padding */
     border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); /* Glow effect */
     transition: all 0.3s ease; /* Smooth transition for hover effect */
     cursor: pointer; /* Change cursor to pointer */
     text-align: left; /* Align the text to the left */
@@ -76,24 +81,6 @@
     max-width: 80%; /* Limit the width of the text */
     line-height: 1.5; /* Increase line height for better readability */
     overflow: hidden; /* Hide overflowing text during animation */
-}
-
-@keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 100%;
-    }
-}
-
-@keyframes blink {
-    from {
-        border-color: transparent;
-    }
-    to {
-        border-color: #2ecc71;
-    }
 }
 
 .courses-container a {
@@ -144,7 +131,93 @@
     }
 }
 .courses-container iframe {
-    border: 5px solid green;
+    border: 5px solid black;
     border-radius: 10px;
 }
 
+/* Loading animation styles */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+
+.loading-title {
+    color: var(--accent-color, #2ecc71);
+    letter-spacing: 1px;
+    animation: loadingPulse 1.5s infinite alternate;
+}
+
+@keyframes loadingPulse {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.loading-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.loading-card {
+    background: linear-gradient(120deg, var(--nav-bg) 20%, var(--nav-bg) 70%, var(--accent-color) 100%);
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    animation: loadingCardFadeIn 0.7s cubic-bezier(0.23, 1, 0.32, 1) backwards;
+}
+
+@keyframes loadingCardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.loading-card-content {
+    width: 70%;
+    height: 24px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--nav-bg) 25%, var(--accent-color) 50%, var(--nav-bg) 75%);
+    background-size: 200% 100%;
+    animation: loadingShimmer 1.2s linear infinite;
+}
+
+@keyframes loadingShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Responsive for loading grid */
+@media (max-width: 700px) {
+    .loading-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+    .loading-card {
+        height: 90px;
+    }
+}
+@media (max-width: 400px) {
+    .loading-grid {
+        grid-template-columns: 1fr;
+    }
+}

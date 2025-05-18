@@ -11,6 +11,23 @@ const Forum = ({ user }) => {
     const [newPostContent, setNewPostContent] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
+    const [selectedStatus, setSelectedStatus] = useState('all');
+
+    const pendingStatuses = ['pending', 'investigating', 'waiting for solution', 'published'];
+    const [currentPage, setCurrentPage] = useState(1);
+    const postsPerPage = 6; 
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    
+    const filteredPosts = posts.filter(post => {
+        if (selectedStatus === 'all') return true;
+        if (selectedStatus === 'all-pending') {
+            return pendingStatuses.includes(post.status.toLowerCase());
+        }
+        return post.status.toLowerCase() === selectedStatus;
+    });
+
+    const paginatedPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
 
     useEffect(() => {
         let timeoutId;
@@ -53,9 +70,9 @@ const Forum = ({ user }) => {
 
     if (loading) {
         return (
-            <div className="loading-container">
-                <h2 className="loading-title">Loading Forum...</h2>
-                <div className="loading-grid">
+            <div className="loading-container-forum">
+                <h2 className="loading-title-forum">Loading Forum...</h2>
+                <div className="loading-grid-forum">
                     {Array.from({ length: 6 }).map((_, i) => (
                         <div key={i} className="loading-card">
                             <div className="loading-card-header">
@@ -113,7 +130,6 @@ const Forum = ({ user }) => {
         }
         setSubmitting(false);
     };
-
     return (
         <div className="forum-container">
             <h1 className="forum-title">Community Forum</h1>
@@ -134,9 +150,32 @@ const Forum = ({ user }) => {
                     {submitError && <div className="new-post-error">{submitError}</div>}
                 </form>
             </div>
+
+            <div className="filter-container">
+              <label htmlFor="statusFilter">Filter by Status: </label>
+              <select
+                  id="statusFilter"
+                  value={selectedStatus}
+                  onChange={(e) => {setSelectedStatus(e.target.value);
+                                    setCurrentPage(1);
+                  }}
+              >
+                  <option value="all">All</option>
+                      <optgroup label="─── Pending ───">
+                      <option value="all-pending">All Pending</option>
+                      <option value="pending">Pending</option>
+                      <option value="published">Published</option>
+                      <option value="investigating">Investigating</option>
+                      <option value="waiting for solution">Waiting for solution</option>
+                  </optgroup>
+                  <optgroup label="─── Resolved ───">
+                      <option value="fixed">Fixed</option>
+                  </optgroup>
+              </select>
+            </div>
             <div className="forum-grid">
-                {posts.length > 0 ? (
-                    posts.map((post) => (
+                {filteredPosts.length > 0 ? (
+                    paginatedPosts.map((post) => (
                         <div key={post._id} className="post-card">
                             <div className="post-header">
                                 <div className="avatar-container">
@@ -265,6 +304,17 @@ const Forum = ({ user }) => {
                 ) : (
                     <div className="no-posts">No posts available.</div>
                 )}
+            </div>
+            <div className="pagination-controls">
+                {Array.from({ length: Math.ceil(filteredPosts.length / postsPerPage) }, (_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setCurrentPage(i + 1)}
+                        className={i + 1 === currentPage ? 'active-page' : ''}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
             </div>
         </div>
     );

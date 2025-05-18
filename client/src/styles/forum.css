@@ -13,17 +13,14 @@
     align-items: center;
     color: var(--accent-color);
     background-clip: text;
+    font-size: 1.5rem;
+    margin: 20px;
 }
 
 .forum-container h2:hover {
-    color: #2ecc71;
+    color: white;
     text-decoration: underline;
     transition: color 0.3s, text-decoration 0.3s;
-}
-
-.forum-container h2 {
-    font-size: 1.5rem;
-    margin: 20px;
 }
 
 .forum-title {
@@ -31,7 +28,7 @@
     font-weight: bold;
     text-align: center;
     align-items: center;
-    color: var(--accent-color);;
+    color: var(--accent-color);
     background-clip: text;
 }
 
@@ -39,6 +36,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+    padding: 1rem;
 }
 
 .post-card {
@@ -49,6 +47,22 @@
     box-shadow: 0 4px 8px var(--accent-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease; /* Added background-color to transition */
     padding: 16px;
+}
+
+.pagination-controls {
+    margin-top: 1rem;
+}
+
+.pagination-controls button {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination-controls button.active-page {
+    padding: 10px;
+    box-shadow: 2px 2px 5px 0px var(--accent-color);
 }
 
 /* Apply white background specifically for light mode */
@@ -75,6 +89,7 @@ body.light .post-card {
         align-items: center;
         justify-content: center;
     }
+
     .post-card {
         display: flex;
         font-size: 0.85rem;
@@ -84,22 +99,12 @@ body.light .post-card {
         justify-content: center;
         align-items: center;
     }
-    .post-footer{
+
+    .post-footer {
         display: flex;
         gap: 10px;
         flex-direction: column;
     }
-    
-}
-
-.post-card {
-    background-color: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px var(--accent-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    padding: 16px;
 }
 
 .post-card:hover {
@@ -114,7 +119,7 @@ body.light .post-card {
     align-items: center;
     gap: 16px;
     padding-bottom: 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .avatar-container {
@@ -168,8 +173,7 @@ body.light .post-card {
     justify-content: space-between;
     white-space: nowrap;
     padding-bottom: 4px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .post-actions {
@@ -186,33 +190,38 @@ body.light .post-card {
 }
 
 .post-status {
-    padding: 5px;
+    padding: 3px;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: bold;
     white-space: nowrap;
-    margin-left: 4%;
-
 }
 
 .toggle-comments-button {
     margin-top: 10px;
+    color: var(--text-color);
+    background-color: rgba(254, 251, 251, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3); /* Blue shadow */
 }
 
-.post-footer{
+.toggle-comments-button:hover {
+    box-shadow: 0 4px 16px rgba(0, 123, 255, 0.5); /* Stronger blue shadow on hover */
+}
+
+.post-footer {
     margin-bottom: 10px;
 }
 
 .status-fixed {
-    color: #22c55e;
+    color: var(--status-fixed-color);
     background-color: rgba(34, 197, 94, 0.2);
-    border: 1px solid rgba(34, 197, 94, 0.3);
+    border: 1px solid var(--status-fixed-color);
 }
 
 .status-pending {
-    color: rgb(255, 0, 17);
+    color: var(--status-pending-color);
     background-color: rgba(245, 158, 11, 0.2);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    border: 1px solid var(--status-pending-color);
 }
 
 .no-posts {
@@ -222,31 +231,32 @@ body.light .post-card {
     grid-column: 1 / -1;
 }
 
-.loading-container {
+.loading-container-forum {
     margin: 16px 0;
 }
 
-.loading-title {
+.loading-title-forum {
+    text-align: center;
     font-size: 24px;
     font-weight: bold;
-    color: #6b7280;
+    color: var(--accent-color);
 }
 
-.loading-grid {
+.loading-grid-forum {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .loading-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
     .loading-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -254,7 +264,7 @@ body.light .post-card {
     background-color: #f3f4f6;
     border-radius: 8px;
     padding: 16px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .loading-card-header {
@@ -327,7 +337,7 @@ body.light .post-card {
     max-width: 600px;
     background: rgba(34, 197, 94, 0.05);
     border-radius: 10px;
-    box-shadow: 0 2px 8px #0000007d;;
+    box-shadow: 0 2px 8px #0000007d;
     padding: 24px 20px;
 }
 
@@ -349,13 +359,30 @@ body.light .post-card {
     transition: border-color 0.2s;
 }
 
-.new-post-textarea:focus {
+.new-post-textarea-focus {
     outline: none;
     border-color: #22c55e;
     background: #fff;
 }
 
-.new-post-textarea:disabled {
+.new-comment-input {
+    resize: vertical;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 16px;
+    color: #222;
+    background: #f9fafb;
+    transition: border-color 0.2s;
+}
+
+.new-comment-input-focus {
+    outline: none;
+    border-color: #22c55e;
+    background: #fff;
+}
+
+.new-comment-input-disabled {
     background: #e5e7eb;
     color: #9ca3af;
     cursor: not-allowed;
@@ -372,7 +399,7 @@ body.light .post-card {
     font-size: 16px;
     cursor: pointer;
     transition: background 0.2s, opacity 0.2s;
-    box-shadow: 0 1px 4px rgba(34,197,94,0.08);
+    box-shadow: 0 1px 4px rgba(34, 197, 94, 0.08);
 }
 
 .new-post-button:disabled {
@@ -390,4 +417,29 @@ body.light .post-card {
     padding: 8px 12px;
     font-size: 15px;
     margin-top: 4px;
+}
+
+.new-comment-button {
+    margin-top: 10px;
+    color: var(--text-color);
+    background-color: rgba(254, 251, 251, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3); /* Blue shadow */
+}
+.new-comment-button:hover {
+    box-shadow: 0 4px 16px rgba(0, 123, 255, 0.5); /* Stronger blue shadow on hover */
+}
+
+.new-comment-button:focus {
+    outline:auto;
+    border-color: var(--text-color);
+    background-color: var(--accent-color);
+}
+
+body.light .new-comment-button {
+    background-color: #e0f2f7;
+    color: #222;
+}
+
+body.light .new-comment-button:focus {
+    background-color: white;
 }
