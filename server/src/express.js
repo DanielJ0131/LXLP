@@ -21,7 +21,6 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(helmet())
 
 
-
 // Enable CORS for specific origins
 const corsOptions = {
     origin: [
@@ -33,8 +32,7 @@ const corsOptions = {
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Optional: specify allowed methods
     credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.),
-    
-};
+}
 
 // Make sure that we have cookie parser to send via cookies
 app.use(cookieParser())
@@ -43,7 +41,7 @@ app.use(cors(corsOptions))
 
 // Set Content Security Policy header allowing WebSocket connections
 app.use((req, res, next) => {
-    res.setHeader('Content-Security-Policy',"", "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:8080;")
+    res.setHeader('Content-Security-Policy', "", "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:8080;")
     next()
 })
 
@@ -69,7 +67,7 @@ app.use(express.json())
 app.use('/', router)
 
 app.use((req, res, next) => {
-    res.sendFile('index.html', { root: '../client/dist' }, (err) => {
+    res.sendFile('index.html', {root: '../client/dist'}, (err) => {
         if (err) {
             next(err)
         }
