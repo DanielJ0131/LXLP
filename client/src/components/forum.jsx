@@ -11,6 +11,8 @@ const Forum = ({ user }) => {
     const [newPostContent, setNewPostContent] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
+    const [selectedStatus, setSelectedStatus] = useState('all');
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -157,7 +159,7 @@ const Forum = ({ user }) => {
         }
         setSubmitting(false);
     };
-
+    const pendingStatuses = ['pending', 'investigating', 'waiting for solution', 'published'];
     return (
         <div className="forum-container">
             <h1 className="forum-title">
@@ -197,9 +199,36 @@ const Forum = ({ user }) => {
                     {submitError && <div className="new-post-error">{submitError}</div>}
                 </form>
             </div>
+            <div className="filter-container">
+            <label htmlFor="statusFilter">Filter by Status: </label>
+            <select
+                id="statusFilter"
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+            >
+                <option value="all">All</option>
+                    <optgroup label="─── Pending ───">
+                    <option value="all-pending">All Pending</option>
+                    <option value="pending">Pending</option>
+                    <option value="published">Published</option>
+                    <option value="investigating">Investigating</option>
+                    <option value="waiting for solution">Waiting for solution</option>
+                </optgroup>
+                <optgroup label="─── Resolved ───">
+                    <option value="fixed">Fixed</option>
+                </optgroup>
+            </select>
+            </div>
             <div className="forum-grid">                
                 {postsWithUserDetails.length > 0 ? (
-                    postsWithUserDetails.map((post) => (
+                    postsWithUserDetails
+                        .filter(post => {
+                            if (selectedStatus === 'all') return true;
+                            if (selectedStatus === 'all-pending') {
+                                return pendingStatuses.includes(post.status.toLowerCase());
+                            }
+                            return post.status.toLowerCase() === selectedStatus;})                    
+                        .map((post) => (
                         <div key={post._id} className="post-card">
                             <div className="post-header">
                                 <div className="avatar-container">
