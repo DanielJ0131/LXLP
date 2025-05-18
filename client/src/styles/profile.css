@@ -6,8 +6,12 @@
     background: var(--nav-bg)
 }
 .profile-image-section img{
-    width: 250px;
-    height: 250px;
+    width: 40%;
+    height: auto;
     border-radius: 100px;
     padding: 10px;
+}
+
+.h1 {
+    font-size: 20px;
 }
