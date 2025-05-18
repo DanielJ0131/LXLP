@@ -56,6 +56,7 @@ class PostsModel {
                     $project: {
                         _id: 1,
                         content: 1,
+                        createdAt: 1,
                         status: 1,
                         likes: 1,
                         dislikes: 1,
@@ -175,6 +176,7 @@ class PostsModel {
                     $project: {
                         _id: 1,
                         content: 1,
+                        createdAt: 1,
                         status: 1,
                         likes: 1,
                         dislikes: 1,

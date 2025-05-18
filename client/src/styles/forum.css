@@ -134,10 +134,14 @@ body.light .post-card {
 .post-header {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: left;
     gap: 16px;
     padding-bottom: 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.post-header > :nth-child(3) {
+    flex-grow: 1;
 }
 
 .avatar-container {
@@ -367,7 +371,7 @@ body.light .post-card {
 .new-comment-button:focus {
     outline:auto;
     border-color: var(--text-color);
-    background-color: var(--accent-color);
+    background-color: var(--nav-bg);
 }
 
 body.light .new-comment-button {
@@ -459,4 +463,41 @@ body.light .new-comment-button:focus {
     100% {
         background-position: -200% 0;
     }
+}
+
+.comment {
+    text-align: left;
+    align-items: flex-start;
+}
+
+.one-comment {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: var(--bg-color);
+    border-radius: 10px;
+}
+
+.comment-content{
+    color: var(--text-color);
+    padding-left: 35px;
+}
+
+.comment-user{
+    padding: 5px;
+}
+
+.post-text {
+    text-align: left;
+}
+
+.date{
+    font-size: 12px;
+    text-align: right;
+    margin: 0;
+    padding: 0;
 }
