@@ -40,7 +40,7 @@ const Forum = ({ user }) => {
             } catch (err) {
                 setError(err.message || 'An error occurred while fetching posts.');
             } finally {
-                timeoutId = setTimeout(() => setLoading(false), 1000);
+                timeoutId = setTimeout(() => setLoading(false), 1500);
             }
         };
         fetchPosts();
@@ -70,26 +70,19 @@ const Forum = ({ user }) => {
 
     if (loading) {
         return (
+        <div className="forum-container">
             <div className="loading-container-forum">
                 <h2 className="loading-title-forum">Loading Forum...</h2>
                 <div className="loading-grid-forum">
                     {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="loading-card">
-                            <div className="loading-card-header">
-                                <div className="loading-avatar"></div>
-                                <div>
-                                    <div className="loading-text-short"></div>
-                                    <div className="loading-text-long"></div>
-                                </div>
-                            </div>
-                            <div className="loading-card-content">
-                                <div className="loading-text-full"></div>
-                                <div className="loading-text-medium"></div>
+                        <div key={i} className="loading-card-forum">
+                            <div className="loading-card-content-forum">
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
+        </div>
         );
     }
 
