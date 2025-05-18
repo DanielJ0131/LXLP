@@ -13,6 +13,21 @@ const Forum = ({ user }) => {
     const [submitError, setSubmitError] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('all');
 
+    const pendingStatuses = ['pending', 'investigating', 'waiting for solution', 'published'];
+    const [currentPage, setCurrentPage] = useState(1);
+    const postsPerPage = 6; 
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    
+    const filteredPosts = posts.filter(post => {
+        if (selectedStatus === 'all') return true;
+        if (selectedStatus === 'all-pending') {
+            return pendingStatuses.includes(post.status.toLowerCase());
+        }
+        return post.status.toLowerCase() === selectedStatus;
+    });
+
+    const paginatedPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
 
     useEffect(() => {
         let timeoutId;
@@ -115,7 +130,6 @@ const Forum = ({ user }) => {
         }
         setSubmitting(false);
     };
-    const pendingStatuses = ['pending', 'investigating', 'waiting for solution', 'published'];
     return (
         <div className="forum-container">
             <h1 className="forum-title">Community Forum</h1>
@@ -142,7 +156,9 @@ const Forum = ({ user }) => {
               <select
                   id="statusFilter"
                   value={selectedStatus}
-                  onChange={(e) => setSelectedStatus(e.target.value)}
+                  onChange={(e) => {setSelectedStatus(e.target.value);
+                                    setCurrentPage(1);
+                  }}
               >
                   <option value="all">All</option>
                       <optgroup label="─── Pending ───">
@@ -158,15 +174,8 @@ const Forum = ({ user }) => {
               </select>
             </div>
             <div className="forum-grid">
-                {posts.length > 0 ? (
-                    posts
-                        .filter(post => {
-                            if (selectedStatus === 'all') return true;
-                            if (selectedStatus === 'all-pending') {
-                                return pendingStatuses.includes(post.status.toLowerCase());
-                            }
-                            return post.status.toLowerCase() === selectedStatus;})                    
-                        .map((post) => (
+                {filteredPosts.length > 0 ? (
+                    paginatedPosts.map((post) => (
                         <div key={post._id} className="post-card">
                             <div className="post-header">
                                 <div className="avatar-container">
@@ -295,6 +304,17 @@ const Forum = ({ user }) => {
                 ) : (
                     <div className="no-posts">No posts available.</div>
                 )}
+            </div>
+            <div className="pagination-controls">
+                {Array.from({ length: Math.ceil(filteredPosts.length / postsPerPage) }, (_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setCurrentPage(i + 1)}
+                        className={i + 1 === currentPage ? 'active-page' : ''}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
             </div>
         </div>
     );
