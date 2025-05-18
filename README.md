@@ -1,5 +1,5 @@
 # FullstackProject - LXLP (Linux Learning Platform)
-![LXLP Frontpage](frontpage.png)
+![LXLP Frontpage](LXLP.png)
 
 ## Table of Contents
 
