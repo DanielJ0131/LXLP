@@ -33,7 +33,7 @@ const Courses = () => {
             }
         };
 
-        timeoutId = setTimeout(fetchCourses, 1000);
+        timeoutId = setTimeout(fetchCourses, 1500);
         return () => clearTimeout(timeoutId);
     }, []);
 
@@ -64,15 +64,17 @@ const Courses = () => {
 
     if (loading) {
         return (
-            <div className="loading-container">
-                <h2 className="loading-title">Loading Courses...</h2>
-                <div className="loading-grid">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="loading-card">
-                            <div className="loading-card-content">
+            <div className="courses-container">
+                <div className="loading-container">
+                    <h2 className="loading-title">Loading Courses...</h2>
+                    <div className="loading-grid">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <div key={i} className="loading-card">
+                                <div className="loading-card-content">
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         );
