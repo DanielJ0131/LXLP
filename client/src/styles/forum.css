@@ -173,12 +173,11 @@ body.light .post-card {
 }
 
 .post-status {
-    padding: 5px;
+    padding: 3px;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: bold;
     white-space: nowrap;
-    margin-left: 4%;
 }
 
 .toggle-comments-button {
@@ -197,15 +196,15 @@ body.light .post-card {
 }
 
 .status-fixed {
-    color: #22c55e;
+    color: var(--status-fixed-color);
     background-color: rgba(34, 197, 94, 0.2);
-    border: 1px solid rgba(34, 197, 94, 0.3);
+    border: 1px solid var(--status-fixed-color);
 }
 
 .status-pending {
-    color: rgb(255, 0, 17);
+    color: var(--status-pending-color);
     background-color: rgba(245, 158, 11, 0.2);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    border: 1px solid var(--status-pending-color);
 }
 
 .no-posts {
