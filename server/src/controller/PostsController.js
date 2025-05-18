@@ -1,5 +1,5 @@
-import PostsModel from "../model/PostsModel.js";
-import UsersModel from "../model/UsersModel.js";
+import PostsModel from "../model/PostsModel.js"
+import UsersModel from "../model/UsersModel.js"
 
 
 /**
@@ -19,15 +19,15 @@ class PostsController {
      */
     async getPostById(req, res, next) {
         try {
-            const postId = req.params.id;
-            const post = await PostsModel.getPostById(postId);
+            const postId = req.params.id
+            const post = await PostsModel.getPostById(postId)
             if (!post) {
-                return res.status(404).json({ message: 'Post not found' });
+                return res.status(404).json({ message: 'Post not found' })
             }
 
-            res.status(200).json(post);
+            res.status(200).json(post)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -40,10 +40,10 @@ class PostsController {
     async getAllPosts(req, res, next) {
         try {
             //console.log(res.locals.jwt);
-            const posts = await PostsModel.getAllPosts();
-            res.status(200).json(posts);
+            const posts = await PostsModel.getAllPosts()
+            res.status(200).json(posts)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -55,14 +55,14 @@ class PostsController {
      */
     async getPostsByUserId(req, res, next) {
         try {
-            const userId = req.params.userId;
-            const posts = await PostsModel.getPostsByUserId(userId);
+            const userId = req.params.userId
+            const posts = await PostsModel.getPostsByUserId(userId)
             if (!posts || posts.length === 0) {
-                return res.status(404).json({ message: 'No posts found for this user' });
+                return res.status(404).json({ message: 'No posts found for this user' })
             }
-            res.status(200).json(posts);
+            res.status(200).json(posts)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -74,17 +74,17 @@ class PostsController {
      * @param {Response} res - The response object.
      */
     async updatePost(req, res, next) {
-        const id = req.params.id;
-        const postBody = req.body;
+        const id = req.params.id
+        const postBody = req.body
         try{
-          const currentPost = await PostsModel.getPostById(id);
-          if (!currentPost) {
-            return res.status(404).json({ message: "Post not found" });
-          }
-          const updatedPost = await PostsModel.updatePost(id, postBody);
-          res.json(updatedPost);
+            const currentPost = await PostsModel.getPostById(id)
+            if (!currentPost) {
+                return res.status(404).json({ message: "Post not found" })
+            }
+            const updatedPost = await PostsModel.updatePost(id, postBody)
+            res.json(updatedPost)
         } catch (error) {
-          next(error);
+            next(error)
         }
     }
 
@@ -96,19 +96,19 @@ class PostsController {
      * @param {Response} res - The response object.
      */
     async deletePost(req, res, next) {
-        const id = req.params.id;
+        const id = req.params.id
         try {
-          const result = await PostsModel.getPostById(id);
-          if (!result) {
-            return res.status(404).json({ message: "Post not found" });
-          }
-          PostsModel.deletePost(id);
-          res.status(200).json({ 
-            message: "Post deleted successfully",
-            deletedPost: result
-          });
+            const result = await PostsModel.getPostById(id)
+            if (!result) {
+                return res.status(404).json({ message: "Post not found" })
+            }
+            PostsModel.deletePost(id)
+            res.status(200).json({
+                message: "Post deleted successfully",
+                deletedPost: result
+            })
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -120,25 +120,25 @@ class PostsController {
      */
     async createPost(req, res, next) {
         try {
-            const username = res.locals.jwt.username;
-            const user = await UsersModel.getUserByUsername(username);
-            const userId = user._id;
-            console.log(userId);
+            const username = res.locals.jwt.username
+            const user = await UsersModel.getUserByUsername(username)
+            const userId = user._id
+            console.log(userId)
             const postData = {
                 userId: userId,
                 content: req.body.content,
-            };
-            const newPost = await PostsModel.createPost(postData);
+            }
+            const newPost = await PostsModel.createPost(postData)
             res.status(201).json({
                 message: 'User added successfully',
                 newPost: newPost
-            });
+            })
         } catch (error) {
-            next(error);
-        }  
-            res.status(201).json(newPost);
+            next(error)
         }
+        res.status(201).json(newPost)
+    }
 }
 
 
-export default new PostsController();
+export default new PostsController()

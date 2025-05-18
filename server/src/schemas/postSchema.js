@@ -4,7 +4,7 @@ const postSchema = new Schema({
     userId:{
         required: true,
         type: Schema.Types.ObjectId,
-        ref: 'users' 
+        ref: 'users'
     },
     content: {
         type: String,
@@ -27,7 +27,7 @@ const postSchema = new Schema({
         type: Date,
         default: Date.now
     }
-  });
+})
 
 
 export default mongoose.model('posts', postSchema)

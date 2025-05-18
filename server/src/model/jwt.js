@@ -13,22 +13,22 @@ export default model
  * @returns {object} Details on the user.
  */
 model.createJwtToken = (username, role, email, firstname, lastname) => {
-  const currentDate = new Date()
-  const payload = {
-    iss: 'Issuer id',
-    sub: username,
-    username,
-    email,
-    firstname,
-    lastname,
-    role,
-    permissions: ['read', 'write'],
-    iat: Date.now(),
-    exp: Date.now() + 60 * 60 * 1000 * 24 * 365 // 1 year expiration
-  }
+    const currentDate = new Date()
+    const payload = {
+        iss: 'Issuer id',
+        sub: username,
+        username,
+        email,
+        firstname,
+        lastname,
+        role,
+        permissions: ['read', 'write'],
+        iat: Date.now(),
+        exp: Date.now() + 60 * 60 * 1000 * 24 * 365 // 1 year expiration
+    }
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET)
-  return token
+    const token = jwt.sign(payload, process.env.JWT_SECRET)
+    return token
 }
 
 /**
@@ -38,7 +38,7 @@ model.createJwtToken = (username, role, email, firstname, lastname) => {
  * @returns {object} Details saved in the token.
  */
 model.decode = (token) => {
-  return jwt.decode(token)
+    return jwt.decode(token)
 }
 
 /**
@@ -48,27 +48,27 @@ model.decode = (token) => {
  * @returns {object} The content of the verified token.
  */
 model.verify = (token) => {
-  return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     //console.log('Decoded token:', model.decode(token))
-    if (err) {
-      console.error('Token verification failed:', err)
-      return null
-    }
-    return decoded
-  })
+        if (err) {
+            console.error('Token verification failed:', err)
+            return null
+        }
+        return decoded
+    })
 }
 
 
 model.isTokenBlacklisted = async (token) => {
-  try {
-    const blacklistedToken = await DatabaseService.blacklistedTokens.findOne({ token: token });
-    //console.log('Blacklisted token:', token);
-    return !!blacklistedToken; // Return true if the token is found in the blacklist
-  }
-  catch (error) {
-    console.error('Error checking token blacklist:', error);
-    throw new Error('Failed to check token blacklist');
-  }
+    try {
+        const blacklistedToken = await DatabaseService.blacklistedTokens.findOne({ token: token })
+        //console.log('Blacklisted token:', token);
+        return !!blacklistedToken // Return true if the token is found in the blacklist
+    }
+    catch (error) {
+        console.error('Error checking token blacklist:', error)
+        throw new Error('Failed to check token blacklist')
+    }
 }
 
 /**
@@ -78,47 +78,47 @@ model.isTokenBlacklisted = async (token) => {
  * @returns {Promise<void>} Resolves when the token is successfully blacklisted.
  */
 model.blacklist = async (token) => {
-  try {
+    try {
     // First verify the token is valid
-    const decoded = model.verify(token);
-    
-    if (!decoded) {
-      throw new Error('Invalid token: failed to decode');
+        const decoded = model.verify(token)
+
+        if (!decoded) {
+            throw new Error('Invalid token: failed to decode')
+        }
+
+        // Create the blacklisted token document
+        const blacklistedToken = {
+            token: token,
+            user: {
+                sub: decoded.sub,
+                username: decoded.username,
+                email: decoded.email,
+                role: decoded.role
+            },
+            permissions: decoded.permissions || [], // Fallback to empty array
+            issuedAt: new Date(decoded.iat * 1000), // Convert seconds to milliseconds
+            expiresAt: new Date(decoded.exp * 1000), // Convert seconds to milliseconds
+            reason: 'logout'
+        }
+
+        // Save to database - CORRECTED THIS PART
+        const result = await DatabaseService.blacklistedTokens.create(blacklistedToken)
+        return result
+
+    } catch (error) {
+        console.error('Blacklisting failed:', error.message)
+        throw new Error(`Failed to blacklist token: ${error.message}`)
     }
-
-    // Create the blacklisted token document
-    const blacklistedToken = {
-      token: token,
-      user: {
-        sub: decoded.sub,
-        username: decoded.username,
-        email: decoded.email,
-        role: decoded.role
-      },
-      permissions: decoded.permissions || [], // Fallback to empty array
-      issuedAt: new Date(decoded.iat * 1000), // Convert seconds to milliseconds
-      expiresAt: new Date(decoded.exp * 1000), // Convert seconds to milliseconds
-      reason: 'logout'
-    };
-
-    // Save to database - CORRECTED THIS PART
-    const result = await DatabaseService.blacklistedTokens.create(blacklistedToken);
-    return result;
-    
-  } catch (error) {
-    console.error('Blacklisting failed:', error.message);
-    throw new Error(`Failed to blacklist token: ${error.message}`);
-  }
 }
 
 // token for resetting password
 model.createResetToken = (email) => {
-  const payload = {
-    sub: email,
-    type: 'reset-password',
-    iat: Date.now(),
-    exp: Math.floor(Date.now() / 1000) + 60 * 15  // expires after 15 min
-  }
-  const token = jwt.sign(payload, process.env.JWT_SECRET)
-  return token
+    const payload = {
+        sub: email,
+        type: 'reset-password',
+        iat: Date.now(),
+        exp: Math.floor(Date.now() / 1000) + 60 * 15  // expires after 15 min
+    }
+    const token = jwt.sign(payload, process.env.JWT_SECRET)
+    return token
 }

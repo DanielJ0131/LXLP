@@ -26,7 +26,7 @@ export const jwtController = {}
  * @param {object} res Express response object.
  */
 jwtController.list = async (req, res) => {
-  res.json(await UsersModel.getAllUsers())
+    res.json(await UsersModel.getAllUsers())
 }
 
 /**
@@ -36,37 +36,37 @@ jwtController.list = async (req, res) => {
  * @param {object} res Express response object.
  */
 jwtController.register = async (req, res) => {
-  const username = req.body.username
-  const password = req.body.password
-  const firstname = req.body.firstname
-  const lastname = req.body.lastname
-  const email = req.body.email
-  
-  // Validate the password
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
-  if (!passwordRegex.test(password)) {
-    return res.status(400).json({
-      type: 'failed',
-      message: 'The password must be at least 10 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (e.g., -, _, or a number).'
-    })
-  }
-  const user = await UsersModel.getUserByUsername(username)
+    const username = req.body.username
+    const password = req.body.password
+    const firstname = req.body.firstname
+    const lastname = req.body.lastname
+    const email = req.body.email
 
-  if (user) {
-    return res.status(409).json({
-      type: 'failed',
-      message: 'The user already exists and can not be registered!'
-    })
-  }
-  const userData = {
-    username,
-    password,
-    firstname,
-    lastname,
-    email
-  }
-  await UsersModel.addUser(userData)
-  jwtController.login(req, res)
+    // Validate the password
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+            type: 'failed',
+            message: 'The password must be at least 10 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (e.g., -, _, or a number).'
+        })
+    }
+    const user = await UsersModel.getUserByUsername(username)
+
+    if (user) {
+        return res.status(409).json({
+            type: 'failed',
+            message: 'The user already exists and can not be registered!'
+        })
+    }
+    const userData = {
+        username,
+        password,
+        firstname,
+        lastname,
+        email
+    }
+    await UsersModel.addUser(userData)
+    jwtController.login(req, res)
 }
 
 /**
@@ -76,32 +76,32 @@ jwtController.register = async (req, res) => {
  * @param {object} res Express response object.
  */
 jwtController.login = async (req, res) => {
-  const username = req.body.username
-  const password = req.body.password
+    const username = req.body.username
+    const password = req.body.password
 
-  try {
-    const data = await UsersModel.login(username, password)
+    try {
+        const data = await UsersModel.login(username, password)
 
-    res.cookie('accessToken', data.token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax',
-      maxAge: 1000 * 60 * 15 // 15 min
-    })
+        res.cookie('accessToken', data.token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Lax',
+            maxAge: 1000 * 60 * 15 // 15 min
+        })
 
-    res.status(200).json({
-      type: 'success',
-      message: 'The user was authenticated',
-      token: data.token,
-      user: data.user
-    })
+        res.status(200).json({
+            type: 'success',
+            message: 'The user was authenticated',
+            token: data.token,
+            user: data.user
+        })
 
-  } catch (err) {
-    res.status(401).json({
-      type: 'error',
-      message: 'Invalid credentials'
-    })
-  }
+    } catch (err) {
+        res.status(401).json({
+            type: 'error',
+            message: 'Invalid credentials'
+        })
+    }
 }
 
 /**
@@ -111,11 +111,11 @@ jwtController.login = async (req, res) => {
  * @param {object} res Express response object.
  */
 jwtController.token = async (req, res) => {
-  res.json({
-    type: 'success',
-    message: 'The JWT token was validated.',
-    payload: res.locals.jwt
-  })
+    res.json({
+        type: 'success',
+        message: 'The JWT token was validated.',
+        payload: res.locals.jwt
+    })
 }
 
 /**
@@ -125,31 +125,31 @@ jwtController.token = async (req, res) => {
  * @param {object} res Express response object.
  */
 jwtController.logout = async (req, res) => {
-  try{
-    const token = req.cookies.accessToken;
+    try{
+        const token = req.cookies.accessToken
 
-    if(!token){
-      return res.status(401).json({message:'No token provided in cookie'})
+        if(!token){
+            return res.status(401).json({message:'No token provided in cookie'})
+        }
+        await jwt.blacklist(token)
+
+        res.clearCookie('accessToken', {
+            httpOnly:true,
+            secure:process.env.NODE_ENV=== 'production',
+            sameSite:'Lax',
+            maxAge:0 //probably makes the token delete immidiatly
+        })
+
+        res.json({
+            type:'success',
+            message:'User was logged out and token is blacklisted'
+        })
+
+    } catch (error){
+        console.log('Logout error', error)
+        res.status(500).json({
+            type:'error',
+            message:error.message ||'Logout failed'
+        })
     }
-    await jwt.blacklist(token)
-
-    res.clearCookie('accessToken', {
-      httpOnly:true,
-      secure:process.env.NODE_ENV=== 'production',
-      sameSite:'Lax',
-      maxAge:0 //probably makes the token delete immidiatly
-    })
-
-    res.json({
-      type:'success',
-      message:'User was logged out and token is blacklisted'
-    })
-
-  } catch (error){
-    console.log('Logout error', error)
-    res.status(500).json({
-      type:'error',
-      message:error.message ||'Logout failed'
-    })
-  }
 }

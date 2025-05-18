@@ -15,15 +15,15 @@ class CoursesController {
      */
     async getCourseById(req, res, next) {
         try {
-            const courseId = req.params.id;
-            const course = await CoursesModel.getCourseById(courseId);
+            const courseId = req.params.id
+            const course = await CoursesModel.getCourseById(courseId)
             if (!course) {
-                return res.status(404).json({ message: 'Course not found' });
+                return res.status(404).json({ message: 'Course not found' })
             }
 
-            res.status(200).json(course);
+            res.status(200).json(course)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -37,13 +37,13 @@ class CoursesController {
      */
     async getAllCourses(req, res, next) {
         try {
-            const courses = await CoursesModel.getAllCourses();
-            res.status(200).json(courses);
+            const courses = await CoursesModel.getAllCourses()
+            res.status(200).json(courses)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 }
 
 
-export default new CoursesController();
+export default new CoursesController()

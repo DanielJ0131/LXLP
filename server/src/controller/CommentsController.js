@@ -1,5 +1,5 @@
-import CommentsModel from "../model/CommentsModel.js";
-import UsersModel from "../model/UsersModel.js";
+import CommentsModel from "../model/CommentsModel.js"
+import UsersModel from "../model/UsersModel.js"
 
 
 /**
@@ -8,12 +8,6 @@ import UsersModel from "../model/UsersModel.js";
  * @class
  */
 class CommentsController {
-
-
-
-
-
-
     /**
      * Get a comment by ID.
      *
@@ -22,15 +16,15 @@ class CommentsController {
      */
     async getCommentById(req, res, next) {
         try {
-            const commentId = req.params.id;
-            const comment = await CommentsModel.getCommentById(commentId);
+            const commentId = req.params.id
+            const comment = await CommentsModel.getCommentById(commentId)
             if (!comment) {
-                return res.status(404).json({ message: 'Comment not found' });
+                return res.status(404).json({ message: 'Comment not found' })
             }
 
-            res.status(200).json(comment);
+            res.status(200).json(comment)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -44,10 +38,10 @@ class CommentsController {
      */
     async getAllComments(req, res, next) {
         try {
-            const comments = await CommentsModel.getAllComments();
-            res.status(200).json(comments);
+            const comments = await CommentsModel.getAllComments()
+            res.status(200).json(comments)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -61,14 +55,14 @@ class CommentsController {
      */
     async getCommentsByPostId(req, res, next) {
         try {
-            const postId = req.params.postId;
-            const comments = await CommentsModel.getCommentsByPostId(postId);
+            const postId = req.params.postId
+            const comments = await CommentsModel.getCommentsByPostId(postId)
             if (!comments || comments.length === 0) {
-                return res.status(404).json({ message: 'No comments found for this post' });
+                return res.status(404).json({ message: 'No comments found for this post' })
             }
-            res.status(200).json(comments);
+            res.status(200).json(comments)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -80,17 +74,17 @@ class CommentsController {
      * @param {Response} res - The response object.
      */
     async updateComment(req, res, next) {
-        const id = req.params.id;
-        const commetBody = req.body;
+        const id = req.params.id
+        const commetBody = req.body
         try{
-          const currentComment = await CommentsModel.getCommentById(id);
-          if (!currentComment) {
-            return res.status(404).json({ message: "Comment not found" });
-          }
-          const updatedComment = await CommentsModel.updateComment(id, commetBody);
-          res.json(updatedComment);
+            const currentComment = await CommentsModel.getCommentById(id)
+            if (!currentComment) {
+                return res.status(404).json({ message: "Comment not found" })
+            }
+            const updatedComment = await CommentsModel.updateComment(id, commetBody)
+            res.json(updatedComment)
         } catch (error) {
-          next(error);
+            next(error)
         }
     }
 
@@ -103,19 +97,19 @@ class CommentsController {
      * @param {Response} res - The response object.
      */
     async deleteComment(req, res, next) {
-        const id = req.params.id;
+        const id = req.params.id
         try {
-          const result = await CommentsModel.getCommentById(id);
-          if (!result) {
-            return res.status(404).json({ message: "Comment not found" });
-          }
-          CommentsModel.deleteComment(id);
-          res.status(200).json({ 
-            message: "Comment deleted successfully",
-            deletedComment: result
-          });
+            const result = await CommentsModel.getCommentById(id)
+            if (!result) {
+                return res.status(404).json({ message: "Comment not found" })
+            }
+            CommentsModel.deleteComment(id)
+            res.status(200).json({
+                message: "Comment deleted successfully",
+                deletedComment: result
+            })
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -128,24 +122,24 @@ class CommentsController {
      */
     async createComment(req, res, next) {
         try {
-            const username = res.locals.jwt.username;
-            const user = await UsersModel.getUserByUsername(username);
-            const userId = user._id;
+            const username = res.locals.jwt.username
+            const user = await UsersModel.getUserByUsername(username)
+            const userId = user._id
             const commentData = {
                 userId: userId,
-                postId: req.body.postId,            
+                postId: req.body.postId,
                 content: req.body.content
-            };
-            const newComment = await CommentsModel.createComment(commentData);
+            }
+            const newComment = await CommentsModel.createComment(commentData)
             res.status(201).json({
                 message: 'Comment added successfully',
                 newComment: newComment
-            });
+            })
         } catch (error) {
             next(error)
-            };
-    }  
+        };
+    }
 }
 
 
-export default new CommentsController();
+export default new CommentsController()

@@ -29,19 +29,19 @@ const corsOptions = {
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Optional: specify allowed methods
     credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.),
-    
-};
 
-// Make sure that we have cookie parser to send via cookies 
+}
+
+// Make sure that we have cookie parser to send via cookies
 app.use(cookieParser())
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
 
 // Set Content Security Policy header allowing WebSocket connections
 app.use((req, res, next) => {
-    res.setHeader('Content-Security-Policy',"", "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:8080;");
-    next();
-});
+    res.setHeader('Content-Security-Policy',"", "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:8080;")
+    next()
+})
 
 // Be more silent
 app.disable('x-powered-by')
