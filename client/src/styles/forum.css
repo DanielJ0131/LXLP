@@ -49,6 +49,10 @@
     padding: 16px;
 }
 
+.pagination-controls {
+    margin-top: 1rem;
+}
+
 /* Apply white background specifically for light mode */
 body.light .post-card {
     background-color: white;
