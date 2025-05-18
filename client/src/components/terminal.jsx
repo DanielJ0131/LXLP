@@ -38,8 +38,8 @@ function XTerminal() {
 
         // Determine the WebSocket URL dynamically
         const wsUrl = window.location.hostname === 'localhost'
-            ? 'ws://localhost/ws' // Use localhost if running on the same machine
-            : `ws://${window.location.hostname}/ws`; // Use the current hostname
+            ? 'ws://localhost:8080' // Use localhost if running on the same machine
+            : `ws://${window.location.hostname}:8080`; // Use the current hostname
         console.log(wsUrl);
         // Initialize websocket connection
         webSocket.current = new WebSocket(wsUrl, 'echo-protocol');
