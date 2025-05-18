@@ -158,8 +158,8 @@ const Forum = ({ user }) => {
               </select>
             </div>
             <div className="forum-grid">                
-                {postsWithUserDetails.length > 0 ? (
-                    postsWithUserDetails
+                {posts.length > 0 ? (
+                    posts
                         .filter(post => {
                             if (selectedStatus === 'all') return true;
                             if (selectedStatus === 'all-pending') {
@@ -167,9 +167,6 @@ const Forum = ({ user }) => {
                             }
                             return post.status.toLowerCase() === selectedStatus;})                    
                         .map((post) => (
-            <div className="forum-grid">
-                {posts.length > 0 ? (
-                    posts.map((post) => (
                         <div key={post._id} className="post-card">
                             <div className="post-header">
                                 <div className="avatar-container">
