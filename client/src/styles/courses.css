@@ -21,6 +21,23 @@
     animation-delay: var(--course-delay, 0s);
 }
 
+.steps-container {
+    background-color: #000; /* Black for Dark Mode */
+    color: #2ecc71;
+    padding: 24px;
+    border-radius: 10px;
+    margin: 24px 0;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Light mode styles */
+@media (prefers-color-scheme: light) {
+    .steps-container {
+        background-color: #e3f2fd; /* Light blue for Light Mode */
+        color: #111;
+    }
+}
+
 @keyframes courseFadeIn {
     to {
         opacity: 1;
@@ -29,7 +46,7 @@
 }
 
 .courses-container li {
-    background-color: rgb(45, 45, 45);
+    background-color: var(--course-delay, rgba(255, 255, 255, 0.05)); /* Default for dark mode */
     margin-bottom: 15px;
     padding: 15px;
     border-radius: 8px;
@@ -40,6 +57,11 @@
 .courses-container li:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Add separation between each li */
+.courses-container li:not(:last-child) {
+    margin-bottom: 30px;
 }
 
 .courses-title {

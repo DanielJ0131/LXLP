@@ -15,6 +15,10 @@ export default function Login(){
         return window.location.href = "/register" 
     }
 
+    const forwardToResetPassword = () =>{
+        return window.location.href ='/request-password-reset'
+    }
+
     const handleChange = (event) => {
         const { name, value } = event.target
         setFormData(prev => ({ ...prev, [name]: value }))
@@ -84,7 +88,7 @@ export default function Login(){
 
                 <div className ="button-wrp">
                     <button className ="btn btn-primary" type="submit">Log in</button>
-                    <button classNAme ="btn btn-secondary" type ="button">Forgot password?</button>
+                    <button classNAme ="btn btn-secondary" type ="button" onClick={forwardToResetPassword}>Forgot password?</button>
                 </div>
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}

@@ -1,4 +1,8 @@
 import UserModel from "../model/UsersModel.js";
+import sendResetEmail from '../service/mailService.js'
+import jwt from '../model/jwt.js'
+
+
 
 /**
  * Controller to perform CRUD for the users collection.
@@ -224,6 +228,69 @@ class UsersController {
                 next(error);
             }
         }
+
+
+        async resetPassword(req, res, next) {
+        const { token, newPassword } = req.body
+
+        // no token no password, big problem
+        if (!token || !newPassword) {
+            return res.status(400).json({ message: "Token and new password are required" })
+        }
+
+        // literally copy and paste from ryad, ty
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
+        if (!passwordRegex.test(newPassword)) {
+            return res.status(400).json({
+            message: 'Password must be at least 10 characters and include upper/lowercase, number and special char'
+            })
+        }
+
+        try {
+            const payload = jwt.verify(token, process.env.JWT_SECRET)
+
+            if (payload.type !== 'reset-password') {
+            return res.status(403).json({ message: 'Invalid token type' })
+            }
+
+            const user = await UserModel.getUserByEmail(payload.sub)
+            if (!user) {
+            return res.status(404).json({ message: "User not found" })
+            }
+
+            await UserModel.forceUpdatePassword(user.username, newPassword)
+
+            res.status(200).json({ message: "Password reset successful" })
+
+        } catch (err) {
+            console.error("Reset error:", err.message)
+            res.status(401).json({ message: "Invalid or expired token" })
+        }
+        }
+
+        async requestPasswordReset(req, res, next) {
+            const { email } = req.body
+
+            if (!email) {
+                return res.status(400).json({ message: "Email is required" })
+            }
+
+            try {
+                const user = await UserModel.getUserByEmail(email)
+                if (!user) {
+                // should probably not tell if there is a user or not tbh 
+                return res.status(200).json({ message: "If this email is registered, a reset link has been sent." })
+                }
+
+                const token = jwt.createResetToken(email)
+                await sendResetEmail(email, token)
+
+                res.status(200).json({ message: "If this email is registered, a reset link has been sent." })
+
+            } catch (error) {
+                next(error)
+            }
+            }
 
 }
 

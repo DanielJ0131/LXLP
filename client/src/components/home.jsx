@@ -9,10 +9,13 @@ export default function Home() {
     }
 
     function drawMatrix(ctx, width, height, columns, drops, fontSize) {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        ctx.fillStyle = savedTheme === 'dark'
+            ? 'rgba(0, 0, 0, 0.05)'
+            : 'rgb(188, 188, 188)';
         ctx.fillRect(0, 0, width, height);
 
-        ctx.fillStyle = '#0F0';
+        ctx.fillStyle = savedTheme === 'dark' ? '#0F0' : '#222';
         ctx.font = `${fontSize}px monospace`;
 
         for (let i = 0; i < columns; i++) {
