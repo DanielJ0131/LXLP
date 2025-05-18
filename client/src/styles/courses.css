@@ -13,6 +13,7 @@
     list-style: none;
     padding: 0;
 }
+
 .steps-container {
     background-color: var(--nav-bg); /* Black for Dark Mode */
     color: var(--accent-color);
@@ -21,7 +22,6 @@
     margin: 24px 0;
     transition: background 0.3s, color 0.3s;
 }
-
 
 
 @keyframes courseFadeIn {
@@ -66,21 +66,21 @@
     font-size: 1rem;
     color: #2ecc71;
     margin-bottom: 10px;
-    white-space: normal; /* Allow text to wrap */
-    width: 100%; /* Ensure full width for text to be shown */
-    font-family: 'Courier New', Courier, monospace; /* Monospace font for typing effect */
-    font-size: 1.2rem; /* Increase font size */
-    color: var(--accent-color); /* Change text color */
-    background-color: var(--nav-bg); /* Semi-transparent background */
-    padding: 5px; /* Add some padding */
-    border-radius: 5px; /* Rounded corners */
-    transition: all 0.3s ease; /* Smooth transition for hover effect */
-    cursor: pointer; /* Change cursor to pointer */
-    text-align: left; /* Align the text to the left */
-    margin: 0 auto; /* Center the element */
-    max-width: 80%; /* Limit the width of the text */
-    line-height: 1.5; /* Increase line height for better readability */
-    overflow: hidden; /* Hide overflowing text during animation */
+    white-space: normal;
+    width: 100%;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    background-color: var(--nav-bg);
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: left;
+    margin: 0 auto;
+    max-width: 80%;
+    line-height: 1.5;
+    overflow: hidden;
 }
 
 .courses-container a {
@@ -203,21 +203,5 @@
     }
     100% {
         background-position: -200% 0;
-    }
-}
-
-/* Responsive for loading grid */
-@media (max-width: 700px) {
-    .loading-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-    }
-    .loading-card {
-        height: 90px;
-    }
-}
-@media (max-width: 400px) {
-    .loading-grid {
-        grid-template-columns: 1fr;
     }
 }

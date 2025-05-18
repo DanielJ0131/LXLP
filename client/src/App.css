@@ -45,7 +45,7 @@ body {
 
 /* ==================== Theme Toggle Button ==================== */
 .theme-toggle {
-  background-color: transparent;
+  background-color: var(--nav-bg);
   border: 1px solid var(--accent-color);
   color: var(--accent-color);
   padding: 0.4rem 1rem;
@@ -170,7 +170,7 @@ nav a:hover {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px 2px rgba(0, 0, 0, 0.5);
-  background-color: var(--bg-color);
+  background-color: var(--nav-bg);
   color: var(--accent-color);
   text-align: center;
   box-sizing: border-box;
