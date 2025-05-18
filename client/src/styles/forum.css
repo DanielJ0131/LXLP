@@ -36,6 +36,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+    padding: 1rem;
 }
 
 .post-card {
