@@ -1,6 +1,7 @@
 import { WebSocketServer } from 'ws';
 import http from 'http';
 import * as pty from 'node-pty';
+import { exec } from 'child_process';
 
 class WSS_Server {
     static startServer = (app) => {
@@ -21,70 +22,91 @@ class WSS_Server {
             return allowedOrigins.includes(origin);
         };
 
+        // Helper function to generate unique session IDs
+        const generateSessionId = () => {
+            return Math.random().toString(36).substring(2, 15);
+        };
+
         wss.on('connection', (ws, request) => {
-            // Use the originIsAllowed function
+            // Origin validation
             if (!originIsAllowed(request.headers.origin)) {
-                ws.close(); // Close the connection
-                console.warn((new Date()) + ' Connection from origin ' + request.headers.origin + ' rejected.');
+                ws.close();
+                console.warn(`[${new Date()}] Rejected connection from origin: ${request.headers.origin}`);
                 return;
             }
 
-            // If the origin is allowed, proceed with the connection
-            console.log((new Date()) + ' Connection accepted from origin: ' + request.headers.origin);
+            console.log(`[${new Date()}] New connection from: ${request.headers.origin}`);
 
+            const sessionId = generateSessionId();
+            const dockerImage = 'alpine:latest';
+            const dockerCommand = ['/bin/sh'];
+            let ptyProcess = null;
 
-            const dockerImage = 'alpine:latest' // Chose image... can be dynamic
-            const dockerCommand = ['/bin/sh'] // Bin bash makes docker run in interactive mode
-            const dockerArgs = ['run', '-it', '--rm', dockerImage, ...dockerCommand] //  run -it (interactive mode), --rm (remove container when exited)
-            // Spawn a terminal
-            // Spawning a docker, do docker commands,
-            // docker Image specifies which linux distro, dockerCommand makes docker work
-            const ptyProcess = pty.spawn('docker', dockerArgs, {
-                name: 'xterm-color',
-                env: process.env,
-            });
-
-            // Handle messages from the client
-            ws.on('message', (message) => {
-                console.log((new Date()) + ' Received Message: ', message);
-                try {
-                    const data = JSON.parse(message.toString());
-                    if (data.type === 'command') {
-                        ptyProcess.write(data.data + '\r\n');
-                    }
-                } catch (error) {
-                    //If parsing fails, assume it's a plain text command
-                    console.warn('Received non-JSON message:', message.toString());
-                    ptyProcess.write(message.toString() + '\r\n');
-                }
-            });
-
-            // Handle client disconnects
-            ws.on('close', (code, reason) => {
-                console.log((new Date()) + ' Peer ' + request.socket.remoteAddress + ' disconnected with code ' + code + ' and reason: ' + reason);
-                ptyProcess.kill();
-            });
-
-            // Send data from the terminal to the client
-            ptyProcess.onData((data) => {
-                const message = JSON.stringify({
-                    type: 'data',
-                    data,
+            // Clean up any existing container with this session ID first
+            exec(`docker kill ws-terminal-${sessionId}`, () => {
+                // Start new container with unique name
+                ptyProcess = pty.spawn('docker', [
+                    'run',
+                    '-it',
+                    '--rm',
+                    `--name=ws-terminal-${sessionId}`,
+                    dockerImage,
+                    ...dockerCommand
+                ], {
+                    name: 'xterm-color',
+                    env: process.env,
                 });
-                ws.send(message + '\n');
+
+                // Handle messages from client
+                ws.on('message', (message) => {
+                    try {
+                        const data = JSON.parse(message.toString());
+                        if (data.type === 'command') {
+                            ptyProcess.write(data.data + '\r\n');
+                        }
+                    } catch (error) {
+                        console.warn('Received non-JSON message:', message.toString());
+                        ptyProcess.write(message.toString() + '\r\n');
+                    }
+                });
+
+                // Handle client disconnect - KILL THE CONTAINER
+                ws.on('close', () => {
+                    console.log(`[${new Date()}] Client disconnected, killing container ws-terminal-${sessionId}`);
+                    exec(`docker kill ws-terminal-${sessionId}`, (err) => {
+                        if (err) console.error('Error killing container:', err);
+                    });
+                    if (ptyProcess) ptyProcess.kill();
+                });
+
+                // Send terminal output to client
+                ptyProcess.onData((data) => {
+                    const message = JSON.stringify({
+                        type: 'data',
+                        data,
+                    });
+                    ws.send(message);
+                });
+
+                // Handle terminal exit
+                ptyProcess.onExit(() => {
+                    console.log(`[${new Date()}] Terminal process exited`);
+                    ws.close();
+                });
             });
         });
 
-        // Listen on the specified port
+        // Server startup
         server.listen(port, () => {
             console.log(`WebSocket Server listening on port ${port}`);
         });
 
         // Graceful shutdown
-        async function shutdown() {
+        const shutdown = () => {
             console.log('Shutting down WebSocket server...');
+            wss.clients.forEach(client => client.terminate());
             server.close();
-        }
+        };
 
         process.on('SIGINT', shutdown);
         process.on('SIGTERM', shutdown);
