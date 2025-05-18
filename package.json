@@ -29,8 +29,5 @@
   "bugs": {
     "url": "https://github.com/DanielJ0131/LXLP/issues"
   },
-  "homepage": "https://github.com/DanielJ0131/LXLP#readme",
-  "dependencies": {
-    "nodemailer": "^7.0.3"
-  }
+  "homepage": "https://github.com/DanielJ0131/LXLP#readme"
 }
