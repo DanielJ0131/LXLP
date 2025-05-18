@@ -1,12 +1,11 @@
 .logout-container {
-    min-height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .logout-box {
-    background: #2e2e2e;
+    background: var(--nav-bg);
     padding: 2rem 2.5rem;
     border-radius: 12px;
     box-shadow: 0 2px 16px rgba(38, 61, 41, 0.08);
@@ -15,20 +14,20 @@
 
 .logout-box h2 {
     margin: 0.5rem 0 0.75rem;
-    color: #00ff22;
+    color: var(--accent-color);
     font-size: 1.5rem;
     font-weight: 600;
 }
 
 .logout-box p {
-    color: #00ff33;
+    color: var(--accent-color);
     margin-bottom: 1.5rem;
 }
 
 .logout-box a {
     display: inline-block;
     padding: 0.5rem 1.5rem;
-    background: #3fa34d;
+    background: var(--accent-color);
     color: #fff;
     border-radius: 6px;
     text-decoration: none;
@@ -36,5 +35,5 @@
 }
 
 .logout-box a:hover {
-    background: #31913e;
+    background: var(--accent-color);
 }

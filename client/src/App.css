@@ -165,7 +165,8 @@ nav a:hover {
 .home-container,
 .forum-container,
 /*.terminal-container,*/
-.info-container {
+.info-container,
+.profile-container {
   width: 100%;
   padding: 20px;
   border-radius: 8px;

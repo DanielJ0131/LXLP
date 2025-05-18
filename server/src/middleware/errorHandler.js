@@ -10,9 +10,9 @@ export const errorHandler = {}
  * @param {Function} next Express next function.
  */
 errorHandler.notFoundDefault = (req, res, next) => {
-  const err = new Error(http.STATUS_CODES[404] || 'Not Found')
-  err.status = 404
-  next(err) // Pass the error to the global error handler
+    const err = new Error(http.STATUS_CODES[404] || 'Not Found')
+    err.status = 404
+    next(err) // Pass the error to the global error handler
 }
 
 /**
@@ -24,24 +24,24 @@ errorHandler.notFoundDefault = (req, res, next) => {
  * @param {Function} next Express next function.
  */
 errorHandler.errorDefault = (err, req, res, next) => {
-  if (process.env.NODE_ENV !== 'test') {
-    console.error(err.stack) // Log the error stack for debugging
-  }
+    if (process.env.NODE_ENV !== 'test') {
+        console.error(err.stack) // Log the error stack for debugging
+    }
 
-  const statusCode = err.status || 500
-  const message =
+    const statusCode = err.status || 500
+    const message =
     process.env.NODE_ENV === 'production'
-      ? 'Something went wrong' // Hide error details in production
-      : err.message
+        ? 'Something went wrong' // Hide error details in production
+        : err.message
 
-  const data = {
-    status: statusCode,
-    message
-  }
+    const data = {
+        status: statusCode,
+        message
+    }
 
-  if (err.statusDescription) {
-    data.statusDescription = err.statusDescription
-  } 
+    if (err.statusDescription) {
+        data.statusDescription = err.statusDescription
+    }
 
-  res.status(statusCode).json(data)
+    res.status(statusCode).json(data)
 }

@@ -183,6 +183,10 @@ const Forum = ({ user }) => {
                                 <div>
                                     <h3 className="user-name">{post.username}</h3>
                                 </div>
+                                <p className="date">
+                                    {new Date(post.createdAt).toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' })}{' '}
+                                    {new Date(post.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                                </p>
                             </div>
                             <div className="post-content">
                                 <p className="post-text">{post.content}</p>
@@ -200,7 +204,20 @@ const Forum = ({ user }) => {
                                 <div className="comments-section">
                                     {commentsByPostId[post._id]?.map((comment) => (
                                         <div key={comment._id} className="comment">
-                                            <strong>{comment.userFullName || comment.username}</strong>: {comment.content}
+                                            <div className="one-comment">
+                                                <strong className="comment-user">
+                                                    {comment.image ? (
+                                                    <img
+                                                        src={comment.image}
+                                                        alt={comment.username}
+                                                        className="avatar-image comment-avatar"
+                                                        style={{ width: 24, height: 24, borderRadius: '50%', marginRight: 6, verticalAlign: 'middle' }}
+                                                    />
+                                                    ) : null}
+                                                    {comment.username}
+                                                </strong>
+                                                <strong className="comment-content">{comment.content}</strong>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>

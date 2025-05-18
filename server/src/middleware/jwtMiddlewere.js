@@ -2,7 +2,7 @@
  * Middleware for JWT token.
  */
 import jwt from '../model/jwt.js'
- 
+
 
 const middleware = {}
 export { middleware as jwtMiddleware }
@@ -15,42 +15,42 @@ export { middleware as jwtMiddleware }
  * @param {object} next Express next object.
  */
 middleware.jwtTokenIsValid = async (req, res, next) => {
-  const token = req.cookies.accessToken //Changed from auth header to cookie
+    const token = req.cookies.accessToken //Changed from auth header to cookie
 
-  if (!token) {
-    return res.status(401).json({
-      type: 'failed',
-      message: 'No token provided'
-    })
-  }
-
-  try {
-    const isBlacklisted = await jwt.isTokenBlacklisted(token)
-    if (isBlacklisted) {
-      return res.status(401).json({
-        type: 'failed',
-        message: 'The JWT token is blacklisted.'
-      })
+    if (!token) {
+        return res.status(401).json({
+            type: 'failed',
+            message: 'No token provided'
+        })
     }
 
-    const payload = jwt.verify(token)
-    res.locals.jwt = payload
+    try {
+        const isBlacklisted = await jwt.isTokenBlacklisted(token)
+        if (isBlacklisted) {
+            return res.status(401).json({
+                type: 'failed',
+                message: 'The JWT token is blacklisted.'
+            })
+        }
 
-    const expirationDate = new Date(payload.exp * 1000)
-    if (expirationDate < new Date()) {
-      return res.status(401).json({
-        type: 'failed',
-        message: 'The JWT token is expired.'
-      })
+        const payload = jwt.verify(token)
+        res.locals.jwt = payload
+
+        const expirationDate = new Date(payload.exp * 1000)
+        if (expirationDate < new Date()) {
+            return res.status(401).json({
+                type: 'failed',
+                message: 'The JWT token is expired.'
+            })
+        }
+
+        next()
+
+    } catch (err) {
+        console.error(err)
+        return res.status(403).json({
+            type: 'error',
+            message: 'Invalid or expired token'
+        })
     }
-
-    next()
-
-  } catch (err) {
-    console.error(err)
-    return res.status(403).json({
-      type: 'error',
-      message: 'Invalid or expired token'
-    })
-  }
 }

@@ -14,7 +14,7 @@ router.use(jwtMiddleware.jwtTokenIsValid)
 
 router.get('/', (req, res, next) => PostsController.getAllPosts(req, res, next))
 router.get('/:id', (req, res, next) => PostsController.getPostById(req, res, next))
-router.get('/by-user-id/:userId', PostsController.getPostsByUserId);
+router.get('/by-user-id/:userId', PostsController.getPostsByUserId)
 router.put('/:id', (req, res, next) => PostsController.updatePost(req, res, next))
 router.delete('/:id',checkRole(["admin","user"]), PostsController.deletePost)
 router.post('/', (req, res, next) => PostsController.createPost(req, res, next))

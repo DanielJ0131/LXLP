@@ -19,4 +19,5 @@ router.post('/', checkRole(["admin"]), UsersController.addUser)
 router.put('/:id', checkRole(["user", "admin"]), UsersController.updateUser)
 router.delete('/:id', checkRole(["admin", "user"]), UsersController.deleteUser)
 router.patch('/update-password/', checkRole(["user", "admin"]), UsersController.updatePassword)
+router.patch('/image', checkRole(["user", "admin"]), UsersController.updateUserImage)
 

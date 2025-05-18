@@ -1,4 +1,13 @@
-.profile-container p{
+.profile-container {
     text-decoration: underline;
     text-underline-offset: 4px;
+    text-align: center;
+    color: var(--accent-color);
+    background: var(--nav-bg)
+}
+.profile-image-section img{
+    width: 250px;
+    height: 250px;
+    border-radius: 100px;
+    padding: 10px;
 }

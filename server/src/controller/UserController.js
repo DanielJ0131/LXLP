@@ -1,4 +1,4 @@
-import UserModel from "../model/UsersModel.js";
+import UserModel from "../model/UsersModel.js"
 import sendResetEmail from '../service/mailService.js'
 import jwt from '../model/jwt.js'
 
@@ -18,37 +18,37 @@ class UsersController {
      */
     async getUserById(req, res, next) {
         try {
-            const userId = req.params.id;
-            const user = await UserModel.getUserById(userId);
+            const userId = req.params.id
+            const user = await UserModel.getUserById(userId)
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ message: 'User not found' })
             }
-            res.status(200).json(user);
+            res.status(200).json(user)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
-    
+
     /**
      * Get a user by name.
-     * 
+     *
      * @param {Request} req - The request object.
      * @param {Response} res - The response object.
      */
     async getUserByName(req, res, next) {
-        const name = req.params.name;
+        const name = req.params.name
         try {
-          const user = await UserModel.getUserByName(name);
-          
-          if (!user) {
-            return res.status(404).json({ 
-              message: "User not found" 
-            });
-          }
-          
-          res.json(user);
+            const user = await UserModel.getUserByName(name)
+
+            if (!user) {
+                return res.status(404).json({
+                    message: "User not found"
+                })
+            }
+
+            res.json(user)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -60,10 +60,10 @@ class UsersController {
      */
     async getAllUsers(req, res, next) {
         try {
-            const users = await UserModel.getAllUsers();
-            res.status(200).json(users);
+            const users = await UserModel.getAllUsers()
+            res.status(200).json(users)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -75,20 +75,20 @@ class UsersController {
      */
     async addUser(req, res, next) {
         try {
-            const userData = req.body;
-            const newUser = await UserModel.addUser(userData);
+            const userData = req.body
+            const newUser = await UserModel.addUser(userData)
             res.status(201).json({
                 message: 'User added successfully',
                 addedUser: newUser
 
-            });
+            })
 
         } catch (error) {
             if (error.message === 'User already exists') {
-                res.status(409).json({ message: 'User already exists' });
+                res.status(409).json({ message: 'User already exists' })
             }
-            next(error);
-            }        
+            next(error)
+        }
     }
 
     /**
@@ -98,17 +98,17 @@ class UsersController {
      * @param {Response} res - The response object.
      */
     async updateUser(req, res, next) {
-        const id = req.params.id;
-        const userBody = req.body;
+        const id = req.params.id
+        const userBody = req.body
         try{
-          const currentUser = await UserModel.getUserById(id)
-          if (!currentUser) {
-            return res.status(404).json({ message: "User not found" });
-          }
-          const updatedUser = await UserModel.updateUser(id, userBody);
-          res.json(updatedUser);
+            const currentUser = await UserModel.getUserById(id)
+            if (!currentUser) {
+                return res.status(404).json({ message: "User not found" })
+            }
+            const updatedUser = await UserModel.updateUser(id, userBody)
+            res.json(updatedUser)
         } catch (error) {
-          next(error);
+            next(error)
         }
     }
 
@@ -119,19 +119,19 @@ class UsersController {
      * @param {Response} res - The response object.
      */
     async deleteUser(req, res, next) {
-        const id = req.params.id;
+        const id = req.params.id
         try {
-          const result = await UserModel.getUserById(id);
-          if (!result) {
-            return res.status(404).json({ message: "User not found" });
-          }
-          UserModel.deleteUser(id);
-          res.status(200).json({ 
-            message: "User deleted successfully",
-            deletedUser: result
-          });
+            const result = await UserModel.getUserById(id)
+            if (!result) {
+                return res.status(404).json({ message: "User not found" })
+            }
+            UserModel.deleteUser(id)
+            res.status(200).json({
+                message: "User deleted successfully",
+                deletedUser: result
+            })
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -143,15 +143,15 @@ class UsersController {
      * @param {Response} res - The response object.
      */
     async getUserByEmail(req, res, next) {
-        const email = req.params.email;
+        const email = req.params.email
         try {
-            const user = await UserModel.getUserByEmail(email);
+            const user = await UserModel.getUserByEmail(email)
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ message: 'User not found' })
             }
-            res.status(200).json(user);
+            res.status(200).json(user)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -162,25 +162,25 @@ class UsersController {
      * @param {Request} req - The request object.
      * @param {Response} res - The response object.
      */
-        async getUserByUsername(req, res, next) {
-            const username = req.params.username;
-            try {
-                const user = await UserModel.getUserByUsername(username);
-                if (!user) {
-                    return res.status(404).json({ message: 'User not found' });
-                }
-                res.status(200).json(user);
-            } catch (error) {
-                next(error);
+    async getUserByUsername(req, res, next) {
+        const username = req.params.username
+        try {
+            const user = await UserModel.getUserByUsername(username)
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' })
             }
+            res.status(200).json(user)
+        } catch (error) {
+            next(error)
         }
+    }
 
 
 
-        /**
+    /**
      * Update Password.
 
-        
+
     /**
      * Get a user by username.
 
@@ -190,47 +190,31 @@ class UsersController {
      */
 
     async updatePassword(req, res, next) {
-        const oldPassword = req.body.oldPassword;
-        const newPassword = req.body.newPassword;
-        const username = req.body.username;
+        const oldPassword = req.body.oldPassword
+        const newPassword = req.body.newPassword
+        const username = req.body.username
 
         // Validate the password
-           const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
-             if (!passwordRegex.test(newPassword)) {
-             return res.status(400).json({
-             type: 'failed',
-             message: 'The new password must be at least 10 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (e.g., -, _, or a number).'
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
+        if (!passwordRegex.test(newPassword)) {
+            return res.status(400).json({
+                type: 'failed',
+                message: 'The new password must be at least 10 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (e.g., -, _, or a number).'
             })
         }
         try{
-           
-          const updatedPassword = await UserModel.updatePassword(username, oldPassword, newPassword);
-          if (!updatedPassword) {
-            return res.status(404).json({ message: "User not found" });
-          }
-          res.status(200).json({ message: "Password updated successfully" });
+
+            const updatedPassword = await UserModel.updatePassword(username, oldPassword, newPassword)
+            if (!updatedPassword) {
+                return res.status(404).json({ message: "User not found" })
+            }
+            res.status(200).json({ message: "Password updated successfully" })
         } catch (error) {
-          next(error);
+            next(error)
         }
     }
 
-
-
-        async getCurrentUserProfile(req, res, next) {
-            try {
-                const userId = req.user.id;
-                const user = await UserModel.getUserById(userId);
-                if (!user) {
-                    return res.status(404).json({ message: "User not found" });
-                }
-                res.status(200).json(user);
-            } catch (error) {
-                next(error);
-            }
-        }
-
-
-        async resetPassword(req, res, next) {
+    async resetPassword(req, res, next) {
         const { token, newPassword } = req.body
 
         // no token no password, big problem
@@ -242,7 +226,7 @@ class UsersController {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\-_!@#$%^&*])[A-Za-z\d\-_!@#$%^&*]{10,}$/
         if (!passwordRegex.test(newPassword)) {
             return res.status(400).json({
-            message: 'Password must be at least 10 characters and include upper/lowercase, number and special char'
+                message: 'Password must be at least 10 characters and include upper/lowercase, number and special char'
             })
         }
 
@@ -250,12 +234,12 @@ class UsersController {
             const payload = jwt.verify(token, process.env.JWT_SECRET)
 
             if (payload.type !== 'reset-password') {
-            return res.status(403).json({ message: 'Invalid token type' })
+                return res.status(403).json({ message: 'Invalid token type' })
             }
 
             const user = await UserModel.getUserByEmail(payload.sub)
             if (!user) {
-            return res.status(404).json({ message: "User not found" })
+                return res.status(404).json({ message: "User not found" })
             }
 
             await UserModel.forceUpdatePassword(user.username, newPassword)
@@ -266,32 +250,57 @@ class UsersController {
             console.error("Reset error:", err.message)
             res.status(401).json({ message: "Invalid or expired token" })
         }
+    }
+
+    async requestPasswordReset(req, res, next) {
+        const { email } = req.body
+
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" })
         }
 
-        async requestPasswordReset(req, res, next) {
-            const { email } = req.body
-
-            if (!email) {
-                return res.status(400).json({ message: "Email is required" })
-            }
-
-            try {
-                const user = await UserModel.getUserByEmail(email)
-                if (!user) {
-                // should probably not tell if there is a user or not tbh 
+        try {
+            const user = await UserModel.getUserByEmail(email)
+            if (!user) {
+                // should probably not tell if there is a user or not tbh
                 return res.status(200).json({ message: "If this email is registered, a reset link has been sent." })
-                }
-
-                const token = jwt.createResetToken(email)
-                await sendResetEmail(email, token)
-
-                res.status(200).json({ message: "If this email is registered, a reset link has been sent." })
-
-            } catch (error) {
-                next(error)
             }
+
+            const token = jwt.createResetToken(email)
+            await sendResetEmail(email, token)
+
+            res.status(200).json({ message: "If this email is registered, a reset link has been sent." })
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    /**
+             * Updates the user's profile image.
+             *
+             * @param {Request} req - The request object.
+             * @param {Response} res - The response object.
+             */
+    async updateUserImage(req, res, next) {
+        const { username, image } = req.body
+        if (!username || !image) {
+            return res.status(400).json({ message: "Username and imageUrl are required" })
+        }
+        try {
+            const updatedUser = await UserModel.updateImage(username, image)
+            if (!updatedUser) {
+                return res.status(404).json({ message: "User not found" })
             }
+            res.status(200).json({
+                message: "Profile image updated successfully",
+                user: updatedUser
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 
 }
 
-export default new UsersController();
+export default new UsersController()
