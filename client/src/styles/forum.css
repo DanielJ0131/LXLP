@@ -57,6 +57,7 @@
     padding: 5px;
     margin: 5px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .pagination-controls button.active-page {
