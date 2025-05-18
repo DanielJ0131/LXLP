@@ -35,7 +35,7 @@ class WSS_Server {
                 return;
             }
 
-            console.log(`[${new Date()}] New connection from: ${request.headers.origin}`);
+            // console.log(`[${new Date()}] New connection from: ${request.headers.origin}`);
 
             const sessionId = generateSessionId();
             const dockerImage = 'alpine:latest';

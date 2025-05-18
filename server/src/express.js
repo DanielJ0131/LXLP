@@ -26,13 +26,10 @@ app.use(helmet())
 const corsOptions = {
     origin: [
         'http://localhost:5000',   // Allow HTTP origin
-        'ws://localhost:8080',      // Allow WebSocket origin
         'http://localhost:5173',  // Allow  frontend URL,
         'https://lxlp.onrender.com', // Allow render
         'http://' + process.env.ip + ':' + process.env.PORT,
         'https://' + process.env.ip + ':' + process.env.PORT,
-        'ws://' + process.env.ip + ':' + process.env.PORT,
-        'wss://' + process.env.ip + ':' + process.env.PORT,
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Optional: specify allowed methods
     credentials: true,            // Optional: if you need to include credentials (cookies, authorization headers, etc.),
