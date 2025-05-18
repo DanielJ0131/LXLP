@@ -18,7 +18,7 @@
 }
 
 .forum-container h2:hover {
-    color: #2ecc71;
+    color: white;
     text-decoration: underline;
     transition: color 0.3s, text-decoration 0.3s;
 }
@@ -231,31 +231,32 @@ body.light .post-card {
     grid-column: 1 / -1;
 }
 
-.loading-container {
+.loading-container-forum {
     margin: 16px 0;
 }
 
-.loading-title {
+.loading-title-forum {
+    text-align: center;
     font-size: 24px;
     font-weight: bold;
-    color: #6b7280;
+    color: var(--accent-color);
 }
 
-.loading-grid {
+.loading-grid-forum {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .loading-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
     .loading-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 

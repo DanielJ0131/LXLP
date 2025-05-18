@@ -70,9 +70,9 @@ const Forum = ({ user }) => {
 
     if (loading) {
         return (
-            <div className="loading-container">
-                <h2 className="loading-title">Loading Forum...</h2>
-                <div className="loading-grid">
+            <div className="loading-container-forum">
+                <h2 className="loading-title-forum">Loading Forum...</h2>
+                <div className="loading-grid-forum">
                     {Array.from({ length: 6 }).map((_, i) => (
                         <div key={i} className="loading-card">
                             <div className="loading-card-header">
