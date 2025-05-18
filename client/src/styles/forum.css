@@ -53,6 +53,17 @@
     margin-top: 1rem;
 }
 
+.pagination-controls button {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.pagination-controls button.active-page {
+    padding: 10px;
+    box-shadow: 2px 2px 5px 0px var(--accent-color);
+}
+
 /* Apply white background specifically for light mode */
 body.light .post-card {
     background-color: white;
