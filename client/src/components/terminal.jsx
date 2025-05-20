@@ -11,6 +11,7 @@ function XTerminal() {
     const webSocket = useRef(null);
     let currentLine = "";
     const entries = [];
+    const bannedCommands = ['apk', 'yay', 'pacman', 'apt', 'curl']
 
     useEffect(() => {
         // Initialize terminal
@@ -74,7 +75,11 @@ function XTerminal() {
                 term.current.write('\r\n');
                 entries.push(currentLine);
 
-                if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN) {
+                if (bannedCommands.includes(currentLine.split(/\s+/)[0])) {
+                    term.current.write('Unauthorized command. Press Enter to continue.\r\n');
+                }
+
+                else if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN) {
                     webSocket.current.send(JSON.stringify({
                         type: 'command',
                         data: currentLine,
