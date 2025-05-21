@@ -9,3 +9,4 @@ node_modules/
 
 # Ignore jetbrains files
 .idea/
+/server/API.http
