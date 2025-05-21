@@ -1,5 +1,5 @@
 #docker ignore node modules
-node_modules
+node_modules/
 
 
 # Docker ignore .env files (we dont want leacking private info)
@@ -7,3 +7,5 @@ node_modules
 
 
 
+# Ignore jetbrains files
+.idea/
