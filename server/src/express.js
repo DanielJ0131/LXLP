@@ -4,7 +4,7 @@ import logger from 'morgan'
 import {router} from './route/index.js'
 import {errorHandler} from './middleware/errorHandler.js'
 import cors from 'cors' // Import cors for cross-origin resource sharing
-import WSS_Server from "./terminal/webSocketServer.js";
+import WSS_Server from "./terminal/webSocketServer.js"
 import cookieParser from 'cookie-parser'
 
 export const app = express()
