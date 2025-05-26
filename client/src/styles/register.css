@@ -45,6 +45,10 @@
     font-size: 1.2rem;
     color: #555;
   }
+
+  .password-input {
+    display: flex;
+  }
   
   @media (max-width: 500px) {
     .register-fieldset {
